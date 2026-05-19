@@ -3,6 +3,8 @@
 import React from 'react';
 import { Icon } from './ui/Icons';
 import Link from 'next/link';
+// 🎯 1. IMPORT PLACEMENT: Pulling in the clean, modular component
+import { IntelForm } from './IntelForm';
 
 interface FooterProps {
   variant?: 'light' | 'dark';
@@ -74,32 +76,8 @@ export default function Footer({ variant }: FooterProps) {
 
       {/* 3. THE NEWSLETTER INPUT WRAPPER BLOCK */}
       <div className="w-full max-w-64 mb-6">
-        <form onSubmit={(e) => e.preventDefault()} className="w-full relative group">
-          <input 
-            type="email" 
-            placeholder="Email" 
-            className={`w-full rounded-[8px] h-12 pl-5 pr-12 font-sans font-semibold text-[14px] focus:outline-none transition-all duration-200
-              ${isCustomVariant 
-                ? `${textColor} focus:border-current/30 ${
-                    variant === 'light'
-                      ? 'bg-white/10 placeholder-white/40 border border-white/10' 
-                      : 'bg-black/5 placeholder-black/40 border border-black/10'
-                  }` 
-                : 'bg-black/5 dark:bg-white/5 text-black dark:text-white placeholder-black/40 dark:placeholder-white/60 focus:border-black/20 dark:focus:border-white/20'
-              }
-            `}
-          />
-          
-          <button 
-            type="submit" 
-            className={`absolute right-4 top-1/2 -translate-y-1/2 hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200 flex items-center justify-center ${subTextColor}`}
-            aria-label="Subscribe to newsletter"
-          >
-            <svg className="w-5 h-5" viewBox="0 0 640 640" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M569 337C578.4 327.6 578.4 312.4 569 303.1L401 135C391.6 125.6 376.4 125.6 367.1 135C357.8 144.4 357.7 159.6 367.1 168.9L494.1 295.9L88 295.9C74.7 295.9 64 306.6 64 319.9C64 333.2 74.7 343.9 88 343.9L494.1 343.9L367.1 470.9C357.7 480.3 357.7 495.5 367.1 504.8C376.5 514.1 391.7 514.2 401 504.8L569 337z" />
-            </svg>
-          </button>
-        </form>
+        {/* 🎯 2. COMPONENT PLACEMENT: Replaced the old manual form setup entirely */}
+        <IntelForm variant={variant} isCustomVariant={isCustomVariant} />
       </div>
 
       {/* 4. THE EDITORIAL PLATFORM EXPLAINER TEXT (Inter) */}
