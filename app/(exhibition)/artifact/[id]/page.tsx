@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-import { headers } from 'next/headers'; // 🌟 Forces dynamic rendering safely to avoid config conflicts
-// 🎯 Perfect 3-level jump out of [id] -> artifact -> (exhibition) to find your root utils
-import { createClient } from '../../../utils/supabase/server'; 
+import { headers } from 'next/headers'; 
+// 🎯 Absolute reference directly from your root utils folder setup!
+import { createClient } from 'utils/supabase/server'; 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
