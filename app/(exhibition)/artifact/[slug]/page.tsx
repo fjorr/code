@@ -4,25 +4,26 @@ import { createClient } from '@/utils/supabase/server';
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-// 🌟 FORCE BYPASS: This tells Next.js to completely skip pre-rendering during builds
 export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
 
+// 🌟 FIXED: Expect 'slug' instead of 'id' to perfectly match your renamed folder!
 interface ArtifactPageProps {
-  params: Promise<{ id: string }>;
+  params: Promise<{ slug: string }>;
 }
 
 export default async function DynamicArtifactPage({ params }: ArtifactPageProps) {
-  const { id } = await params;
+  // 🌟 FIXED: Destructure 'slug' from your URL parameters
+  const { slug } = await params;
 
-  // Initialize your server client safely
   const supabase = await createClient();
 
+  // Fetch the target artifact via its clean URL text slug string
   const { data: artifact } = await supabase
     .from('artifact')
     .select('name, slug, teaser, description, primary_color, is_dark_bg, hero_tall')
-    .eq('slug', id)
-    .single();
+    .eq('slug', slug)
+    .maybeSingle(); // 🛡️ Safe check prevents unhandled single-record panics
 
   const customBg = artifact?.primary_color || '#0B0B0C';
   const isDarkBg = artifact?.is_dark_bg ?? true;
@@ -31,6 +32,9 @@ export default async function DynamicArtifactPage({ params }: ArtifactPageProps)
   const subTextClass = isDarkBg ? 'text-white/60' : 'text-black/60';
   const mutedTextClass = isDarkBg ? 'text-white/40' : 'text-black/40';
   const borderClass = isDarkBg ? 'border-white/10' : 'border-black/10';
+
+  // Fallback clean display string if the database name is missing or query fails
+  const displayName = artifact?.name || slug.replace(/-/g, ' ');
 
   return (
     <div 
@@ -46,7 +50,7 @@ export default async function DynamicArtifactPage({ params }: ArtifactPageProps)
           <div className="md:col-span-1">
             <div className={`w-full aspect-[2/3] rounded-lg border flex items-center justify-center relative overflow-hidden shadow-2xl ${borderClass} ${isDarkBg ? 'bg-zinc-900/40' : 'bg-zinc-100/40'}`}>
               {artifact?.hero_tall ? (
-                <img src={artifact.hero_tall} alt={artifact.name} className="w-full h-full object-cover" />
+                <img src={artifact.hero_tall} alt={displayName} className="w-full h-full object-cover" />
               ) : (
                 <span className={`font-mono text-[10px] tracking-widest uppercase p-4 text-center ${mutedTextClass}`}>
                   [ No Image Asset ]
@@ -63,15 +67,16 @@ export default async function DynamicArtifactPage({ params }: ArtifactPageProps)
               <span className="opacity-80">Historical Record</span>
             </div>
 
+            {/* 🌟 FIXED: Uses the sanitized displayName text wrapper to guarantee it never crashes */}
             <h1 className="font-tradeGothic text-4xl md:text-6xl uppercase tracking-tighter leading-none font-black">
-              {artifact?.name || id.replace(/-/g, ' ')}
+              {displayName}
             </h1>
 
             <hr className={`w-full ${borderClass}`} />
 
             <div className="flex flex-col gap-4">
               <span className={`font-mono text-xs tracking-widest uppercase ${isDarkBg ? 'text-emerald-400' : 'text-emerald-700'}`}>
-                ✓ Verified Node: {artifact?.slug || id}
+                ✓ Verified Node: {artifact?.slug || slug}
               </span>
               <p className={`font-sans text-base leading-relaxed ${subTextClass}`}>
                 {artifact?.description || artifact?.teaser || "No description configured."}

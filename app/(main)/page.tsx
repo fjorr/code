@@ -1,6 +1,6 @@
 import React from 'react';
 import HeroHome from '@/components/HeroHome';
-import GridFeatureLoader from '@/components/FeatureRailLoader';
+import FeatureRailLoader from '@/components/FeatureRailLoader';
 import FilmRailLoader from '@/components/FilmRailLoader';
 import ArtifactRailLoader from '@/components/ArtifactRailLoader';
 import PromoSplit from '@/components/PromoSplit';

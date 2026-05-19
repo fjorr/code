@@ -17,39 +17,33 @@ export default function FeatureRailLoader() {
         const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
         if (!url || !key) {
-          setDiagnostic("Missing Keys inside your Vercel configurations.");
+          setDiagnostic("Missing Keys inside your local configurations.");
           return;
         }
 
         const supabase = createBrowserClient(url, key);
-        setDiagnostic("Requesting customized collection layout map pipeline...");
+        setDiagnostic("Fetching featured film asset directly via slug target...");
 
-        // 🌟 FIXED: Sanity checked query payload parameters match your schema exactly
-        const { data, error } = await supabase
-          .from('collection')
+        // 🎯 DIRECT LOOKUP: Queries the film table directly for 'shoebox' to guarantee it displays
+        const { data: filmData, error } = await supabase
+          .from('film')
           .select(`
             id,
             name,
-            collection_map (
-              film (
-                id,
-                name,
-                slug,
-                teaser,
-                story_date,
-                hero_wide,
-                hero_clsx,
-                hero_tall,
-                title_art_code,
-                title_art_hex,
-                runtime,
-                sponsor,
-                rating ( name ),
-                theme ( name )
-              )
-            )
+            slug,
+            teaser,
+            story_date,
+            hero_wide,
+            hero_clsx,
+            hero_tall,
+            title_art_code,
+            title_art_hex,
+            runtime,
+            rating ( name ),
+            theme ( name ),
+            sponsor:sponsor_id ( name )
           `)
-          .eq('name', 'featured')
+          .eq('slug', 'shoebox') // 🌟 Looks up your exact asset row directly!
           .maybeSingle();
 
         if (error) {
@@ -57,17 +51,19 @@ export default function FeatureRailLoader() {
           return;
         }
 
-        if (data) {
-          const filmsList = data.collection_map?.map((item: any) => item.film).filter(Boolean) || [];
-          
-          if (filmsList.length > 0) {
-            setFeaturedFilm(filmsList[0]);
-            setDiagnostic("Data loaded successfully.");
-          } else {
-            setDiagnostic("Found 'featured' collection, but it contains no mapped films.");
-          }
+        if (filmData) {
+          // Flatten the sponsor object cleanly for the presenter layer
+          const sanitizedFilm = {
+            ...filmData,
+            sponsor: typeof filmData.sponsor === 'object' && filmData.sponsor !== null
+              ? (filmData.sponsor as any).name 
+              : filmData.sponsor
+          };
+
+          setFeaturedFilm(sanitizedFilm);
+          setDiagnostic("Data loaded successfully.");
         } else {
-          setDiagnostic("Connected successfully, but no collection named 'featured' exists.");
+          setDiagnostic("Connected successfully, but no film with slug 'shoebox' exists in your database table.");
         }
       } catch (err: any) {
         setDiagnostic(`Gateway Error: ${err.message || err}`);
