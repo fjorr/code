@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { headers } from 'next/headers'; 
-// 🎯 Absolute reference directly from your root utils folder setup!
-import { createClient } from 'utils/supabase/server'; 
+// 🎯 Using your project's native @/ root alias map
+import { createClient } from '@/utils/supabase/server'; 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -11,7 +11,7 @@ interface ArtifactPageProps {
 }
 
 export default async function DynamicArtifactPage({ params }: ArtifactPageProps) {
-  // 🎯 Tells the Turbopack builder this route handles dynamic content
+  // Tells the Turbopack builder this route handles dynamic content safely
   await headers(); 
 
   const { id } = await params;
