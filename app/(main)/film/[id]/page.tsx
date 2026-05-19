@@ -1,24 +1,27 @@
 import React, { Suspense } from 'react';
 import { notFound } from 'next/navigation';
-import { createClient } from '@supabase/supabase-js';
+// 🌟 Swap this out for your unified server-safe client utility
+import { createClient } from '@/utils/supabase/server'; 
 
 import FilmHero from '@/components/FilmHero';
 import ArtifactRail from '@/components/ArtifactRail';
 import FilmRail from '@/components/FilmRail';
 import FilmSpecs from '@/components/FilmSpecs';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+// 🌟 FORCE BYPASS: Tells the build engine to skip pre-rendering this dynamic page
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
 export default async function FilmDetailPage({ params }: PageProps) {
-  // 🎯 ZERO BLOCKING: Read the slug string instantly from the URL
+  // Read the slug string instantly from the URL
   const { id: urlSlug } = await params;
+
+  // 🌟 Initialize the server-safe connection cleanly inside the function body
+  const supabase = await createClient();
 
   return (
     <div className="w-full min-h-screen bg-black text-white flex flex-col items-center pt-0 -mt-[70px] relative z-0">

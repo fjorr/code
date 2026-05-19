@@ -1,5 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
+// 🌟 Add your unified client import here if you need to fetch video data from Supabase below!
+import { createClient } from '@/utils/supabase/server'; 
+
+// 🌟 FORCE BYPASS: Tells the build engine to skip pre-rendering this dynamic page
+export const dynamic = 'force-dynamic';
+export const dynamicParams = true;
 
 interface WatchPageProps {
   params: Promise<{ id: string }>;
@@ -8,6 +14,9 @@ interface WatchPageProps {
 export default async function WatchPageTemplate({ params }: WatchPageProps) {
   // 🎯 Extract the specific video asset identifier from the URL parameter route safely
   const { id } = await params;
+
+  // 🌟 Initialize the client safely inside the function body (delete if not fetching data here)
+  const supabase = await createClient();
 
   return (
     <div className="w-full min-h-screen bg-black flex flex-col items-center justify-center p-0 m-0 overflow-hidden relative select-none">
