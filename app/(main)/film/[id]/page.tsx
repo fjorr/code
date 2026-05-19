@@ -20,9 +20,6 @@ export default async function FilmDetailPage({ params }: PageProps) {
   // Read the slug string instantly from the URL
   const { id: urlSlug } = await params;
 
-  // 🌟 Initialize the server-safe connection cleanly inside the function body
-  const supabase = await createClient();
-
   return (
     <div className="w-full min-h-screen bg-black text-white flex flex-col items-center pt-0 -mt-[70px] relative z-0">
       
@@ -43,6 +40,8 @@ export default async function FilmDetailPage({ params }: PageProps) {
 
 // 📦 DYNAMIC CONTENT ENGINE: Houses all fetches safely underneath the Suspense boundary
 async function DeferredPageContent({ urlSlug }: { urlSlug: string }) {
+  // 🌟 FIXED: Initialize the server client inside this component scope so line 52 can read it!
+  const supabase = await createClient();
   const currentIsoString = new Date().toISOString();
 
   // 1. Fetch the primary film record along with its basic relation name strings
