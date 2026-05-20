@@ -21,8 +21,9 @@ export default function SearchResultsGrid({ results }: ResultsGridProps) {
   return (
     <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-6 gap-y-12 text-left">
       {results.map((item) => {
+        // 🎯 FIXED PATH MATCH: Unified slug variable generation routing rules
         const targetHref = item.item_type === 'film' 
-          ? `/film/${item.internal_id}` 
+          ? `/film/${item.slug}` 
           : `/artifact/${item.slug}`;
 
         return (

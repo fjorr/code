@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
 
-// 🎯 CLEAN IMPORTS
 import SearchIdleView from '@/components/SearchIdleView';
 import SearchResultsGrid from '@/components/SearchResultsGrid';
 import SearchNadaView from '@/components/SearchNadaView';
@@ -36,11 +35,16 @@ export default function SearchPage() {
 
   useEffect(() => {
     async function fetchLatest() {
+      const currentIsoString = new Date().toISOString();
+
+      // 🎯 FIXED DB FETCH: Filter rows so future-dated records don't clog up your limit(5) array slots
       const { data } = await supabase
         .from('search')
         .select('*')
+        .lte('release_date', currentIsoString) // Ensures only currently available node logs are retrieved
         .order('release_date', { ascending: false })
         .limit(5);
+        
       if (data) setLatestItems(data as SearchItem[]);
     }
     fetchLatest();
@@ -50,12 +54,10 @@ export default function SearchPage() {
   useEffect(() => {
     if (!query.trim()) {
       setRawResults([]);
-      setLoading(false); // 🎯 Clean up loading state if query gets cleared
+      setLoading(false);
       return;
     }
 
-    // 🎯 THE CRITICAL FIX: Set loading to true IMMEDIATELY on keystroke!
-    // This instantly overrides the view conditional board before the debounce timer begins.
     setLoading(true);
 
     const delayDebounceFn = setTimeout(async () => {
@@ -86,7 +88,7 @@ export default function SearchPage() {
     <div className="w-full min-h-screen pt-6 pb-24 px-[10%] flex flex-col items-center">
       <div className="w-full max-w-4xl flex flex-col items-center gap-8">
         
-        {/* INPUT INPUT ELEMENT BOX CONTAINER */}
+        {/* INPUT ELEMENT BOX CONTAINER */}
         <div className="w-full max-w-sm relative group">
           <span className="absolute left-5 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none transition-colors group-focus-within:text-white/80">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
