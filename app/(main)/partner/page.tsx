@@ -6,7 +6,7 @@ import { ContactPill } from '@/components/ui/contact-pill';
 export default function PartnerPage() {
   return (
     /* 🎯 UNIFIED CANVAS WORKSPACE: 20px top padding via pt-5, flush on the bottom */
-    <div className="w-full h-auto bg-[#1D1D1F] text-[#F5F5F7] flex items-center justify-center font-sans select-none pt-5 pb-0">
+    <div className="w-full h-auto bg-[#1F1F1F] text-[#F5F5F7] flex items-center justify-center font-sans select-none pt-5 pb-0">
       
       {/* 🎬 SEAMLESS SLIDE ANCHOR FIELD */}
       <div className="w-full max-w-[1240px] px-6 sm:px-10 md:px-16 relative flex flex-col items-center justify-center overflow-hidden">

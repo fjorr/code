@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --dark-01: #1D1D1F;
-  --dark-02: #1D1D1FA6;
-  --dark-03: #1D1D1F66;
-  --dark-04: #1D1D1F0D;
+  --dark-01: #1F1F1F;
+  --dark-02: #1F1F1FA6;
+  --dark-03: #1F1F1F66;
+  --dark-04: #1F1F1F0D;
 
   --light-01: #F5F5F7;
   --light-02: #F5F5F7A6;
@@ -15,9 +15,36 @@
 }
 
 html, body {
-  background-color: #1D1D1F !important;
+  background-color: #1F1F1F !important;
   color: #F5F5F7 !important;
   font-family: 'Inter', -apple-system, sans-serif;
   margin: 0;
   padding: 0;
+}
+
+/* 📟 Flawless System Terminal Typewriter */
+.char-fade {
+  opacity: 0;
+  /* Animates text to full opacity instantly once its delay timer rings */
+  animation: typeChar 0.01s forwards;
+}
+
+.cursor-system {
+  /* Loop 1: Blinks forever | Loop 2: Completely dissolves 0.2s after text finishes */
+  animation: 
+    blinkCursor 0.6s step-end infinite,
+    hideCursor 0.2s forwards;
+}
+
+@keyframes typeChar {
+  to { opacity: 1; }
+}
+
+@keyframes blinkCursor {
+  from, to { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+@keyframes hideCursor {
+  to { opacity: 0; display: none; }
 }

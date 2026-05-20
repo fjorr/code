@@ -33,7 +33,7 @@ export default function Footer({ variant }: FooterProps) {
     <footer 
       className={`
         w-full pt-16 pb-16 px-[10%] text-center flex flex-col items-center transition-colors duration-300
-        ${isCustomVariant ? 'bg-transparent' : 'bg-[#F5F5F7] dark:bg-[#1D1D1F]'}
+        ${isCustomVariant ? 'bg-transparent' : 'bg-[#F5F5F7] dark:bg-[#1F1F1F]'}
         ${textColor}
       `}
     >

@@ -28,7 +28,7 @@ export default async function PasswordPage() {
 
   return (
     <main className="w-full min-h-screen bg-[#0A0A0C] flex flex-col items-center justify-center p-6">
-      <div className="w-full max-w-sm p-8 bg-[#1D1D1F] border border-zinc-800 rounded-2xl space-y-6 shadow-2xl">
+      <div className="w-full max-w-sm p-8 bg-[#1F1F1F] border border-zinc-800 rounded-2xl space-y-6 shadow-2xl">
         <div className="space-y-2 text-center">
           <h1 className="text-xl font-bold tracking-tight text-zinc-100">Protected Area</h1>
           <p className="text-xs text-zinc-400">Please enter the password to access the site.</p>

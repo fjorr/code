@@ -3,33 +3,36 @@ import HeroHome from '@/components/HeroHome';
 import FilmRailLoader from '@/components/FilmRailLoader';
 import ArtifactRailLoader from '@/components/ArtifactRailLoader';
 import PromoSplit from '@/components/PromoSplit';
-// 🎯 IMPORT DIRECTLY: Bringing in the raw loader component for quick visual preview
-import SkeletonLoader from '@/components/SkeletonLoader';
+// 🎯 IMPORT THE LOADER: Pulling in the smart database-connected wrapper
+import FeatureRailLoader from '@/components/FeatureRailLoader';
 
 export default function Home() {
   return (
     <div className="w-full min-h-screen bg-dark-01">
-      {/* 1. Static Layout Header */}
+      {/* 1. Static Layout Header Banner */}
       <HeroHome />
 
-      {/* 2. 🧪 DIRECT VISUAL TEST INJECTION FRAME */}
-      {/* Pins the loader perfectly on your home screen with no data hooks required */}
-      <div className="w-full px-8 md:px-16 pb-10">
-        <div className="w-full max-w-[1440px] mx-auto h-[480px] sm:h-[440px] md:h-[480px] lg:h-[520px]">
-          <SkeletonLoader />
-        </div>
+      {/* 🎬 2. LIVE FEATURE RAIL (TOP ANCHOR)
+          🎯 FIXED: Using FeatureRailLoader directly. No fake props needed! 
+          It handles its own Supabase fetch and streams the live data cleanly.
+      */}
+      <div className="w-full mt-6 md:mt-10">
+        <FeatureRailLoader />
       </div>
 
-      {/* 🎬 FILM RAILS TRACK STACK (Latest & Upcoming Only) */}
+      {/* 🎬 3. FILM & ARTIFACT LOADER TRACK STACK */}
       <div className="w-full flex flex-col gap-2 md:gap-4 mt-6 md:mt-10">
+        {/* Latest Releases Rail */}
         <FilmRailLoader title="Latest" />
+        
+        {/* Coming Soon Rail */}
         <FilmRailLoader title="Coming Soon" />
 
-        {/* Artifact Rail */}
+        {/* Film Artifacts Rail */}
         <ArtifactRailLoader title="Film Artifacts" />
       </div>
 
-      {/* 👑 THE PROMO COMPONENT ADDS SEPARATELY AND CLEANLY HERE */}
+      {/* 👑 4. THE PROMO COMPONENT CORNER SPLIT */}
       <div className="mt-12 md:mt-16">
         <PromoSplit />
       </div>

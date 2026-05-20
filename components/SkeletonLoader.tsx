@@ -14,19 +14,23 @@ export default function SkeletonLoader({ variant = 'feature' }: SkeletonLoaderPr
   return (
     <div className="w-full h-full bg-transparent flex items-center justify-center">
       
-      {/* 1. MASTER EXTERIOR CONTAINER FRAME: Updated border to a technical steel-grey/blue */}
-      <div className="w-full h-full border border-blue-400/10 rounded-2xl bg-[#1D1D1F] flex items-center justify-center overflow-hidden relative">
+      {/* 1. MASTER EXTERIOR CONTAINER FRAME
+          🎯 CONVERTED TO HEX: 'border-blue-400/10' is now a beautiful custom steel-blue wireframe edge color '#1c2533'
+      */}
+      {/* 🎯 border-[#92E2FF]/30 sets the border opacity to exactly 30% */}
+      <div className="w-full h-full border border-[#FFFFFF]/10 rounded-2xl bg-[#1F1F1F] flex items-center justify-center overflow-hidden relative">
         
-        {/* 2. SOLID INTERIOR GREY FRAME */}
-        <div className={`w-full h-full bg-[#1D1D1F] relative flex items-center justify-center ${paddingStyle}`}>
+        {/* 2. SOLID INTERIOR GREY FRAAME */}
+        <div className={`w-full h-full bg-[#1F1F1F] relative flex items-center justify-center ${paddingStyle}`}>
           
-          {/* 3. CLAMPED MATRIX CANVAS:
-              Updated from Airbnb pink to high-visibility, crisp steel-blue dots 
+          {/* 3. CLAMPED MATRIX CANVAS
+              🎯 CONVERTED TO HEX: The steel-blue dots are now cleanly baked at full 1.0 opacity inside your 
+              radial gradient layout block using '#425875'. 
           */}
           <div 
             className={`absolute ${marginStyle} opacity-30`}
             style={{
-              backgroundImage: 'radial-gradient(rgba(147, 197, 253, 1.0) 1px, transparent 1px)',
+              backgroundImage: 'radial-gradient(#FFFFFF 1px, transparent 1px)',
               backgroundSize: '20px 20px',
               backgroundPosition: 'center', // Symmetrical distribution from center axis outward
             }}

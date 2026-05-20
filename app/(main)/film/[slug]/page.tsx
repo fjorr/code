@@ -130,7 +130,7 @@ async function DeferredPageContent({ urlSlug }: { urlSlug: string }) {
     <>
       <FilmHero film={filmData} />
       
-      <div className="w-full bg-[#1D1D1F] pt-12 pb-24 flex flex-col gap-12">
+      <div className="w-full bg-[#1F1F1F] pt-12 pb-24 flex flex-col gap-12">
         
         {relatedArtifacts.length > 0 && (
           <ArtifactRail title="Related Artifacts" artifacts={relatedArtifacts} />

@@ -36,11 +36,8 @@ export const ContactPill: React.FC<ContactPillProps> = ({
         </button>
       ) : (
         <div 
-          className="px-5 py-2.5 bg-zinc-900 border border-white/10 rounded-full font-medium text-[13px] tracking-tight text-[#54ffb5] flex items-center gap-2 shadow-2xl font-inter animate-in zoom-in-95 fade-in duration-200"
+          className="px-6 py-2.5 bg-[#1F1F1F] border border-[#73ACE9] rounded-full font-semibold text-[14px] text-[#f5f5f7] flex items-center gap-2 shadow-2xl font-inter animate-in zoom-in-95 fade-in duration-200"
         >
-          <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
           <span>Email copied. Fire away.</span>
         </div>
       )}

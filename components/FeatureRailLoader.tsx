@@ -6,25 +6,20 @@ import { createBrowserClient } from '@supabase/ssr';
 
 export default function FeatureRailLoader() {
   const [featuredFilm, setFeaturedFilm] = useState<any>(null);
-  const [diagnostic, setDiagnostic] = useState<string>("Initializing Client Gateway...");
+  
+  // 🎯 ANIMATION TIMING ENGINE
+  const [showAnchor, setShowAnchor] = useState<boolean>(true);
+  const [fadeAnchor, setFadeAnchor] = useState<boolean>(false);
 
   useEffect(() => {
     async function loadData() {
       try {
-        setDiagnostic("Reading Env Credentials...");
-        
         const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
         const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-        if (!url || !key) {
-          setDiagnostic("Missing Keys inside your local configurations.");
-          return;
-        }
+        if (!url || !key) return;
 
         const supabase = createBrowserClient(url, key);
-        setDiagnostic("Fetching featured film asset directly via slug target...");
 
-        // 🎯 DIRECT LOOKUP: Queries the film table directly for 'shoebox' to guarantee it displays
         const { data: filmData, error } = await supabase
           .from('film')
           .select(`
@@ -43,16 +38,15 @@ export default function FeatureRailLoader() {
             theme ( name ),
             sponsor:sponsor_id ( name )
           `)
-          .eq('slug', 'shoebox') // 🌟 Looks up your exact asset row directly!
+          .eq('slug', 'shoebox')
           .maybeSingle();
 
         if (error) {
-          setDiagnostic(`Database Error: ${error.message} (Code: ${error.code})`);
+          console.error(error.message);
           return;
         }
 
         if (filmData) {
-          // Flatten the sponsor object cleanly for the presenter layer
           const sanitizedFilm = {
             ...filmData,
             sponsor: typeof filmData.sponsor === 'object' && filmData.sponsor !== null
@@ -60,34 +54,51 @@ export default function FeatureRailLoader() {
               : filmData.sponsor
           };
 
+          // 🎬 CHOREOGRAPHY SEQUENCE:
+          // 1. Mount the real component underneath the dark box
           setFeaturedFilm(sanitizedFilm);
-          setDiagnostic("Data loaded successfully.");
-        } else {
-          setDiagnostic("Connected successfully, but no film with slug 'shoebox' exists in your database table.");
+          
+          // 2. Trigger the CSS transition class instantly
+          setFadeAnchor(true);
+          
+          // 3. Remove the block completely from the DOM after the 500ms fade finishes
+          setTimeout(() => {
+            setShowAnchor(false);
+          }, 500);
         }
-      } catch (err: any) {
-        setDiagnostic(`Gateway Error: ${err.message || err}`);
+      } catch (err) {
+        console.error(err);
       }
     }
 
     loadData();
   }, []);
 
-  if (!featuredFilm) {
-    return (
-      <section className="w-full px-[10%] pb-[60px]">
-        <div 
-          className="w-full rounded-[12px] aspect-[1/1.618] md:aspect-[4/3] lg:aspect-[16/9] flex flex-col items-center justify-center font-sans text-[14px] p-6 text-center text-white/70" 
-          style={{ backgroundColor: '#4C7A57' }}
-        >
-          <div className="w-6 h-6 border-2 border-white/20 border-t-white rounded-full animate-spin mb-4" />
-          <p className="font-mono text-[11px] bg-black/40 px-4 py-2 rounded border border-white/10 max-w-md break-all tracking-tight">
-            {diagnostic}
-          </p>
-        </div>
-      </section>
-    );
-  }
+  return (
+    <div className="w-full relative">
+      
+      {/* 1. THE CONTENT LAYER 
+          Mounts silently in total darkness while the images download
+      */}
+      {featuredFilm && <FeatureRail film={featuredFilm} />}
 
-  return <FeatureRail film={featuredFilm} />;
+      {/* 2. THE CHOSEN SOLID ANCHOR BOX
+          Locks layout spacing instantly to kill layer jumps, then fades out beautifully.
+      */}
+      {showAnchor && (
+        <div 
+          className={`absolute inset-0 w-full px-8 md:px-16 pointer-events-none z-50 transform-gpu transition-opacity duration-500 ease-in-out ${
+            fadeAnchor ? 'opacity-0' : 'opacity-100'
+          }`}
+        >
+          {/* Matches your FeatureRail gutters, maximum width, and precise responsive aspect ratios */}
+          <div 
+            className="w-full max-w-[1440px] mx-auto aspect-[1/1.618] md:aspect-[4/3] lg:aspect-[16/9] rounded-[12px]" 
+            style={{ backgroundColor: '#1F1F1F' }}
+          />
+        </div>
+      )}
+
+    </div>
+  );
 }
