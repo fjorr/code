@@ -10,9 +10,13 @@ interface NavbarProps {
 
 function Navbar({ variant = 'light' }: NavbarProps) {
   const [isScrolling, setIsScrolling] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    // 1. DUAL-CHECK ENGINE: Instantly scan current coordinates on mount
+    // 1. SIGNAL MOUNT COMPLETION
+    setIsMounted(true);
+
+    // 2. DUAL-CHECK ENGINE: Scan coordinates on client load
     const checkScrollPosition = () => {
       if (window.scrollY > 10) {
         setIsScrolling(true);
@@ -21,10 +25,9 @@ function Navbar({ variant = 'light' }: NavbarProps) {
       }
     };
 
-    // Run immediately to capture initial state if browser auto-scrolled or restored cache
+    // Run immediately to capture position if browser auto-scrolled or restored cache
     checkScrollPosition();
 
-    // 2. CONTINUE CONTINUOUS EVENT CAPTURE
     window.addEventListener('scroll', checkScrollPosition, { passive: true });
     return () => window.removeEventListener('scroll', checkScrollPosition);
   }, []);
@@ -33,13 +36,18 @@ function Navbar({ variant = 'light' }: NavbarProps) {
   const subTextColor = variant === 'light' ? 'text-white/40' : 'text-black/40';
 
   return (
-    /* 🎯 OVERLAY TRACKING STRUCTURE */
+    /* 🎯 FIXED OVERLAY TRACKING STRUCTURE */
     <header className="fixed top-0 left-0 z-50 w-full h-[70px] pt-[20px] px-4 flex justify-center pointer-events-none">
       
       {/* Floating Center Container */}
       <div
         className="inline-flex h-[50px] px-[30px] rounded-[10px] items-center gap-[20px] pointer-events-auto transition-all duration-300"
         style={{
+          /* 🛠️ HYDRATION GAP FIX: 
+             If the component hasn't fully mounted on the client side yet, we clamp its opacity 
+             or background dynamically so it smoothly fades into existence rather than snapping.
+          */
+          opacity: isMounted ? 1 : 0,
           backgroundColor: isScrolling ? 'rgba(120, 120, 120, 0.15)' : 'rgba(120, 120, 120, 0)',
           backdropFilter: isScrolling ? 'blur(12px)' : 'none',
           WebkitBackdropFilter: isScrolling ? 'blur(12px)' : 'none',

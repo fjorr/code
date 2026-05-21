@@ -34,11 +34,11 @@ export default function LayoutClientWrapper({ children }: { children: React.Reac
       {/* Navbar sits safely fixed here over the main panel frame */}
       {!isWatchPage && <Navbar variant="light" />}
       
-      {/* 🎯 THE CENTERING ENGINE: 
-          Added 'justify-center items-center' so short pages center perfectly out of the box 
-          without needing manual tracking values or calculations.
+      {/* 🛠️ FIXED MAIN WRAPPER:
+          Removed 'flex flex-col justify-center items-center'. Leaving this as a standard block 
+          element ensures the document layout flows naturally, letting window.scrollY read at zero on clean loads.
       */}
-      <main className="flex-grow w-full flex flex-col justify-center items-center relative">
+      <main className="flex-grow w-full relative">
         {children}
       </main>
       
