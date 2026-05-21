@@ -5,15 +5,10 @@ import { ContactPill } from '@/components/ui/contact-pill';
 
 export default function PartnerPage() {
   return (
-    /* 🎯 UNIFIED CANVAS WORKSPACE 
-       - Removed 'pt-2' spacing override to align seamlessly with the sticky header bounds.
-    */
+    /* 🎯 UNIFIED CANVAS WORKSPACE */
     <div className="w-full min-h-[calc(100vh-160px)] md:min-h-[calc(100vh-500px)] bg-[#1F1F1F] text-[#F5F5F7] flex items-center justify-center font-sans select-none pb-12">
       
-      {/* 🎬 SEAMLESS SLIDE ANCHOR FIELD 
-          🎯 FIXED: Stripped away mt-16 and md:mt-[90px] layout blocks since the 
-          sticky navbar now automatically handles baseline structural padding!
-      */}
+      {/* 🎬 SEAMLESS SLIDE ANCHOR FIELD */}
       <div className="w-full max-w-[1240px] px-6 sm:px-10 md:px-16 relative flex flex-col items-center justify-center">
         
         {/* --- THE PICTURE SYSTEM --- */}
@@ -36,13 +31,17 @@ export default function PartnerPage() {
         {/* --- THE TYPOGRAPHY CONTENT DECK OVERLAY --- */}
         <div className="absolute inset-x-0 top-0 bottom-[32%] md:bottom-[40%] flex flex-col items-center justify-center text-center gap-3 md:gap-3 z-20 px-12 sm:px-20 md:px-32 mt-6 sm:mt-16 md:mt-0">
           
-          {/* 🎬 STEP 2: THE REVEALING HEADLINE */}
+          {/* 🎬 STEP 2: THE REVEALING HEADLINE 
+              🛠️ SPIDER-VERSE LOGO WRAPPER INJECTION:
+              - Isolated 'Feel.' into a dedicated inline-block span class wrapper.
+              - Injected the attribute data-text="Feel." onto the wrapper node to generate structural mirroring.
+          */}
           <h1 
             className="text-6xl sm:text-7xl md:text-8xl font-extrabold uppercase tracking-tighter text-light-01 leading-[52px] sm:leading-[64px] md:leading-[76px] font-futura mb-1.5 opacity-0 animate-slide-up whitespace-pre-line"
             style={{ animationDelay: '400ms' }}
           >
             Make <br />
-            &apos;Em Feel.
+            &apos;Em <span data-text="Feel." className="spiderverse-accurate-word relative inline-block">Feel.</span>
           </h1>
           
           {/* 🎬 STEP 3: EDITORIAL DECK BLURB */}
@@ -65,7 +64,7 @@ export default function PartnerPage() {
 
       </div>
 
-      {/* CINEMATIC TIMING ENGINE */}
+      {/* CINEMATIC TIMING & COMIC TEXT EFFECTS ENGINE */}
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes sceneReveal {
           to { opacity: 1; }
@@ -81,12 +80,6 @@ export default function PartnerPage() {
             transform: translateY(0);
           }
         }
-
-        @keyframes spectrumTrack {
-          0% { background-position: 0% center; }
-          50% { background-position: 100% center; }
-          100% { background-position: 0% center; }
-        }
         
         .animate-fade-in {
           animation: sceneReveal 1000ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
@@ -96,8 +89,68 @@ export default function PartnerPage() {
           animation: layoutSlideUp 850ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        .animate-ai-spectrum {
-          animation: spectrumTrack 6s ease-in-out infinite;
+        /* =========================================================================
+           💥 SPIDER-VERSE CHROMATIC MULTI-LAYER STROKE GLITCH SYSTEM
+           ========================================================================= */
+        .spiderverse-accurate-word {
+          /* Subdues the dominant white fill by using a dark, layered color layout */
+          color: #1F1F1F;
+          -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.95);
+          text-shadow: 
+            3px 3px 0px #ff0055, 
+            -3px -3px 0px #00f0ff;
+          animation: spiderVibeCenter 2.5s steps(2) infinite alternate;
+        }
+
+        /* Generated Pseudo Layer Duplicates */
+        .spiderverse-accurate-word::before,
+        .spiderverse-accurate-word::after {
+          content: attr(data-text);
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: -1;
+        }
+
+        /* 🔵 Layer 1: High-Frequency Cyan Offset Shift */
+        .spiderverse-accurate-word::before {
+          color: transparent;
+          -webkit-text-stroke: 1px #00f0ff;
+          animation: glitchTrackCyan 1.8s steps(1) infinite;
+          mix-blend-mode: screen;
+          opacity: 0.85;
+        }
+
+        /* 🔴 Layer 2: High-Frequency Magenta Offset Shift */
+        .spiderverse-accurate-word::after {
+          color: transparent;
+          -webkit-text-stroke: 1px #ff0055;
+          animation: glitchTrackMagenta 1.4s steps(1) infinite;
+          mix-blend-mode: screen;
+          opacity: 0.85;
+        }
+
+        /* 🎬 Jitter & Skew Animation Sequences mimicking real film print alignment slips */
+        @keyframes spiderVibeCenter {
+          0% { text-shadow: 2px 2px 0px #ff0055, -2px -2px 0px #00f0ff; transform: rotate(0.5deg); }
+          50% { text-shadow: -1px 3px 0px #ff0055, 2px -1px 0px #00f0ff; transform: rotate(-0.5deg) skewX(1deg); }
+          100% { text-shadow: 3px -1px 0px #ff0055, -3px 2px 0px #00f0ff; transform: rotate(0.2deg); }
+        }
+
+        @keyframes glitchTrackCyan {
+          0%, 90%, 100% { transform: translate(0, 0); clip-path: inset(0 0 0 0); }
+          20% { transform: translate(-3px, 2px); clip-path: inset(20% 0 40% 0); }
+          40% { transform: translate(2px, -2px); clip-path: inset(60% 0 10% 0); }
+          60% { transform: translate(-1px, 3px); clip-path: inset(10% 0 75% 0); }
+        }
+
+        @keyframes glitchTrackMagenta {
+          0%, 85%, 100% { transform: translate(0, 0); clip-path: inset(0 0 0 0); }
+          15% { transform: translate(3px, -2px); clip-path: inset(45% 0 15% 0); }
+          35% { transform: translate(-2px, 1px); clip-path: inset(5% 0 80% 0); }
+          55% { transform: translate(2px, -3px); clip-path: inset(70% 0 5% 0); }
         }
       `}} />
     </div>

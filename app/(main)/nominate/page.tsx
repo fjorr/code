@@ -94,14 +94,9 @@ export default function NominatePage() {
       {/* =========================================================================
           HEADER MARQUEE STRIP (The Premium Edge-to-Edge Widescreen Film Strip)
           ========================================================================= */}
-      {/* 🛠️ FLEX STRIP REWRITE:
-          - Swapped out Grid layout for 'flex flex-nowrap w-full justify-center'. This guarantees the posters stay on a single line.
-          - 'gap-1.5' ensures the tight, razor-sharp cell-strip divider styling remains consistent.
-      */}
       <div className="w-full flex flex-nowrap justify-center gap-1.5 mb-24 sm:mb-32 select-none">
         
         {/* FILM CELL 1: BREAKDANCING */}
-        {/* ⚙️ RESPONSIVE FIXED ALLOCATION: Each cell gets a base percentage width so 3 frames sit beautifully side-by-side on mobile rows */}
         <div className="flex flex-col gap-2.5 w-[33%] md:w-[25%] shrink-0 opacity-0 animate-sweep-right style-delay-100">
           <div className="bg-zinc-900 relative w-full overflow-hidden">
             <img 
@@ -116,7 +111,7 @@ export default function NominatePage() {
         </div>
         
         {/* FILM CELL 2: NAISMITH */}
-        <div className="flex flex-col gap-2.5 w-[33%] md:w-[25%] shrink-0 opacity-0 animate-sweep-right style-delay-250">
+        <div className="flex flex-col gap-2.5 w-[33%] md:w-[25%] shrink-0 opacity-0 animate-sweep-right style-delay-180">
           <div className="bg-zinc-900 relative w-full overflow-hidden">
             <img 
               src="https://media.fjorr.com/assets/fjorr-nominate-poster-naismith.avif" 
@@ -130,7 +125,7 @@ export default function NominatePage() {
         </div>
         
         {/* FILM CELL 3: WW2 */}
-        <div className="flex flex-col gap-2.5 w-[33%] md:w-[25%] shrink-0 opacity-0 animate-sweep-right style-delay-400">
+        <div className="flex flex-col gap-2.5 w-[33%] md:w-[25%] shrink-0 opacity-0 animate-sweep-right style-delay-250">
           <div className="bg-zinc-900 relative w-full overflow-hidden">
             <img 
               src="https://media.fjorr.com/assets/fjorr-nominate-poster-ww2.avif" 
@@ -144,11 +139,7 @@ export default function NominatePage() {
         </div>
         
         {/* FILM CELL 4: YETI */}
-        {/* 🛠️ THE BREAKPOINT CONTROLLER:
-            - Marked as 'hidden md:flex' so it hides on mobile viewports, leaving exactly 3 posters visible.
-            - Transitions smoothly into the row as the 4th frame once screen space hits tablet/desktop sizes.
-        */}
-        <div className="flex-col gap-2.5 w-[25%] shrink-0 opacity-0 animate-sweep-right style-delay-550 hidden md:flex">
+        <div className="flex-col gap-2.5 w-[25%] shrink-0 opacity-0 animate-sweep-right style-delay-320 hidden md:flex">
           <div className="bg-zinc-900 relative w-full overflow-hidden">
             <img 
               src="https://media.fjorr.com/assets/fjorr-nominate-poster-yeti.avif" 
@@ -173,25 +164,25 @@ export default function NominatePage() {
         ) : (
           <div className="w-full max-w-xl flex flex-col items-center">
             
-            {/* MAIN SHOWCASE TITLE HERO HEADER */}
+            {/* 🎬 1. HEADLINE REVEAL (Executes first) */}
             <h1 
-              className="text-6xl sm:text-7xl md:text-8xl font-extrabold uppercase tracking-tighter text-light-01 leading-[52px] sm:leading-[64px] md:leading-[76px] font-futura mb-6 opacity-0 animate-slide-up style-delay-700 whitespace-pre-line select-none"
+              className="text-6xl sm:text-7xl md:text-8xl font-extrabold uppercase tracking-tighter text-light-01 leading-[52px] sm:leading-[64px] md:leading-[76px] font-futura mb-6 opacity-0 animate-slide-up style-delay-headline whitespace-pre-line select-none"
             >
               Nominate.
             </h1>
 
-            {/* SUMMARY PLATFORM PARAGRAPH BLOCKS */}
+            {/* 🎬 2. DESCRIPTION TEXT (Executes second) */}
             <p 
-              className="font-sans font-medium text-[15px] sm:text-[16px] leading-[1.6em] text-white/60 max-w-[280px] sm:max-w-md tracking-tight text-center mb-10 opacity-0 animate-slide-up style-delay-850"
+              className="font-sans font-medium text-[15px] sm:text-[16px] leading-[1.6em] text-white/60 max-w-[280px] sm:max-w-md tracking-tight text-center mb-10 opacity-0 animate-slide-up style-delay-body"
             >
               Know a story the world needs to hear? A piece of history. A fictional adventure. A forgotten legend. Nominate it. Your name goes on the film. Bragging rights included.
             </p>
 
-            {/* INPUT COLLECTION DATA FORM FRAME */}
+            {/* 🎬 3. INPUT FORM ELEMENT FRAME (Executes last) */}
             <form 
               onSubmit={handleSubmit} 
               noValidate 
-              className="w-full flex flex-col text-left opacity-0 animate-slide-up style-delay-1000"
+              className="w-full flex flex-col text-left opacity-0 animate-slide-up style-delay-form"
             >
               
               {/* FIELD AREA 1: LONG FORM DATA CONTENT FIELD */}
@@ -263,14 +254,20 @@ export default function NominatePage() {
           font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         }
 
-        /* HYDRATION SAFE ANIMATION DELAY MAPS */
+        /* 🎬 THE MASTER DELAY COMPILER MAP:
+           - Poster frames load immediately.
+           - Headline starts right after film strip arrives.
+           - Body wait time matches structural reading alignment.
+           - Form mounts last to tie down visual footprint flow.
+        */
         .style-delay-100 { animation-delay: 100ms; }
+        .style-delay-180 { animation-delay: 180ms; }
         .style-delay-250 { animation-delay: 250ms; }
-        .style-delay-400 { animation-delay: 400ms; }
-        .style-delay-550 { animation-delay: 550ms; }
-        .style-delay-700 { animation-delay: 700ms; }
-        .style-delay-850 { animation-delay: 850ms; }
-        .style-delay-1000 { animation-delay: 1000ms; }
+        .style-delay-320 { animation-delay: 320ms; }
+        
+        .style-delay-headline { animation-delay: 500ms !important; }
+        .style-delay-body     { animation-delay: 750ms !important; }
+        .style-delay-form     { animation-delay: 1000ms !important; }
 
         @keyframes imageSweepRight {
           from {
