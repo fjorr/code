@@ -8,14 +8,19 @@ interface SuccessProps {
 
 export default function NominateSuccessView({ onReset }: SuccessProps) {
   return (
-    /* 🎯 UNIFIED MASTER EXTERIOR VIEWPORT CARRIER */
-    <div className="w-full max-w-md mx-auto aspect-[1/1] sm:aspect-[4/3.5] bg-transparent flex items-center justify-center transition-all duration-500">
+    /* 🎯 UNIFIED MASTER EXTERIOR VIEWPORT CARRIER 
+       - Removed aspect ratios entirely. Spans full available width up to max-w-md with natural height.
+    */
+    <div className="w-full max-w-md mx-auto h-auto bg-transparent flex items-center justify-center transition-all duration-500">
       
       {/* 1. MASTER EXTERIOR CONTAINER FRAME WITH A 10% WHITE BORDER */}
       <div className="w-full h-full border border-[#FFFFFF]/10 rounded-2xl bg-[#1F1F1F] flex items-center justify-center overflow-hidden relative group">
         
-        {/* 2. SOLID INTERIOR CANVAS FRAME LAYER WITH THE 30px PADDING SPEC */}
-        <div className="w-full h-full bg-[#1F1F1F] p-[30px] relative flex flex-col items-center justify-center text-center">
+        {/* 2. SOLID INTERIOR CANVAS FRAME LAYER
+            🎯 FIXED: Enforced a consistent, unconstrained py-16 layout across all viewports 
+            to let the text breathe effortlessly away from the borders.
+        */}
+        <div className="w-full h-full bg-[#1F1F1F] px-[30px] py-16 relative flex flex-col items-center justify-center text-center">
           
           {/* 3. CLAMPED INDENTED DOT MATRIX CANVAS LAYER (30px offset padding margins) */}
           <div 
@@ -30,9 +35,6 @@ export default function NominateSuccessView({ onReset }: SuccessProps) {
           {/* =========================================================================
               INTERFACE FOREGROUND CONTENT DECK
               ========================================================================= */}
-          {/* 🎯 FIXED: Wrapped foreground layout elements in the exact same timing sequence 
-              as your nominate page ('opacity-0 animate-slide-up') so it gracefully transitions when showing up.
-          */}
           <div 
             className="relative z-10 flex flex-col items-center justify-center opacity-0 animate-slide-up"
             style={{ animationDelay: '150ms' }}
@@ -52,7 +54,7 @@ export default function NominateSuccessView({ onReset }: SuccessProps) {
 
             {/* SUMMARY PLATFORM PARAGRAPH BLOCKS */}
             <p className="font-sans font-medium text-base leading-relaxed text-white/60 max-w-[200px] sm:max-w-[250px] mb-8 tracking-tight">
-            Thank you for sending this story our way. We’ll review it with care. If it feels like a fit, we’ll be in touch.
+              Thank you for sending this story our way. We’ll review it with care. If it feels like a fit, we’ll be in touch.
             </p>
 
             {/* RESET ACTION CTA CONTROL */}
