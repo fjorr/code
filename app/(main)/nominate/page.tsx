@@ -92,90 +92,73 @@ export default function NominatePage() {
     <div className="w-full min-h-screen bg-[#1F1F1F] pt-5 pb-24 flex flex-col items-center overflow-x-hidden">
       
       {/* =========================================================================
-          HEADER MARQUEE STRIP (The 4-Photo Narrative Film Stack with Metadata)
+          HEADER MARQUEE STRIP (The Premium Edge-to-Edge Widescreen Film Strip)
           ========================================================================= */}
-      {/* 🛠️ HARDENED BREAKPOINT LAYOUT:
-          - Keeps 'gap-10' ($40\text{px}$) completely locked down without extra spatial padding.
-          - Added horizontal bounds for smaller viewports ('px-6 sm:px-10').
+      {/* 🛠️ FLEX STRIP REWRITE:
+          - Swapped out Grid layout for 'flex flex-nowrap w-full justify-center'. This guarantees the posters stay on a single line.
+          - 'gap-1.5' ensures the tight, razor-sharp cell-strip divider styling remains consistent.
       */}
-      <div className="flex mx-auto justify-center items-center gap-10 mb-16 sm:mb-24 px-6 sm:px-10 select-none">
+      <div className="w-full flex flex-nowrap justify-center gap-1.5 mb-24 sm:mb-32 select-none">
         
-        {/* PHOTO 1: BREAKDANCING */}
-        {/* 🛠️ ADDED 'flex items-center' - This natively locks absolute text elements to the image vertical center axis */}
-        <div 
-          className="relative w-[140px] xs:w-[160px] sm:w-[180px] md:w-[220px] flex items-center shrink-0 opacity-0 animate-sweep-right"
-          style={{ animationDelay: '100ms' }}
-        >
-          <img 
-            src="https://media.fjorr.com/assets/fjorr-nominate-poster-breakdancing.avif" 
-            className="w-full h-auto object-contain block opacity-80 hover:opacity-100 transition-all duration-700" 
-            alt="Breakdancing narrative frame"
-          />
-          
-          {/* 🎯 NESTED METADATA 1: 
-              - Swapped out positioning transforms for a clean absolute right offset.
-              - Hidden on tiny screens, pops into layout perfectly starting at 'xs' (475px+).
-          */}
-          <div 
-            className="film-metadata-vertical absolute -right-[24px] text-[9px] text-white/20 tracking-[0.25em] font-mono uppercase opacity-0 animate-sweep-right font-medium whitespace-nowrap hidden xs:block"
-            style={{ animationDelay: '180ms' }}
-          >
+        {/* FILM CELL 1: BREAKDANCING */}
+        {/* ⚙️ RESPONSIVE FIXED ALLOCATION: Each cell gets a base percentage width so 3 frames sit beautifully side-by-side on mobile rows */}
+        <div className="flex flex-col gap-2.5 w-[33%] md:w-[25%] shrink-0 opacity-0 animate-sweep-right style-delay-100">
+          <div className="bg-zinc-900 relative w-full overflow-hidden">
+            <img 
+              src="https://media.fjorr.com/assets/fjorr-nominate-poster-breakdancing.avif" 
+              className="w-full h-auto object-contain block opacity-85 hover:opacity-100 hover:scale-[1.01] transition-all duration-700" 
+              alt="Breakdancing narrative frame"
+            />
+          </div>
+          <div className="film-metadata-horizontal text-[9px] text-white/30 tracking-[0.2em] font-mono uppercase font-medium px-4 truncate">
             NOMINATION 143
           </div>
         </div>
         
-        {/* PHOTO 2: NAISMITH */}
-        <div 
-          className="relative w-[140px] xs:w-[160px] sm:w-[180px] md:w-[220px] flex items-center shrink-0 opacity-0 animate-sweep-right"
-          style={{ animationDelay: '250ms' }}
-        >
-          <img 
-            src="https://media.fjorr.com/assets/fjorr-nominate-poster-naismith.avif" 
-            className="w-full h-auto object-contain block opacity-80 hover:opacity-100 transition-all duration-700" 
-            alt="Naismith basketball narrative frame"
-          />
-
-          {/* 🎯 NESTED METADATA 2 */}
-          <div 
-            className="film-metadata-vertical absolute -right-[24px] text-[9px] text-white/20 tracking-[0.25em] font-mono uppercase opacity-0 animate-sweep-right font-medium whitespace-nowrap hidden sm:block"
-            style={{ animationDelay: '320ms' }}
-          >
+        {/* FILM CELL 2: NAISMITH */}
+        <div className="flex flex-col gap-2.5 w-[33%] md:w-[25%] shrink-0 opacity-0 animate-sweep-right style-delay-250">
+          <div className="bg-zinc-900 relative w-full overflow-hidden">
+            <img 
+              src="https://media.fjorr.com/assets/fjorr-nominate-poster-naismith.avif" 
+              className="w-full h-auto object-contain block opacity-85 hover:opacity-100 hover:scale-[1.01] transition-all duration-700" 
+              alt="Naismith basketball narrative frame"
+            />
+          </div>
+          <div className="film-metadata-horizontal text-[9px] text-white/30 tracking-[0.2em] font-mono uppercase font-medium px-4 truncate">
             NOMINATION 144
           </div>
         </div>
         
-        {/* PHOTO 3: WW2 */}
-        {/* 🛠️ RESPONSIVE STEP: Hidden on layout boot, displays seamlessly as the 3rd column at 'sm' breakpoint (640px+) */}
-        <div 
-          className="relative w-[180px] md:w-[220px] flex items-center shrink-0 opacity-0 animate-sweep-right hidden sm:flex"
-          style={{ animationDelay: '400ms' }}
-        >
-          <img 
-            src="https://media.fjorr.com/assets/fjorr-nominate-poster-ww2.avif" 
-            className="w-full h-auto object-contain block opacity-80 hover:opacity-100 transition-all duration-700" 
-            alt="WWII historical narrative frame"
-          />
-
-          {/* 🎯 NESTED METADATA 3 */}
-          <div 
-            className="film-metadata-vertical absolute -right-[24px] text-[9px] text-white/20 tracking-[0.25em] font-mono uppercase opacity-0 animate-sweep-right font-medium whitespace-nowrap hidden md:block"
-            style={{ animationDelay: '480ms' }}
-          >
+        {/* FILM CELL 3: WW2 */}
+        <div className="flex flex-col gap-2.5 w-[33%] md:w-[25%] shrink-0 opacity-0 animate-sweep-right style-delay-400">
+          <div className="bg-zinc-900 relative w-full overflow-hidden">
+            <img 
+              src="https://media.fjorr.com/assets/fjorr-nominate-poster-ww2.avif" 
+              className="w-full h-auto object-contain block opacity-85 hover:opacity-100 hover:scale-[1.01] transition-all duration-700" 
+              alt="WWII historical narrative frame"
+            />
+          </div>
+          <div className="film-metadata-horizontal text-[9px] text-white/30 tracking-[0.2em] font-mono uppercase font-medium px-4 truncate">
             NOMINATION 145
           </div>
         </div>
         
-        {/* PHOTO 4: YETI */}
-        {/* 🛠️ RESPONSIVE STEP: Hidden on smaller viewports, pops into the grid as the 4th frame at 'md' breakpoint (768px+) */}
-        <div 
-          className="relative w-[220px] flex items-center shrink-0 opacity-0 animate-sweep-right hidden md:flex"
-          style={{ animationDelay: '550ms' }}
-        >
-          <img 
-            src="https://media.fjorr.com/assets/fjorr-nominate-poster-yeti.avif" 
-            className="w-full h-auto object-contain block opacity-80 hover:opacity-100 transition-all duration-700" 
-            alt="Yeti legend narrative frame"
-          />
+        {/* FILM CELL 4: YETI */}
+        {/* 🛠️ THE BREAKPOINT CONTROLLER:
+            - Marked as 'hidden md:flex' so it hides on mobile viewports, leaving exactly 3 posters visible.
+            - Transitions smoothly into the row as the 4th frame once screen space hits tablet/desktop sizes.
+        */}
+        <div className="flex-col gap-2.5 w-[25%] shrink-0 opacity-0 animate-sweep-right style-delay-550 hidden md:flex">
+          <div className="bg-zinc-900 relative w-full overflow-hidden">
+            <img 
+              src="https://media.fjorr.com/assets/fjorr-nominate-poster-yeti.avif" 
+              className="w-full h-auto object-contain block opacity-85 hover:opacity-100 hover:scale-[1.01] transition-all duration-700" 
+              alt="Yeti legend narrative frame"
+            />
+          </div>
+          <div className="film-metadata-horizontal text-[9px] text-white/30 tracking-[0.2em] font-mono uppercase font-medium px-4 truncate">
+            NOMINATION 146
+          </div>
         </div>
         
       </div>
@@ -183,7 +166,7 @@ export default function NominatePage() {
       {/* =========================================================================
           LOGICAL INTERFACE CONTENT AREA 
           ========================================================================= */}
-      <div className="w-full max-w-4xl px-[10%] flex flex-col items-center text-center">
+      <div className="w-full max-w-4xl px-[10%] flex flex-col items-center text-center mt-4">
         
         {submittedSuccess ? (
           <NominateSuccessView onReset={handleResetForm} />
@@ -192,16 +175,14 @@ export default function NominatePage() {
             
             {/* MAIN SHOWCASE TITLE HERO HEADER */}
             <h1 
-              className="text-6xl sm:text-7xl md:text-8xl font-extrabold uppercase tracking-tighter text-light-01 leading-[52px] sm:leading-[64px] md:leading-[76px] font-futura mb-6 opacity-0 animate-slide-up whitespace-pre-line select-none"
-              style={{ animationDelay: '700ms' }}
+              className="text-6xl sm:text-7xl md:text-8xl font-extrabold uppercase tracking-tighter text-light-01 leading-[52px] sm:leading-[64px] md:leading-[76px] font-futura mb-6 opacity-0 animate-slide-up style-delay-700 whitespace-pre-line select-none"
             >
               Nominate.
             </h1>
 
             {/* SUMMARY PLATFORM PARAGRAPH BLOCKS */}
             <p 
-              className="font-sans font-medium text-[15px] sm:text-[16px] leading-[1.6em] text-white/60 max-w-[280px] sm:max-w-md tracking-tight text-center mb-10 opacity-0 animate-slide-up"
-              style={{ animationDelay: '850ms' }}
+              className="font-sans font-medium text-[15px] sm:text-[16px] leading-[1.6em] text-white/60 max-w-[280px] sm:max-w-md tracking-tight text-center mb-10 opacity-0 animate-slide-up style-delay-850"
             >
               Know a story the world needs to hear? A piece of history. A fictional adventure. A forgotten legend. Nominate it. Your name goes on the film. Bragging rights included.
             </p>
@@ -210,8 +191,7 @@ export default function NominatePage() {
             <form 
               onSubmit={handleSubmit} 
               noValidate 
-              className="w-full flex flex-col text-left opacity-0 animate-slide-up"
-              style={{ animationDelay: '1000ms' }}
+              className="w-full flex flex-col text-left opacity-0 animate-slide-up style-delay-1000"
             >
               
               {/* FIELD AREA 1: LONG FORM DATA CONTENT FIELD */}
@@ -279,17 +259,18 @@ export default function NominatePage() {
 
       {/* CINEMATIC TIMING ENGINE LOCAL COMPILER SCOPE */}
       <style dangerouslySetInnerHTML={{ __html: `
-        .film-metadata-vertical {
-          writing-mode: vertical-lr;
-          text-orientation: mixed;
+        .film-metadata-horizontal {
           font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-          
-          /* 🎯 CENTER ALIGNMENT CURE:
-             Rotates the string clean 180deg on its side. By using a single X-axis transform translate shift,
-             the browser keeps the text centered on the poster image height box.
-          */
-          transform: rotate(180deg) translateX(50%); 
         }
+
+        /* HYDRATION SAFE ANIMATION DELAY MAPS */
+        .style-delay-100 { animation-delay: 100ms; }
+        .style-delay-250 { animation-delay: 250ms; }
+        .style-delay-400 { animation-delay: 400ms; }
+        .style-delay-550 { animation-delay: 550ms; }
+        .style-delay-700 { animation-delay: 700ms; }
+        .style-delay-850 { animation-delay: 850ms; }
+        .style-delay-1000 { animation-delay: 1000ms; }
 
         @keyframes imageSweepRight {
           from {
