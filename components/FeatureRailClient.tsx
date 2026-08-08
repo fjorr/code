@@ -22,12 +22,27 @@ const CinemaTheater = dynamic(() => import('@/components/CinemaTheater'), {
 export default function FeatureRailClient({ films }: { films: any[] }) {
   const t = useTranslations('Home');
   const { mode } = useDisplayMode();
-  const searchActive = useMinimalFilterOptional()?.searchActive ?? false;
+  const filter = useMinimalFilterOptional();
+  const searchActive = filter?.searchActive ?? false;
+  const searchChromeOpen = filter?.searchChromeOpen ?? false;
   const [activeIndex, setActiveIndex] = useState(0);
   const [showTheater, setShowTheater] = useState(false);
   const [selectedFilm, setSelectedFilm] = useState<any>(null);
   const [startAt, setStartAt] = useState<number | undefined>(undefined);
-  const isBrowseActive = mode === 'cinematic' && !searchActive;
+  // TODO: restore first-visit gating via hasSeenFeatureIntro / markFeatureIntroSeen.
+  // Forced on for every visit while we design/test the poster.
+  const [showIntro, setShowIntro] = useState(true);
+  const isBrowseActive =
+    mode === 'cinematic' && !searchActive && !searchChromeOpen;
+
+  const handleSlideChange = useCallback((index: number) => {
+    setActiveIndex(index);
+  }, []);
+
+  const handleExploreIntro = useCallback(() => {
+    setShowIntro(false);
+    setActiveIndex(0);
+  }, []);
 
   const handlePlayClick = (filmAsset: any) => {
     openTheaterFromFilm({
@@ -90,10 +105,12 @@ export default function FeatureRailClient({ films }: { films: any[] }) {
       <FeatureRail
         films={films}
         activeIndex={activeIndex}
-        onSlideChange={setActiveIndex}
+        onSlideChange={handleSlideChange}
         onPlayClick={handlePlayClick}
         isTheaterActive={showTheater}
         isBrowseActive={isBrowseActive}
+        showIntro={showIntro}
+        onExploreIntro={handleExploreIntro}
       />
 
       {showTheater && selectedFilm && (

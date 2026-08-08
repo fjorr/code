@@ -2,7 +2,11 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { HALL_OF_WINS, type HallOfWin } from './hall-of-wins';
+import {
+  HALL_OF_WINS,
+  formatWinners,
+  type HallOfWin,
+} from './hall-of-wins';
 
 type Props = {
   wins?: HallOfWin[];
@@ -74,7 +78,7 @@ export default function HallOfWinsRail({
                     type="button"
                     role="tab"
                     aria-selected={i === index}
-                    aria-label={`${w.reward}, ${w.winner}`}
+                    aria-label={`${w.reward}, ${formatWinners(w.winners)}`}
                     onClick={() => goTo(i)}
                     className={`h-2 rounded-full transition-all ${
                       i === index
@@ -154,21 +158,6 @@ function WinPoster({
           Hall of Wins
         </p>
 
-        <p className="m-0 text-[12px] font-semibold tracking-tight text-[#1d1d1f]/55 sm:text-[13px]">
-          <span className="text-[#1d1d1f]/35">Project</span>
-          <span className="mx-1.5 text-[#1d1d1f]/25">·</span>
-          {win.projectHref ? (
-            <Link
-              href={win.projectHref}
-              className="text-[#1d1d1f]/70 transition-opacity hover:opacity-70"
-            >
-              {win.project}
-            </Link>
-          ) : (
-            <span className="text-[#1d1d1f]/70">{win.project}</span>
-          )}
-        </p>
-
         <h2 className="m-0 text-[clamp(1.35rem,2.8vw,1.85rem)] font-extrabold leading-[1.15] tracking-tight normal-case">
           {win.reward}
         </h2>
@@ -177,7 +166,7 @@ function WinPoster({
           <span className="text-[#1d1d1f]/35">Winners</span>
           <span className="mx-1.5 text-[#1d1d1f]/25">·</span>
           <span className="text-[#1d1d1f]/70">
-            {win.winner} · {win.place}
+            {formatWinners(win.winners)}
           </span>
         </p>
       </div>

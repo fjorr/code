@@ -13,9 +13,10 @@
     "contactBlurb": "點子、合作提案，或值得實現的想法。我們都在這裡等你。",
     "openMenu": "開啟選單",
     "closeMenu": "關閉選單",
+    "search": "搜尋",
     "language": "語言",
     "languages": "語言",
-    "languagesHeadline": "Languages.",
+    "languagesHeadline": "選擇你的語言",
     "signIn": "登入或註冊",
     "account": "帳戶",
     "appearance": "外觀",
@@ -66,7 +67,12 @@
     "srTitle": "Fjorr — 世界上最偉大故事的短片。",
     "info": "資訊",
     "emptyFeatured": "New films are on the way. Browse below, or join the Bureaux.",
-    "joinCue": "Join the Bureaux"
+    "joinCue": "Join the Bureaux",
+    "introAria": "Fjorr 是什麼",
+    "introLineFade": "Matter fades.",
+    "introLineMyth": "Myths don't.",
+    "introBody": "Cinematic short films of the greatest stories — under ten minutes, always — made to raise people with wonder and hope, free forever for anyone in the world. No ads. No algorithm. No noise.",
+    "introCta": "探索影片"
   },
   "NotFound": {
     "title": "迷路了嗎？",
@@ -82,7 +88,8 @@
     "noTeaser": "尚未設定相關參考資訊。",
     "filmComingSoon": "影片即將上線",
     "nominateStory": "提名故事",
-    "joinBureauxHelp": "Or join the Bureaux to help."
+    "joinBureauxHelp": "Or join the Bureaux to help.",
+    "close": "關閉搜尋"
   },
   "Film": {
     "play": "播放 {runtime}",

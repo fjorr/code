@@ -14,9 +14,10 @@
     "contactBlurb": "Ideas, partnerships, or something worth making. We're here for it.",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
+    "search": "Search",
     "language": "Language",
     "languages": "Languages",
-    "languagesHeadline": "Languages.",
+    "languagesHeadline": "Choose your language",
     "signIn": "Sign in",
     "joinBureaux": "Join the Bureaux",
     "account": "Account",
@@ -66,7 +67,12 @@
     "noTitles": "No titles available.",
     "srTitle": "Fjorr — Short films of the world's greatest stories.",
     "emptyFeatured": "New films are on the way. Browse below, or join the Bureaux.",
-    "joinCue": "Join the Bureaux"
+    "joinCue": "Join the Bureaux",
+    "introAria": "What Fjorr is",
+    "introLineFade": "Matter fades.",
+    "introLineMyth": "Myths don't.",
+    "introBody": "Cinematic short films of the greatest stories — under ten minutes, always — made to raise people with wonder and hope, free forever for anyone in the world. No ads. No algorithm. No noise.",
+    "introCta": "Explore films"
   },
   "NotFound": {
     "title": "LOST?",
@@ -82,7 +88,8 @@
     "noTeaser": "No contextual reference details configured.",
     "filmComingSoon": "Film Coming Soon",
     "nominateStory": "Nominate story",
-    "joinBureauxHelp": "Or join the Bureaux to help."
+    "joinBureauxHelp": "Or join the Bureaux to help.",
+    "close": "Close search"
   },
   "Film": {
     "play": "Play {runtime}",

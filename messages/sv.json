@@ -13,9 +13,10 @@
     "contactBlurb": "Idéer, samarbeten eller något värt att skapa. Vi finns här för det.",
     "openMenu": "Öppna meny",
     "closeMenu": "Stäng meny",
+    "search": "Sök",
     "language": "Språk",
     "languages": "Språk",
-    "languagesHeadline": "Languages.",
+    "languagesHeadline": "Välj ditt språk",
     "signIn": "Logga in eller skapa konto",
     "account": "Konto",
     "appearance": "Utseende",
@@ -66,7 +67,12 @@
     "srTitle": "Fjorr — Kortfilmer om världens största historier.",
     "info": "Info",
     "emptyFeatured": "New films are on the way. Browse below, or join the Bureaux.",
-    "joinCue": "Join the Bureaux"
+    "joinCue": "Join the Bureaux",
+    "introAria": "Vad Fjorr är",
+    "introLineFade": "Matter fades.",
+    "introLineMyth": "Myths don't.",
+    "introBody": "Cinematic short films of the greatest stories — under ten minutes, always — made to raise people with wonder and hope, free forever for anyone in the world. No ads. No algorithm. No noise.",
+    "introCta": "Utforska filmer"
   },
   "NotFound": {
     "title": "VILSE?",
@@ -82,7 +88,8 @@
     "noTeaser": "Inga kontextuella referensdetaljer konfigurerade.",
     "filmComingSoon": "Filmen kommer snart",
     "nominateStory": "Nominera en historia",
-    "joinBureauxHelp": "Or join the Bureaux to help."
+    "joinBureauxHelp": "Or join the Bureaux to help.",
+    "close": "Stäng sökning"
   },
   "Film": {
     "play": "Spela upp {runtime}",

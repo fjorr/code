@@ -13,9 +13,10 @@
     "contactBlurb": "Idee, collaborazioni o qualcosa che valga la pena realizzare. Siamo qui per questo.",
     "openMenu": "Apri menu",
     "closeMenu": "Chiudi menu",
+    "search": "Cerca",
     "language": "Lingua",
     "languages": "Lingue",
-    "languagesHeadline": "Languages.",
+    "languagesHeadline": "Scegli la lingua",
     "signIn": "Accedi o registrati",
     "account": "Account",
     "appearance": "Aspetto",
@@ -66,7 +67,12 @@
     "srTitle": "Fjorr — Cortometraggi delle più grandi storie del mondo.",
     "info": "Info",
     "emptyFeatured": "New films are on the way. Browse below, or join the Bureaux.",
-    "joinCue": "Join the Bureaux"
+    "joinCue": "Join the Bureaux",
+    "introAria": "Cos’è Fjorr",
+    "introLineFade": "Matter fades.",
+    "introLineMyth": "Myths don't.",
+    "introBody": "Cinematic short films of the greatest stories — under ten minutes, always — made to raise people with wonder and hope, free forever for anyone in the world. No ads. No algorithm. No noise.",
+    "introCta": "Esplora i film"
   },
   "NotFound": {
     "title": "PERSO?",
@@ -82,7 +88,8 @@
     "noTeaser": "Nessun dettaglio di riferimento contestuale configurato.",
     "filmComingSoon": "Film in arrivo",
     "nominateStory": "Nomina una storia",
-    "joinBureauxHelp": "Or join the Bureaux to help."
+    "joinBureauxHelp": "Or join the Bureaux to help.",
+    "close": "Chiudi ricerca"
   },
   "Film": {
     "play": "Riproduci {runtime}",

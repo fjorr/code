@@ -13,9 +13,10 @@
     "contactBlurb": "アイデア、パートナーシップ、あるいは作る価値のある何か。私たちはそのためにここにいます。",
     "openMenu": "メニューを開く",
     "closeMenu": "メニューを閉じる",
+    "search": "検索",
     "language": "言語",
     "languages": "言語",
-    "languagesHeadline": "Languages.",
+    "languagesHeadline": "言語を選んでください",
     "signIn": "ログインまたは登録",
     "account": "アカウント",
     "appearance": "外観",
@@ -66,7 +67,12 @@
     "srTitle": "Fjorr — 世界で最も偉大な物語の短編映画。",
     "info": "情報",
     "emptyFeatured": "New films are on the way. Browse below, or join the Bureaux.",
-    "joinCue": "Join the Bureaux"
+    "joinCue": "Join the Bureaux",
+    "introAria": "Fjorrとは",
+    "introLineFade": "Matter fades.",
+    "introLineMyth": "Myths don't.",
+    "introBody": "Cinematic short films of the greatest stories — under ten minutes, always — made to raise people with wonder and hope, free forever for anyone in the world. No ads. No algorithm. No noise.",
+    "introCta": "作品を見る"
   },
   "NotFound": {
     "title": "迷子？",
@@ -82,7 +88,8 @@
     "noTeaser": "設定されたコンテキスト参照情報がありません。",
     "filmComingSoon": "映画は近日公開",
     "nominateStory": "ストーリーをノミネート",
-    "joinBureauxHelp": "Or join the Bureaux to help."
+    "joinBureauxHelp": "Or join the Bureaux to help.",
+    "close": "検索を閉じる"
   },
   "Film": {
     "play": "再生 {runtime}",

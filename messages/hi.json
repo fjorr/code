@@ -13,9 +13,10 @@
     "contactBlurb": "विचार, साझेदारियाँ, या कुछ ऐसा जो बनाने लायक हो। हम इसी के लिए यहाँ हैं।",
     "openMenu": "मेन्यू खोलें",
     "closeMenu": "मेन्यू बंद करें",
+    "search": "खोजें",
     "language": "भाषा",
     "languages": "भाषाएँ",
-    "languagesHeadline": "Languages.",
+    "languagesHeadline": "अपनी भाषा चुनें",
     "signIn": "लॉग इन करें या साइन अप करें",
     "account": "खाता",
     "appearance": "दिखावट",
@@ -66,7 +67,12 @@
     "srTitle": "Fjorr — दुनिया की महानतम कहानियों की लघु फ़िल्में।",
     "info": "Info",
     "emptyFeatured": "New films are on the way. Browse below, or join the Bureaux.",
-    "joinCue": "Join the Bureaux"
+    "joinCue": "Join the Bureaux",
+    "introAria": "Fjorr क्या है",
+    "introLineFade": "Matter fades.",
+    "introLineMyth": "Myths don't.",
+    "introBody": "Cinematic short films of the greatest stories — under ten minutes, always — made to raise people with wonder and hope, free forever for anyone in the world. No ads. No algorithm. No noise.",
+    "introCta": "फ़िल्में देखें"
   },
   "NotFound": {
     "title": "खो गए?",
@@ -82,7 +88,8 @@
     "noTeaser": "कोई प्रासंगिक संदर्भ विवरण कॉन्फ़िगर नहीं किया गया है।",
     "filmComingSoon": "फ़िल्म जल्द आ रही है",
     "nominateStory": "कहानी नामांकित करें",
-    "joinBureauxHelp": "Or join the Bureaux to help."
+    "joinBureauxHelp": "Or join the Bureaux to help.",
+    "close": "खोज बंद करें"
   },
   "Film": {
     "play": "चलाएँ {runtime}",

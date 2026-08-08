@@ -2,13 +2,11 @@
 
 import React, { useEffect, useRef, useState, type Ref } from 'react';
 import { useTranslations } from 'next-intl';
-import { Link } from '@/i18n/navigation';
 import DisplayModeToggle from '@/components/DisplayModeToggle';
 import ContentTypeToggle from '@/components/ContentTypeToggle';
 import {
   QueryStatusBar,
   useMinimalFilter,
-  useQueryStatusLabels,
 } from '@/components/MinimalFilterContext';
 import { useDisplayMode } from '@/components/DisplayModeProvider';
 import { DialsPanel } from '@/components/BrowseFilterPanels';
@@ -20,20 +18,21 @@ export type BrowseControlPanel = 'dials' | null;
  */
 export default function BrowseControlBar({
   sentinelRef,
+  onCloseSearch,
 }: {
   sentinelRef?: Ref<HTMLDivElement | null>;
+  /** Replaces the old “Learn about Fjorr” cue while search chrome is open. */
+  onCloseSearch?: () => void;
 }) {
   const tf = useTranslations('MinimalList');
-  const tHome = useTranslations('Home');
+  const tSearch = useTranslations('Search');
   const { isTimeline } = useDisplayMode();
   const { sort, theme } = useMinimalFilter();
-  const { dialLabels, filtersActive } = useQueryStatusLabels();
   const [panel, setPanel] = useState<BrowseControlPanel>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const dialsHaveValue = isTimeline
     ? theme !== 'all'
     : sort !== 'newest' || theme !== 'all';
-  const showAboutCue = dialLabels.length === 0 && !filtersActive;
 
   useEffect(() => {
     if (!panel) return;
@@ -99,13 +98,14 @@ export default function BrowseControlBar({
 
       <QueryStatusBar />
 
-      {showAboutCue ? (
-        <Link
-          href="/about"
-          className="font-sans text-[12px] sm:text-[13px] font-medium tracking-tight text-page-faint hover:text-page-muted transition-colors no-underline"
+      {onCloseSearch ? (
+        <button
+          type="button"
+          onClick={onCloseSearch}
+          className="font-sans text-[12px] sm:text-[13px] font-medium tracking-tight text-page-faint hover:text-page-muted transition-colors"
         >
-          {tHome('learnAbout')}
-        </Link>
+          {tSearch('close')}
+        </button>
       ) : null}
     </div>
   );

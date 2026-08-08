@@ -179,7 +179,16 @@ function Navbar({ variant = 'light' }: NavbarProps) {
           <div className="flex h-[44px] w-full pl-3 pr-4 sm:pl-5 sm:pr-5 items-center gap-3 sm:gap-4">
             <Link
               href="/"
-              onClick={closePanel}
+              onClick={(event) => {
+                closePanel();
+                // Idle home: hide search chrome, show FeatureRail (no leftover ?q / ?search / mix).
+                window.dispatchEvent(new Event('fjorr_close_home_search'));
+                const isHome = pathname === '/' || pathname === '';
+                if (isHome) {
+                  event.preventDefault();
+                  router.push('/');
+                }
+              }}
               className={`w-[50px] flex items-center cursor-pointer shrink-0 translate-y-[1.5px] ${textColor}`}
             >
               <svg viewBox="0 0 143 81" className="w-full h-auto" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -212,6 +221,23 @@ function Navbar({ variant = 'light' }: NavbarProps) {
             </div>
 
             <div className="flex items-center gap-3.5 sm:gap-4 shrink-0 ml-auto">
+              <button
+                type="button"
+                aria-label={t('search')}
+                onClick={() => {
+                  closePanel();
+                  const isHome = pathname === '/' || pathname === '';
+                  if (isHome) {
+                    window.dispatchEvent(new Event('fjorr_toggle_home_search'));
+                    return;
+                  }
+                  router.push('/?search=1');
+                }}
+                className={`flex items-center justify-center shrink-0 transition-opacity hover:opacity-80 ${iconColor}`}
+              >
+                <Icon name="search" className="w-[18px] h-[18px]" />
+              </button>
+
               <button
                 type="button"
                 aria-label={showCloseIcon ? t('closeMenu') : t('openMenu')}

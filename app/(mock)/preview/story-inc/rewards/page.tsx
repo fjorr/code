@@ -127,19 +127,21 @@ export default function StoryIncRewardsPage() {
       </header>
 
       <main>
-        <section className="mx-auto max-w-[1120px] px-5 pb-4 pt-6 sm:pb-5 sm:pt-8">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
-            <div className="min-w-0">
-              <h1 className="m-0 text-[30px] font-bold leading-tight tracking-[-0.025em] text-[#1d1d1f] sm:text-[36px]">
-                Redeem Rewards
-              </h1>
-              <p className="m-0 mt-1.5 max-w-[28rem] text-[13px] leading-snug text-[#6e6e73] sm:text-[14px]">
-                This is where Story Cash becomes something real.
-              </p>
-            </div>
+        {/* Centered page header — matches Projects / other Story Inc comps */}
+        <section className="mx-auto max-w-[720px] px-5 pb-10 pt-14 text-center sm:pb-12 sm:pt-20">
+          <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-[#00A6FF]">
+            Rewards
+          </p>
+          <h1 className="mt-4 text-[32px] font-bold leading-[1.08] tracking-[-0.03em] text-[#1d1d1f] sm:text-[44px] md:text-[52px]">
+            Redeem Rewards
+          </h1>
+          <p className="mx-auto mt-5 max-w-[34rem] text-[15px] leading-relaxed text-[#6e6e73] sm:text-[17px]">
+            This is where Story Cash becomes something real.
+          </p>
+          <div className="mt-7">
             <button
               type="button"
-              className="inline-flex shrink-0 items-center justify-center self-start rounded-full bg-[#00A6FF] px-4 py-2 text-[12px] font-semibold text-white sm:self-auto"
+              className="inline-flex items-center justify-center rounded-full bg-[#00A6FF] px-5 py-2.5 text-[13px] font-semibold text-white"
             >
               How to Earn Story Cash
             </button>

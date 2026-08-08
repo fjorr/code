@@ -55,6 +55,10 @@ type SearchExperienceProps = {
   theaterOpen?: boolean;
   /** Called whenever search goes from empty ↔ active (trimmed query length > 0). */
   onSearchActiveChange?: (active: boolean) => void;
+  /** Kept for callers; empty open stays on equal Mixes|Search split (idle). */
+  autoFocus?: boolean;
+  /** Escape with empty query closes the home search chrome. */
+  onCloseChrome?: () => void;
   className?: string;
 };
 
@@ -62,6 +66,8 @@ function SearchContent({
   browseContent,
   theaterOpen = false,
   onSearchActiveChange,
+  autoFocus = false,
+  onCloseChrome,
   className,
 }: SearchExperienceProps) {
   const { isMinimal, isTimeline } = useDisplayMode();
@@ -95,6 +101,15 @@ function SearchContent({
     setQuery(urlQuery);
     if (!urlQuery.trim()) setLoading(false);
   }, [urlQuery]);
+
+  // Open with equal Mixes | Search widths. Only expand Search when there's a ?q=.
+  useEffect(() => {
+    if (urlQuery.trim()) {
+      setSplitSide('search');
+      return;
+    }
+    if (autoFocus) setSplitSide('idle');
+  }, [autoFocus, urlQuery]);
 
   const isSearchActive = query.trim().length > 0;
   const contentType = minimalFilter?.contentType ?? 'film';
@@ -178,9 +193,12 @@ function SearchContent({
       const params = new URLSearchParams(searchParams.toString());
       if (nextQuery.trim()) {
         params.set('q', nextQuery);
+        params.delete('search');
       } else {
         // Drop query only — keep mix / type / dials so browse state survives clear.
+        // Keep search=1 so navbar-opened chrome stays open on refresh.
         params.delete('q');
+        if (onCloseChrome) params.set('search', '1');
       }
       const qs = params.toString();
       router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
@@ -212,9 +230,25 @@ function SearchContent({
     setQuery('');
     setLoading(false);
     writeSearchParams('', true);
-    setSplitSide('search');
-    inputRef.current?.focus();
+    setSplitSide('idle');
+    inputRef.current?.blur();
   };
+
+  useEffect(() => {
+    if (!onCloseChrome) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      if (query.trim()) {
+        handleClearSearch();
+        return;
+      }
+      onCloseChrome();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+    // Intentionally depend on query + close; clear uses latest writeSearchParams.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onCloseChrome, query]);
 
   const showIdle = !isSearchActive && !loading;
   const showEmpty = !loading && filteredResults.length === 0;
@@ -326,7 +360,10 @@ function SearchContent({
             />
           </div>
 
-          <BrowseControlBar sentinelRef={controlsSentinelRef} />
+          <BrowseControlBar
+            sentinelRef={controlsSentinelRef}
+            onCloseSearch={onCloseChrome}
+          />
         </div>
 
         <StickyQueryStrip sentinelRef={controlsSentinelRef} />

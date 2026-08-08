@@ -19,7 +19,9 @@ export default function HomePromoGate({
   const { mode } = useDisplayMode();
   const filter = useMinimalFilterOptional();
   const busy =
-    Boolean(filter?.searchActive) || Boolean(filter?.queryActive);
+    Boolean(filter?.searchActive) ||
+    Boolean(filter?.searchChromeOpen) ||
+    Boolean(filter?.queryActive);
 
   if (busy) return null;
 

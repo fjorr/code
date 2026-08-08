@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
+import createWithVercelToolbar from "@vercel/toolbar/plugins/next";
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
+const withVercelToolbar = createWithVercelToolbar();
 
 const nextConfig: NextConfig = {
   cacheComponents: false,
@@ -96,4 +98,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withNextIntl(nextConfig);
+export default withVercelToolbar(withNextIntl(nextConfig));

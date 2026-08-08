@@ -21,7 +21,8 @@ export type IconName =
   | 'bolt'
   | 'helmet'
   | 'laurel'
-  | 'moon';
+  | 'moon'
+  | 'search';
 
 interface IconProps extends React.ComponentPropsWithoutRef<'svg'> {
   name: IconName;
@@ -122,6 +123,12 @@ const ICON_REGISTRY: Record<IconName, { viewBox: string; paths: React.ReactNode 
   moon: {
     viewBox: "0 0 24 24",
     paths: <circle cx="12" cy="12" r="8" />,
+  },
+  search: {
+    viewBox: "0 0 24 24",
+    paths: (
+      <path d="M10.5 3.75a6.75 6.75 0 1 0 4.2 12.1l3.97 3.97a.75.75 0 1 0 1.06-1.06l-3.97-3.97A6.75 6.75 0 0 0 10.5 3.75Zm0 1.5a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5Z" />
+    ),
   },
 };
 

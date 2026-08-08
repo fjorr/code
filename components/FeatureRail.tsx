@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import HeroPicture from '@/components/HeroPicture';
 import PrefetchLink from '@/components/PrefetchLink';
 import { resolveTitleArtColor, sanitizeTitleArtSvg } from '@/lib/sanitize-svg';
+import { markFeatureIntroSeen } from '@/lib/intro-rail';
 
 interface FilmAsset {
   id: string;
@@ -33,6 +34,9 @@ interface FeatureRailProps {
   isTheaterActive?: boolean;
   /** False when Cine browse is hidden — pauses autoplay timer. */
   isBrowseActive?: boolean;
+  /** First-visit manifesto slide ahead of film cards. */
+  showIntro?: boolean;
+  onExploreIntro?: () => void;
 }
 
 const RAIL_SCROLLBAR_CSS = `
@@ -61,6 +65,8 @@ export default function FeatureRail({
   onPlayClick,
   isTheaterActive = false,
   isBrowseActive = true,
+  showIntro = false,
+  onExploreIntro,
 }: FeatureRailProps) {
   const t = useTranslations('Film');
   const tHome = useTranslations('Home');
@@ -73,11 +79,23 @@ export default function FeatureRail({
   const AUTOPLAY_DELAY = 5000;
   const progressCircleRef = useRef<SVGCircleElement>(null);
 
+  const slideCount = films.length + (showIntro ? 1 : 0);
+  const isIntroActive = showIntro && activeIndex === 0;
+
+  // Manifesto stays put — no autoplay until the visitor leaves it (or hits play).
   useEffect(() => {
+    if (isIntroActive) {
+      setIsPlaying(false);
+      return;
+    }
+  }, [isIntroActive]);
+
+  useEffect(() => {
+    if (showIntro) return;
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setIsPlaying(true);
     }
-  }, []);
+  }, [showIntro]);
 
   const RADIUS = 18.75;
   const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
@@ -94,11 +112,12 @@ export default function FeatureRail({
 
   const goTo = useCallback(
     (index: number) => {
-      const next = ((index % films.length) + films.length) % films.length;
+      if (slideCount === 0) return;
+      const next = ((index % slideCount) + slideCount) % slideCount;
       onSlideChange(next);
       scrollToIndex(next);
     },
-    [films.length, onSlideChange, scrollToIndex]
+    [slideCount, onSlideChange, scrollToIndex]
   );
 
   // Keep scroll position in sync when parent index changes (e.g. after theater).
@@ -124,7 +143,7 @@ export default function FeatureRail({
         if (!railRef.current) return;
         const width = railRef.current.clientWidth || 1;
         const i = Math.round(railRef.current.scrollLeft / width);
-        const clamped = Math.max(0, Math.min(films.length - 1, i));
+        const clamped = Math.max(0, Math.min(slideCount - 1, i));
         if (clamped !== activeIndex) onSlideChange(clamped);
       }, 40);
     };
@@ -134,12 +153,12 @@ export default function FeatureRail({
       el.removeEventListener('scroll', onScroll);
       window.clearTimeout(timeout);
     };
-  }, [activeIndex, films.length, onSlideChange]);
+  }, [activeIndex, slideCount, onSlideChange]);
 
   // Touch axis lock: vertical → page scroll; horizontal → change slide.
   useEffect(() => {
     const el = railRef.current;
-    if (!el || films.length < 2) return;
+    if (!el || slideCount < 2) return;
 
     let startX = 0;
     let startY = 0;
@@ -193,7 +212,7 @@ export default function FeatureRail({
       el.removeEventListener('touchend', onTouchEnd);
       el.removeEventListener('touchcancel', onTouchEnd);
     };
-  }, [activeIndex, films.length, goTo, scrollToIndex]);
+  }, [activeIndex, slideCount, goTo, scrollToIndex]);
 
   // CSS stroke animation — no 10Hz React progress state.
   useEffect(() => {
@@ -205,7 +224,13 @@ export default function FeatureRail({
       circle.style.strokeDashoffset = String(CIRCUMFERENCE);
     };
 
-    if (!isPlaying || !isBrowseActive || isTheaterActive || films.length < 2) {
+    if (
+      !isPlaying ||
+      !isBrowseActive ||
+      isTheaterActive ||
+      isIntroActive ||
+      slideCount < 2
+    ) {
       stopRing();
       return;
     }
@@ -215,7 +240,7 @@ export default function FeatureRail({
     circle.style.animation = `fjorr-rail-progress ${AUTOPLAY_DELAY}ms linear forwards`;
 
     const timer = window.setTimeout(() => {
-      const nextTarget = activeIndex === films.length - 1 ? 0 : activeIndex + 1;
+      const nextTarget = activeIndex === slideCount - 1 ? 0 : activeIndex + 1;
       goTo(nextTarget);
     }, AUTOPLAY_DELAY);
 
@@ -227,18 +252,25 @@ export default function FeatureRail({
     isPlaying,
     isBrowseActive,
     activeIndex,
-    films.length,
+    slideCount,
     goTo,
     isTheaterActive,
+    isIntroActive,
     AUTOPLAY_DELAY,
     CIRCUMFERENCE,
   ]);
 
-  if (!films || films.length === 0) return null;
+  if (slideCount === 0) return null;
 
   const handleTogglePlay = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    // On the manifesto, play means “start the rail” — advance to the first film.
+    if (isIntroActive) {
+      setIsPlaying(true);
+      goTo(1);
+      return;
+    }
     setIsPlaying(!isPlaying);
   };
 
@@ -265,7 +297,52 @@ export default function FeatureRail({
           ref={railRef}
           className="fjorr-feature-scroll flex w-full min-w-0 snap-x snap-mandatory"
         >
-          {films.map((film, index) => {
+          {showIntro ? (
+            <article
+              key="__fjorr_intro__"
+              className="relative w-full min-w-full shrink-0 snap-center snap-always aspect-[1/1.618] md:aspect-[4/3] lg:aspect-[16/9] select-none bg-black"
+              aria-label={tHome('introAria')}
+            >
+              <div className="absolute inset-0 bg-black" aria-hidden />
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-8 md:px-16 text-center">
+                <h2 className="m-0 font-futura font-black uppercase tracking-[-0.04em] leading-[0.92] text-[#f5f5f7] text-[clamp(2.25rem,8vw,4.5rem)] max-w-[16ch]">
+                  <span className="block opacity-[0.58] blur-[2px]">
+                    {tHome('introLineFade')}
+                  </span>
+                  <span className="block mt-[0.12em]">{tHome('introLineMyth')}</span>
+                </h2>
+                <p className="m-0 mt-6 md:mt-8 max-w-[34rem] font-sans font-medium text-[18px] md:text-[20px] leading-[1.45] tracking-normal text-[#f5f5f7]/72">
+                  {tHome('introBody')}
+                </p>
+                <div className="mt-8 md:mt-10 flex flex-wrap items-center justify-center gap-4 pointer-events-auto">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onExploreIntro?.();
+                    }}
+                    className="h-10 px-6 inline-flex items-center justify-center bg-[#f5f5f7] hover:bg-white text-black font-sans font-bold text-sm tracking-normal rounded-full transition-all active:scale-[0.98] duration-150 cursor-pointer border-0"
+                  >
+                    {tHome('introCta')}
+                  </button>
+                  <PrefetchLink
+                    href="/about"
+                    className="font-sans font-semibold text-sm text-[#f5f5f7]/70 hover:text-[#f5f5f7] transition-colors"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      markFeatureIntroSeen();
+                    }}
+                  >
+                    {tHome('learnMore')}
+                  </PrefetchLink>
+                </div>
+              </div>
+            </article>
+          ) : null}
+
+          {films.map((film, filmIndex) => {
+            const index = filmIndex + (showIntro ? 1 : 0);
             const sponsorName = getSponsorName(film);
             const baselineWidth = 300;
             const currentScale = film.title_art_scale || 1.0;
@@ -273,9 +350,9 @@ export default function FeatureRail({
             const titleArtSvg = sanitizeTitleArtSvg(film.title_art_code);
             const nearActive =
               Math.abs(index - activeIndex) <= 1 ||
-              (activeIndex === 0 && index === films.length - 1) ||
-              (activeIndex === films.length - 1 && index === 0);
-            const mountHero = nearActive || index === 0;
+              (activeIndex === 0 && index === slideCount - 1) ||
+              (activeIndex === slideCount - 1 && index === 0);
+            const mountHero = nearActive || index === 0 || (showIntro && filmIndex === 0);
 
             return (
               <article
@@ -303,7 +380,7 @@ export default function FeatureRail({
                       clsx={film.hero_clsx}
                       tall={film.hero_tall}
                       alt={film.name || t('featuredAlt')}
-                      priority={index === 0}
+                      priority={!showIntro && filmIndex === 0}
                       className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
                       imgClassName="object-cover"
                       onError={(e) => {
@@ -426,7 +503,7 @@ export default function FeatureRail({
 
         <div className="absolute inset-x-0 bottom-8 z-30 flex items-center justify-center pointer-events-none px-8 md:px-12">
           <div className="flex items-center justify-center gap-2 pointer-events-auto mx-auto">
-            {films.map((_, index) => (
+            {Array.from({ length: slideCount }, (_, index) => (
               <button
                 key={index}
                 type="button"
@@ -496,7 +573,9 @@ export default function FeatureRail({
                 e.stopPropagation();
                 goTo(activeIndex - 1);
               }}
-              className="hidden md:flex w-10 h-10 rounded-full bg-white/10 text-white items-center justify-center backdrop-blur-sm hover:bg-white/20 active:scale-95 transition-all duration-200 cursor-pointer"
+              className={`${
+                isIntroActive ? 'flex' : 'hidden md:flex'
+              } w-10 h-10 rounded-full bg-white/10 text-white items-center justify-center backdrop-blur-sm hover:bg-white/20 active:scale-95 transition-all duration-200 cursor-pointer`}
             >
               <svg
                 width="6"
@@ -520,7 +599,9 @@ export default function FeatureRail({
                 e.stopPropagation();
                 goTo(activeIndex + 1);
               }}
-              className="hidden md:flex w-10 h-10 rounded-full bg-white/10 text-white items-center justify-center backdrop-blur-sm hover:bg-white/20 active:scale-95 transition-all duration-200 cursor-pointer"
+              className={`${
+                isIntroActive ? 'flex' : 'hidden md:flex'
+              } w-10 h-10 rounded-full bg-white/10 text-white items-center justify-center backdrop-blur-sm hover:bg-white/20 active:scale-95 transition-all duration-200 cursor-pointer`}
             >
               <svg
                 width="6"

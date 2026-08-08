@@ -39,6 +39,9 @@ type MinimalFilterContextValue = {
   setMixes: (mixes: HomeMix[]) => void;
   searchActive: boolean;
   setSearchActive: (value: boolean) => void;
+  /** Home search chrome open (navbar search) — may be empty query. */
+  searchChromeOpen: boolean;
+  setSearchChromeOpen: (value: boolean) => void;
   /** Per-type hit counts while searching (0 when idle). */
   searchTypeHits: { film: number; artifact: number };
   setSearchTypeHits: (hits: { film: number; artifact: number }) => void;
@@ -88,6 +91,11 @@ export function MinimalFilterProvider({
   const [themes, setThemes] = useState<ThemeOption[]>([]);
   const [mixes, setMixes] = useState<HomeMix[]>(initialMixes);
   const [searchActive, setSearchActive] = useState(false);
+  const [searchChromeOpen, setSearchChromeOpen] = useState(
+    () =>
+      Boolean(searchParams.get('q')?.trim()) ||
+      searchParams.get('search') === '1',
+  );
   const [searchTypeHits, setSearchTypeHits] = useState({
     film: 0,
     artifact: 0,
@@ -219,6 +227,8 @@ export function MinimalFilterProvider({
       setMixes,
       searchActive,
       setSearchActive,
+      searchChromeOpen,
+      setSearchChromeOpen,
       searchTypeHits,
       setSearchTypeHits,
       filtersActive,
@@ -241,6 +251,7 @@ export function MinimalFilterProvider({
       setMix,
       mixes,
       searchActive,
+      searchChromeOpen,
       searchTypeHits,
       filtersActive,
       queryActive,

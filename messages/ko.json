@@ -13,9 +13,10 @@
     "contactBlurb": "아이디어, 파트너십, 혹은 만들어볼 만한 무언가. 저희는 그런 이야기를 기다립니다.",
     "openMenu": "메뉴 열기",
     "closeMenu": "메뉴 닫기",
+    "search": "검색",
     "language": "언어",
     "languages": "언어",
-    "languagesHeadline": "Languages.",
+    "languagesHeadline": "언어를 선택하세요",
     "signIn": "로그인 또는 가입",
     "account": "계정",
     "appearance": "화면",
@@ -66,7 +67,12 @@
     "srTitle": "Fjorr — 세상에서 가장 위대한 이야기들의 단편 영화.",
     "info": "정보",
     "emptyFeatured": "New films are on the way. Browse below, or join the Bureaux.",
-    "joinCue": "Join the Bureaux"
+    "joinCue": "Join the Bureaux",
+    "introAria": "Fjorr란",
+    "introLineFade": "Matter fades.",
+    "introLineMyth": "Myths don't.",
+    "introBody": "Cinematic short films of the greatest stories — under ten minutes, always — made to raise people with wonder and hope, free forever for anyone in the world. No ads. No algorithm. No noise.",
+    "introCta": "작품 둘러보기"
   },
   "NotFound": {
     "title": "길을 잃으셨나요?",
@@ -82,7 +88,8 @@
     "noTeaser": "설정된 맥락 참조 정보가 없습니다.",
     "filmComingSoon": "영화 공개 예정",
     "nominateStory": "스토리 추천하기",
-    "joinBureauxHelp": "Or join the Bureaux to help."
+    "joinBureauxHelp": "Or join the Bureaux to help.",
+    "close": "검색 닫기"
   },
   "Film": {
     "play": "재생 {runtime}",
