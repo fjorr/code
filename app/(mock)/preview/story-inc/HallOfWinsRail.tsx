@@ -11,14 +11,16 @@ import {
 type Props = {
   wins?: HallOfWin[];
   /** Primary CTA — lives with arrows, not on each card. */
-  ctaHref?: string;
-  ctaLabel?: string;
+  ctaHref?: string | null;
+  ctaLabel?: string | null;
   /** Secondary — catalog / upcoming rewards. Null/undefined hides it. */
   secondaryHref?: string | null;
   secondaryLabel?: string | null;
   className?: string;
   /** Auto-advance interval ms; 0 = off. */
   autoMs?: number;
+  /** Hide dots / arrows under the poster (client rewards header). */
+  hideControls?: boolean;
 };
 
 /**
@@ -33,6 +35,7 @@ export default function HallOfWinsRail({
   secondaryLabel = null,
   className = '',
   autoMs = 5500,
+  hideControls = false,
 }: Props) {
   const [index, setIndex] = useState(0);
   const n = wins.length;
@@ -64,78 +67,84 @@ export default function HallOfWinsRail({
       <div className="mx-auto max-w-[1120px] px-5">
         <WinPoster win={win} slideLabel={`${index + 1} of ${n}`} />
 
-        <div className="mt-5 flex items-center justify-between gap-4">
-          <div className="flex min-w-0 items-center gap-4">
+        {!hideControls ? (
+          <div className="mt-5 flex items-center justify-between gap-4">
+            <div className="flex min-w-0 items-center gap-4">
+              {n > 1 ? (
+                <div
+                  className="flex items-center gap-2"
+                  role="tablist"
+                  aria-label="Wins"
+                >
+                  {wins.map((w, i) => (
+                    <button
+                      key={w.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={i === index}
+                      aria-label={`${w.reward}, ${formatWinners(w.winners)}`}
+                      onClick={() => goTo(i)}
+                      className={`h-2 rounded-full transition-all ${
+                        i === index
+                          ? 'w-6 bg-[#1d1d1f]'
+                          : 'w-2 bg-[#1d1d1f]/25 hover:bg-[#1d1d1f]/4'
+                      }`}
+                    />
+                  ))}
+                </div>
+              ) : null}
+              <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+                {ctaHref && ctaLabel ? (
+                  <Link
+                    href={ctaHref}
+                    className="truncate text-[13px] font-semibold text-[#00A6FF] underline-offset-4 transition-opacity hover:opacity-80 hover:underline"
+                  >
+                    {ctaLabel}
+                  </Link>
+                ) : null}
+                {secondaryHref && secondaryLabel ? (
+                  <>
+                    {ctaHref && ctaLabel ? (
+                      <span
+                        aria-hidden
+                        className="text-[13px] font-medium text-[#1d1d1f]/2"
+                      >
+                        ·
+                      </span>
+                    ) : null}
+                    <Link
+                      href={secondaryHref}
+                      className="truncate text-[13px] font-semibold text-[#1d1d1f]/45 underline-offset-4 transition-colors hover:text-[#1d1d1f] hover:underline"
+                    >
+                      {secondaryLabel}
+                    </Link>
+                  </>
+                ) : null}
+              </div>
+            </div>
+
             {n > 1 ? (
-              <div
-                className="flex items-center gap-2"
-                role="tablist"
-                aria-label="Wins"
-              >
-                {wins.map((w, i) => (
-                  <button
-                    key={w.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={i === index}
-                    aria-label={`${w.reward}, ${formatWinners(w.winners)}`}
-                    onClick={() => goTo(i)}
-                    className={`h-2 rounded-full transition-all ${
-                      i === index
-                        ? 'w-6 bg-[#1d1d1f]'
-                        : 'w-2 bg-[#1d1d1f]/25 hover:bg-[#1d1d1f]/4'
-                    }`}
-                  />
-                ))}
+              <div className="flex shrink-0 items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => go(-1)}
+                  aria-label="Previous win"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-[#f5f5f7] text-[#1d1d1f] transition-colors hover:bg-black/[0.06]"
+                >
+                  <Chevron dir="left" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => go(1)}
+                  aria-label="Next win"
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-[#f5f5f7] text-[#1d1d1f] transition-colors hover:bg-black/[0.06]"
+                >
+                  <Chevron dir="right" />
+                </button>
               </div>
             ) : null}
-            <div className="flex min-w-0 items-center gap-3 sm:gap-4">
-              <Link
-                href={ctaHref}
-                className="truncate text-[13px] font-semibold text-[#00A6FF] underline-offset-4 transition-opacity hover:opacity-80 hover:underline"
-              >
-                {ctaLabel}
-              </Link>
-              {secondaryHref && secondaryLabel ? (
-                <>
-                  <span
-                    aria-hidden
-                    className="text-[13px] font-medium text-[#1d1d1f]/2"
-                  >
-                    ·
-                  </span>
-                  <Link
-                    href={secondaryHref}
-                    className="truncate text-[13px] font-semibold text-[#1d1d1f]/45 underline-offset-4 transition-colors hover:text-[#1d1d1f] hover:underline"
-                  >
-                    {secondaryLabel}
-                  </Link>
-                </>
-              ) : null}
-            </div>
           </div>
-
-          {n > 1 ? (
-            <div className="flex shrink-0 items-center gap-2">
-              <button
-                type="button"
-                onClick={() => go(-1)}
-                aria-label="Previous win"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-[#f5f5f7] text-[#1d1d1f] transition-colors hover:bg-black/[0.06]"
-              >
-                <Chevron dir="left" />
-              </button>
-              <button
-                type="button"
-                onClick={() => go(1)}
-                aria-label="Next win"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-black/10 bg-[#f5f5f7] text-[#1d1d1f] transition-colors hover:bg-black/[0.06]"
-              >
-                <Chevron dir="right" />
-              </button>
-            </div>
-          ) : null}
-        </div>
+        ) : null}
       </div>
     </section>
   );

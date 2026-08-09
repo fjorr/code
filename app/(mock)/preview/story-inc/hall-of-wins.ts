@@ -22,20 +22,8 @@ export type HallOfWin = {
   imageScale?: number;
 };
 
-/** Two desk picks — set visit + festival VIP. */
+/** Festival VIP leads (client rewards header), then set visit. */
 export const HALL_OF_WINS: HallOfWin[] = [
-  {
-    id: 'hello-darkness-set',
-    reward: 'Sent two fans to the set of Hello Darkness.',
-    winners: [
-      { name: 'Maya', place: 'Los Angeles' },
-      { name: 'Jordan', place: 'Los Angeles' },
-    ],
-    project: 'Hello Darkness',
-    projectHref: '/preview/story-inc/hello-darkness',
-    image: '/preview/story-inc/hello-darkness/set-visit-win.jpg',
-    imagePosition: '55% 35%',
-  },
   {
     id: 'rolling-loud-vip',
     reward: 'Flew two predictors to Rolling Loud — VIP.',
@@ -47,6 +35,18 @@ export const HALL_OF_WINS: HallOfWin[] = [
     projectHref: '/preview/story-inc/rolling-loud',
     image: '/preview/story-inc/rolling-loud/market-owen-wife.png',
     imagePosition: '50% 18%',
+  },
+  {
+    id: 'hello-darkness-set',
+    reward: 'Sent two fans to the set of Hello Darkness.',
+    winners: [
+      { name: 'Maya', place: 'Los Angeles' },
+      { name: 'Jordan', place: 'Los Angeles' },
+    ],
+    project: 'Hello Darkness',
+    projectHref: '/preview/story-inc/hello-darkness',
+    image: '/preview/story-inc/hello-darkness/set-visit-win.jpg',
+    imagePosition: '55% 35%',
   },
 ];
 

@@ -16,45 +16,55 @@ const NAV = [
   { label: 'Resources', href: null },
 ] as const;
 
+/** Demo balance — locked rewards show remaining SC to go. */
+const STORY_CASH_BALANCE = 0;
+
 /** Catalog samples — enough to feel like the live redeem grid. */
 const REWARDS = [
   {
     title: 'Movie Theater Concessions',
     body: 'Large popcorn and two large sodas—enjoyed the way they’re meant to be: at the movies.',
-    price: '$25',
+    sc: 900,
     image: '/preview/story-inc/market-1.jpg',
   },
   {
     title: '2 Tickets to the Big Screen',
-    body: 'A night out with friends. Fandango gift card valid at theaters nationwide.',
-    price: '$40',
+    body: 'A night out with friends. Fandango gift card valid at theaters nationwide including Regal, AMC, Cinemark, Marcus Theaters.',
+    sc: 1500,
     image: '/preview/story-inc/rolling-loud/reward-poster.png',
   },
   {
     title: 'Netflix for 3 Months',
     body: 'From prestige dramas to guilty-pleasure binges—queue up your next obsession.',
-    price: '$50',
+    sc: 1800,
     image: '/preview/story-inc/angry-birds/reward-bts.png',
   },
   {
     title: 'Uber Eats Watch Party For 2',
     body: 'Dinner for two to watch your favorite flick at home.',
-    price: '$60',
+    sc: 2200,
     image: '/preview/story-inc/market-2.jpg',
   },
   {
     title: 'Apple TV for a Year',
     body: 'One year of award-winning originals that stay with you after the credits.',
-    price: '$120',
+    sc: 4500,
     image: '/preview/story-inc/rolling-loud/reward-merch.png',
   },
   {
     title: '2 Tickets to Universal Studios',
     body: 'Big-screen worlds, iconic rides, and behind-the-scenes magic in Los Angeles.',
-    price: '$250',
+    sc: 9000,
     image: '/preview/story-inc/rolling-loud/reward-festival-vip.png',
   },
 ] as const;
+
+function formatSc(amount: number, decimals = 0): string {
+  return amount.toLocaleString('en-US', {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
+}
 
 const COMING_SOON = [
   {
@@ -127,47 +137,39 @@ export default function StoryIncRewardsPage() {
       </header>
 
       <main>
-        {/* Centered page header — matches Projects / other Story Inc comps */}
-        <section className="mx-auto max-w-[720px] px-5 pb-10 pt-14 text-center sm:pb-12 sm:pt-20">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-[#00A6FF]">
-            Rewards
-          </p>
-          <h1 className="mt-4 text-[32px] font-bold leading-[1.08] tracking-[-0.03em] text-[#1d1d1f] sm:text-[44px] md:text-[52px]">
+        {/* Client header comp — struck Rewards · mast · Hall of Wins · action bar */}
+        <section className="mx-auto max-w-[720px] px-5 pb-8 pt-14 text-center sm:pb-10 sm:pt-16">
+          <h1 className="text-[32px] font-bold leading-[1.08] tracking-[-0.03em] text-[#1d1d1f] sm:text-[44px] md:text-[52px]">
             Redeem Rewards
           </h1>
-          <p className="mx-auto mt-5 max-w-[34rem] text-[15px] leading-relaxed text-[#6e6e73] sm:text-[17px]">
+          <p className="mx-auto mt-4 max-w-[34rem] text-[15px] leading-relaxed text-[#6e6e73] sm:mt-5 sm:text-[17px]">
             This is where Story Cash becomes something real.
           </p>
-          <div className="mt-7">
+        </section>
+
+        <section className="pb-0">
+          <HallOfWinsRail hideControls ctaHref={null} ctaLabel={null} />
+        </section>
+
+        <section className="mx-auto flex max-w-[1120px] flex-wrap items-center justify-between gap-3 px-5 pb-6 pt-5 sm:gap-4 sm:pb-7 sm:pt-6">
+          <div className="flex min-w-0 flex-wrap items-center gap-3">
+            <div className="flex items-center gap-3 rounded-xl bg-[#f5f5f7] px-3.5 py-2.5">
+              <CoinMark size={32} />
+              <div>
+                <p className="m-0 text-[11px] font-medium text-[#86868b]">
+                  Story Cash balance
+                </p>
+                <p className="m-0 text-[20px] font-bold tabular-nums tracking-tight leading-none">
+                  {formatSc(STORY_CASH_BALANCE, 2)} SC
+                </p>
+              </div>
+            </div>
             <button
               type="button"
               className="inline-flex items-center justify-center rounded-full bg-[#00A6FF] px-5 py-2.5 text-[13px] font-semibold text-white"
             >
               How to Earn Story Cash
             </button>
-          </div>
-        </section>
-
-        <section className="pb-3 sm:pb-4">
-          <HallOfWinsRail
-            secondaryHref={undefined}
-            secondaryLabel={undefined}
-            ctaHref="/preview/story-inc/projects"
-            ctaLabel="Predict to win"
-          />
-        </section>
-
-        <section className="mx-auto flex max-w-[1120px] flex-wrap items-center justify-between gap-4 px-5 pb-5 pt-5 sm:pb-6 sm:pt-6">
-          <div className="flex items-center gap-3 rounded-xl bg-[#f5f5f7] px-3.5 py-2.5">
-            <CoinMark size={32} />
-            <div>
-              <p className="m-0 text-[11px] font-medium text-[#86868b]">
-                Story Cash balance
-              </p>
-              <p className="m-0 text-[20px] font-bold tabular-nums tracking-tight leading-none">
-                $0.00
-              </p>
-            </div>
           </div>
           <p className="m-0 text-[13px] font-medium text-[#1d1d1f]/70">
             Story Cash Range:{' '}
@@ -182,46 +184,62 @@ export default function StoryIncRewardsPage() {
 
         {/* Redeem grid */}
         <section className="mx-auto max-w-[1120px] px-5 pb-16">
-          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-            {REWARDS.map((r) => (
-              <li
-                key={r.title}
-                className="flex flex-col overflow-hidden rounded-2xl bg-[#f5f5f7]"
-              >
-                <div className="aspect-[16/10] overflow-hidden bg-[#e8e8ed]">
-                  <img
-                    src={r.image}
-                    alt=""
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                <div className="flex flex-1 flex-col gap-2 p-5">
-                  <h2 className="m-0 text-[17px] font-bold leading-snug tracking-[-0.01em]">
-                    {r.title}
-                  </h2>
-                  <p className="m-0 flex-1 text-[13px] leading-relaxed text-[#6e6e73]">
-                    {r.body}
-                  </p>
-                  <div className="mt-2 flex items-center justify-between gap-3">
-                    <span className="text-[14px] font-bold tabular-nums text-[#1d1d1f]">
-                      {r.price}
-                    </span>
+          <ul className="grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-7 lg:gap-y-16">
+            {REWARDS.map((r) => {
+              const toGo = Math.max(0, r.sc - STORY_CASH_BALANCE);
+              return (
+                <li key={r.title} className="flex flex-col">
+                  <div className="aspect-[4/3] overflow-hidden rounded-[14px] bg-[#e8e8ed]">
+                    <img
+                      src={r.image}
+                      alt=""
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+
+                  <div className="flex flex-1 flex-col pt-4">
+                    <h2 className="m-0 text-[18px] font-bold leading-[1.2] tracking-[-0.02em] text-[#1d1d1f]">
+                      {r.title}
+                    </h2>
+                    <p className="m-0 mt-2 line-clamp-2 text-[13px] leading-[1.45] text-[#6e6e73]">
+                      {r.body}
+                    </p>
                     <button
                       type="button"
-                      disabled
-                      className="rounded-full bg-[#d2d2d7] px-4 py-2 text-[12px] font-semibold text-[#6e6e73]"
+                      className="mt-2 self-start text-[13px] font-semibold text-[#00A6FF] transition-opacity hover:opacity-75"
                     >
-                      Locked
+                      More info{' '}
+                      <span aria-hidden className="font-medium">
+                        ›
+                      </span>
                     </button>
+
+                    <div className="mt-auto flex items-end justify-between gap-3 pt-5">
+                      <div>
+                        <p className="m-0 text-[20px] font-bold tabular-nums tracking-[-0.02em] text-[#1d1d1f]">
+                          {formatSc(r.sc)}{' '}
+                          <span className="text-[13px] font-semibold tracking-normal text-[#86868b]">
+                            SC
+                          </span>
+                        </p>
+                        <p className="m-0 mt-0.5 text-[12px] tabular-nums text-[#aeaeb2]">
+                          {formatSc(toGo, 2)} SC to go
+                        </p>
+                      </div>
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-black/[0.08] bg-[#f5f5f7] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.04em] text-[#86868b]">
+                        <LockIcon />
+                        Locked
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
         </section>
 
-        {/* Coming soon — kept so the page still reads as the full rewards surface */}
-        <section className="border-t border-black/[0.06] bg-[#fafafa] py-14 sm:py-16">
+        {/* Coming soon — same image-over-text treatment as redeem grid */}
+        <section className="border-t border-black/[0.06] py-14 sm:py-16">
           <div className="mx-auto max-w-[1120px] px-5">
             <h2 className="m-0 text-center text-[28px] font-bold tracking-[-0.02em] sm:text-[32px]">
               Coming Soon
@@ -229,24 +247,21 @@ export default function StoryIncRewardsPage() {
             <p className="mx-auto mt-2 max-w-md text-center text-[14px] text-[#6e6e73]">
               These rewards are being finalized. Stay tuned!
             </p>
-            <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-5">
+            <ul className="mt-10 grid grid-cols-1 gap-x-6 gap-y-14 sm:grid-cols-3 lg:gap-x-7 lg:gap-y-16">
               {COMING_SOON.map((r) => (
-                <li
-                  key={r.title}
-                  className="overflow-hidden rounded-2xl border border-black/[0.06] bg-white"
-                >
-                  <div className="aspect-[16/10] overflow-hidden bg-[#e8e8ed]">
+                <li key={r.title} className="flex flex-col">
+                  <div className="aspect-[4/3] overflow-hidden rounded-[14px] bg-[#e8e8ed]">
                     <img
                       src={r.image}
                       alt=""
                       className="h-full w-full object-cover"
                     />
                   </div>
-                  <div className="p-5">
-                    <h3 className="m-0 text-[16px] font-bold leading-snug">
+                  <div className="flex flex-1 flex-col pt-4">
+                    <h3 className="m-0 text-[18px] font-bold leading-[1.2] tracking-[-0.02em] text-[#1d1d1f]">
                       {r.title}
                     </h3>
-                    <p className="m-0 mt-2 text-[13px] leading-relaxed text-[#6e6e73]">
+                    <p className="m-0 mt-2 line-clamp-2 text-[13px] leading-[1.45] text-[#6e6e73]">
                       {r.body}
                     </p>
                   </div>
@@ -287,5 +302,18 @@ function CoinMark({ size = 20 }: { size?: number }) {
     >
       S
     </span>
+  );
+}
+
+function LockIcon() {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      className="h-3 w-3"
+      fill="currentColor"
+      aria-hidden
+    >
+      <path d="M8 1.5a2.75 2.75 0 0 0-2.75 2.75V6H4.5A1.5 1.5 0 0 0 3 7.5v5A1.5 1.5 0 0 0 4.5 14h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 11.5 6h-.75V4.25A2.75 2.75 0 0 0 8 1.5Zm1.25 4.5h-2.5V4.25a1.25 1.25 0 1 1 2.5 0V6Z" />
+    </svg>
   );
 }
