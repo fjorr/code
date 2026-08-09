@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import { redirect } from '@/i18n/navigation';
+import { Link, redirect } from '@/i18n/navigation';
 import { createClient } from '@/lib/supabase/server';
 import BureauxCheckoutLazy from '@/components/BureauxCheckoutLazy';
 import BureauxIncludedList from '@/components/BureauxIncludedList';
@@ -124,6 +124,20 @@ export default async function BureauxPage({
             <div className="font-sans font-medium text-[16px] leading-[1.55] tracking-normal text-page max-w-xl text-left sm:text-center flex flex-col gap-4 opacity-0 animate-slide-up style-delay-body">
               <p className="m-0">{t('lead')}</p>
               <p className="m-0">{t('lead2')}</p>
+              <p className="m-0 flex flex-wrap items-center gap-x-3 gap-y-1 sm:justify-center">
+                <Link
+                  href="/dossier/the-internet-doesnt-have-to-be-this-way"
+                  className="font-sans text-[14px] font-semibold text-page-muted hover:text-page transition-colors underline underline-offset-2"
+                >
+                  {t('leadEssay')}
+                </Link>
+                <Link
+                  href="/dossier/why-short"
+                  className="font-sans text-[14px] font-semibold text-page-muted hover:text-page transition-colors underline underline-offset-2"
+                >
+                  {t('leadEssayWhyShort')}
+                </Link>
+              </p>
             </div>
           </header>
 

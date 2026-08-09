@@ -8,6 +8,34 @@ const POSTER_IMAGE =
 
 export type BureauxHomePosterVariant = 'banner' | 'compact';
 
+function PosterActions({
+  joinLabel,
+  dossierLabel,
+  compact,
+}: {
+  joinLabel: string;
+  dossierLabel: string;
+  compact?: boolean;
+}) {
+  const joinClass = compact
+    ? 'inline-flex items-center h-9 px-4 rounded-full bg-[#F3EDE6] text-black dark:bg-black dark:text-[#F3EDE6] font-sans font-bold text-[12px] sm:text-[13px] hover:opacity-90 transition-opacity'
+    : 'inline-flex items-center h-10 px-5 rounded-full bg-[#F3EDE6] text-black dark:bg-black dark:text-[#F3EDE6] font-sans font-bold text-[13px] hover:opacity-90 transition-opacity';
+  const dossierClass = compact
+    ? 'font-sans font-semibold text-[12px] sm:text-[13px] text-[#F3EDE6]/80 dark:text-black/65 underline-offset-4 hover:underline hover:text-[#F3EDE6] dark:hover:text-black transition-colors'
+    : 'font-sans font-semibold text-[14px] text-[#F3EDE6]/80 dark:text-black/65 underline-offset-4 hover:underline hover:text-[#F3EDE6] dark:hover:text-black transition-colors';
+
+  return (
+    <div className="flex items-center gap-4 sm:gap-5">
+      <Link href="/bureaux" className={joinClass}>
+        {joinLabel}
+      </Link>
+      <Link href="/dossier" className={dossierClass}>
+        {dossierLabel}
+      </Link>
+    </div>
+  );
+}
+
 /** Home promo — light: black/off-white type; dark: off-white/dark type. */
 export default async function BureauxHomePoster({
   variant = 'banner',
@@ -18,10 +46,7 @@ export default async function BureauxHomePoster({
 
   if (variant === 'compact') {
     return (
-      <Link
-        href="/bureaux"
-        className="group flex w-full items-center gap-5 sm:gap-6 rounded-[8px] bg-black text-[#F3EDE6] dark:bg-[#F3EDE6] dark:text-black px-5 py-5 sm:px-7 sm:py-6"
-      >
+      <div className="flex w-full items-center gap-5 sm:gap-6 rounded-[8px] bg-black text-[#F3EDE6] dark:bg-[#F3EDE6] dark:text-black px-5 py-5 sm:px-7 sm:py-6">
         <div className="flex min-w-0 flex-1 flex-col items-start text-left gap-3">
           <div className="min-w-0">
             <h2 className="font-futura font-extrabold uppercase tracking-tighter leading-[1.05] text-[clamp(1.5rem,4vw,2rem)]">
@@ -31,9 +56,11 @@ export default async function BureauxHomePoster({
               {t('homePosterSubhead')}
             </p>
           </div>
-          <span className="inline-flex items-center h-9 px-4 rounded-full bg-[#F3EDE6] text-black dark:bg-black dark:text-[#F3EDE6] font-sans font-bold text-[12px] sm:text-[13px] group-hover:opacity-90 transition-opacity">
-            {t('homePosterCta')}
-          </span>
+          <PosterActions
+            joinLabel={t('homePosterCta')}
+            dossierLabel={t('homePosterDossier')}
+            compact
+          />
         </div>
 
         <div className="relative hidden sm:block w-[88px] h-[88px] shrink-0 overflow-hidden rounded-[8px]">
@@ -45,15 +72,12 @@ export default async function BureauxHomePoster({
             className="object-cover object-center"
           />
         </div>
-      </Link>
+      </div>
     );
   }
 
   return (
-    <Link
-      href="/bureaux"
-      className="group relative block w-full overflow-hidden rounded-[8px] aspect-[4/5] min-h-[340px] sm:aspect-[21/9] sm:min-h-[260px] bg-black text-[#F3EDE6] dark:bg-[#F3EDE6] dark:text-black"
-    >
+    <div className="relative w-full overflow-hidden rounded-[8px] aspect-[4/5] min-h-[340px] sm:aspect-[21/9] sm:min-h-[260px] bg-black text-[#F3EDE6] dark:bg-[#F3EDE6] dark:text-black">
       <div className="absolute inset-0 flex flex-col sm:flex-row sm:items-stretch gap-8 sm:gap-6 md:gap-7 p-7 sm:p-9 md:p-10 lg:p-12">
         <div className="flex flex-col justify-end sm:justify-center items-start text-left shrink-0 sm:w-[38%] sm:max-w-md min-w-0">
           <h2 className="font-futura font-extrabold uppercase tracking-tighter leading-[1.05] mb-2 sm:mb-2.5 text-[clamp(2.25rem,8vw,3.25rem)]">
@@ -62,9 +86,10 @@ export default async function BureauxHomePoster({
           <p className="font-sans font-medium leading-relaxed text-[#F3EDE6]/70 dark:text-black/60 tracking-tight text-[16px] sm:text-[18px] mb-5 sm:mb-6 max-w-md">
             {t('homePosterSubhead')}
           </p>
-          <span className="inline-flex items-center h-10 px-5 rounded-full bg-[#F3EDE6] text-black dark:bg-black dark:text-[#F3EDE6] font-sans font-bold text-[13px] group-hover:opacity-90 transition-opacity">
-            {t('homePosterCta')}
-          </span>
+          <PosterActions
+            joinLabel={t('homePosterCta')}
+            dossierLabel={t('homePosterDossier')}
+          />
         </div>
 
         <div className="relative flex-1 min-h-0 w-full overflow-hidden rounded-[8px]">
@@ -78,6 +103,6 @@ export default async function BureauxHomePoster({
           />
         </div>
       </div>
-    </Link>
+    </div>
   );
 }

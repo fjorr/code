@@ -85,7 +85,7 @@ article({
     title: 'Why',
     headline: "Matter fades. Myth doesn't.",
     lead: [
-      "So we're chronicling the human story, one myth at a time. Not designed to hijack attention. No ads, no algorithm, no noise. We believe the Internet can be so much better.",
+      "So we're chronicling the human story, one myth at a time. Not designed to hijack attention. [No ads, no algorithm, no noise](/dossier/the-internet-doesnt-have-to-be-this-way). We believe the Internet can be so much better.",
       "Just short, cinematic films of the world's greatest stories, made to raise people with wonder and hope — free, forever, for anyone in the world. A few minutes. Done right. Not to keep you glued to glass. To send you back into the world with something to carry.",
     ],
     closing: 'Fjorr. The myth engine.',
@@ -177,7 +177,7 @@ article({
     title: 'Plus Machine',
     headline: 'No film is version final.',
     lead: [
-      "Bureaux members flag what's not working; the Cabinet decides. If they're right, they plus it — sharper edit, better score, a braver idea. v2 goes live; v1 stays archived, credited, visible.",
+      "Bureaux members flag what's not working; the Cabinet decides. If they're right, they plus it — sharper edit, better score, a braver idea. v2 goes live; v1 stays archived, credited, visible. Why we work this way: [Plus Machine](/dossier/plus-machine).",
       'Every film has a Plus button. Leave a note on the exact timecode, submit a patch if you have one, and track it from [your account](/account/plus).',
     ],
     actions: {

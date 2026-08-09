@@ -6,6 +6,7 @@
     "nominate": "Indicar",
     "partner": "Parceiros",
     "about": "Sobre",
+    "dossier": "The Dossier",
     "principles": "Principles",
     "contact": "Contato",
     "letsTalk": "Vamos conversar",
@@ -616,6 +617,8 @@
   "Meta": {
     "aboutTitle": "Sobre",
     "aboutDescription": "But they are hard to find. Short films of the greatest stories — under twenty minutes, always — free forever. Fjorr. The myth engine.",
+    "dossierTitle": "The Dossier",
+    "dossierDescription": "Anyone can tell you what Fjorr does. This is why. Essays on the internet, short film, the Plus Machine, and tools.",
     "partnerTitle": "Parceiros",
     "partnerDescription": "Seja parceiro do Fjorr em filmes e colaborações culturais.",
     "nominateTitle": "Indicar",
@@ -714,7 +717,8 @@
     "homePosterHeadline": "Princípios.",
     "homePosterSubhead": "O que toda história Fjorr precisa merecer.",
     "homePosterCta": "Ler.",
-    "nominateCta": "Nominate a story"
+    "nominateCta": "Nominate a story",
+    "p2Essay": "Why short"
   },
   "Cabinet": {
     "headline": "Um coletivo de talento de classe mundial.",
@@ -890,13 +894,14 @@
     "draftLabel": "Draft ticket",
     "craftTimecode": "Timecode",
     "craftInfo": "Info",
-    "craftClose": "Close"
+    "craftClose": "Close",
+    "infoEssay": "Dossier · Plus Machine"
   },
   "Bureaux": {
     "eyebrow": "Join the Bureaux",
     "headline": "Matter fades.\nMyth don't.",
     "lead": "But they are hard to find — a parable here, a lecture there, lost in a noisy feed. Nobody gave them a gold standard format and a dedicated home. Fjorr did. Short films of the greatest stories, under twenty minutes, always, free forever for anyone in the world. No ads. No algorithm. No noise.",
-    "lead2": "The Bureaux is how this gets done — and how you take part.",
+    "lead2": "The Bureaux is how this gets built — and how you take part. Join a fellowship that cares deeply about culture.",
     "priceLabel": "Subscription",
     "priceValue": "{price} / year",
     "accessLabel": "Films",
@@ -926,6 +931,7 @@
     "homePosterHeadline": "The Bureaux",
     "homePosterSubhead": "The people who make it possible.",
     "homePosterCta": "Join",
+    "homePosterDossier": "Dossier",
     "checkoutRetry": "Try again",
     "checkoutPayment": "Payment",
     "checkoutOrCard": "Or card",
@@ -978,12 +984,13 @@
     "ctaJoinPrice": "Join for {price}/year",
     "perkBounties": "Participate in <manual>bounties</manual>.",
     "perkEarly": "Early access to new films and <manual>bounties</manual>.",
-    "perkClosing": "Be part of something different.",
     "joinPaidTitle": "You're in. Finish your account.",
     "joinPaidBody": "Payment succeeded. We sent a sign-in link to {email}. Open it, continue with Google, or resend the link.",
     "joinResend": "Resend link",
     "joinContinueGoogle": "Continue with Google",
-    "joinSupport": "Still stuck? Write control@fjorr.com"
+    "joinSupport": "Still stuck? Write control@fjorr.com",
+    "leadEssay": "Why this way",
+    "leadEssayWhyShort": "Why short"
   },
   "Help": {
     "title": "The Manual",
@@ -1023,5 +1030,34 @@
     "indexBrand": "Manual",
     "indexBrandAria": "Fjorr Manual — home",
     "homeLink": "About this Manual"
+  },
+  "Dossier": {
+    "title": "This is why.",
+    "org": "Fjorr",
+    "seriesLabel": "Series",
+    "publicRecord": "Public record",
+    "issued": "Issued",
+    "entries": "entries",
+    "status": "Status",
+    "statusValue": "Open",
+    "lead": "Anyone can tell you what Fjorr does. This is why. Read one, read them all — either way, you'll know exactly what you're joining, not just what you're watching.",
+    "open": "Open",
+    "endOfFile": "— End of file —",
+    "back": "The Dossier",
+    "document": "Document",
+    "endOfDocument": "End of document",
+    "seriesNav": "Series",
+    "previous": "Previous",
+    "next": "Next",
+    "index": "Index",
+    "eyebrow": "The Dossier",
+    "indexHeading": "On file",
+    "readTime": "{minutes} min read",
+    "joinCta": "Join the Bureaux",
+    "particulars": "Particulars",
+    "reference": "Reference",
+    "notes": "Notes",
+    "noteJump": "Note {n}",
+    "returnToText": "Return to text"
   }
 }

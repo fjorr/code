@@ -200,8 +200,17 @@ export default function Footer({ variant }: FooterProps) {
       </div>
 
       <div
-        className={`flex items-center justify-center gap-2 font-sans text-[12px] transition-colors ${subTextColor}`}
+        className={`flex flex-wrap items-center justify-center gap-x-2 gap-y-1 font-sans text-[12px] transition-colors ${subTextColor}`}
       >
+        <Link
+          href="/dossier"
+          className={`hover:opacity-80 transition-colors ${subTextColor}`}
+        >
+          {tNav('dossier')}
+        </Link>
+        <span className={mutedTextColor} aria-hidden>
+          ·
+        </span>
         <Link
           href="/manual"
           className={`hover:opacity-80 transition-colors ${subTextColor}`}

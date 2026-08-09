@@ -374,9 +374,17 @@ export default function BureauxCheckout({
 
   if (!publishableKey || !stripePromise) {
     return (
-      <p className="font-sans text-[14px] text-page-faint leading-relaxed">
-        {t('checkoutConfig')}
-      </p>
+      <div className="w-full max-w-sm flex flex-col items-stretch sm:items-center gap-4 text-left sm:text-center">
+        <button type="button" disabled className={ctaClass}>
+          {t('ctaJoinPrice', { price })}
+        </button>
+        <p className="m-0 font-sans text-[13px] font-medium text-page-muted tracking-tight">
+          {t('accessValue')}
+        </p>
+        <p className="m-0 font-sans text-[13px] text-page-faint leading-relaxed">
+          {t('checkoutConfig')}
+        </p>
+      </div>
     );
   }
 

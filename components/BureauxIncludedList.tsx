@@ -52,9 +52,6 @@ export default function BureauxIncludedList() {
           </li>
         ))}
       </ul>
-      <p className="m-0 mt-1 font-sans text-[14px] font-semibold text-page leading-snug">
-        {t('perkClosing')}
-      </p>
     </div>
   );
 }

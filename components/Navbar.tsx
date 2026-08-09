@@ -21,6 +21,7 @@ const EXPLORE_LINKS = [
   { href: '/nominate', labelKey: 'nominate' as const },
   { href: '/cabinet', labelKey: 'cabinet' as const },
   { href: '/about', labelKey: 'about' as const },
+  { href: '/dossier', labelKey: 'dossier' as const },
   { href: '/principles', labelKey: 'principles' as const },
   { href: '/manual', labelKey: 'manual' as const },
 ];
@@ -39,7 +40,12 @@ function Navbar({ variant = 'light' }: NavbarProps) {
   const [isTheaterOpen, setIsTheaterOpen] = useState(false);
   const [panel, setPanel] = useState<PanelMode>('closed');
   const [scrolledPast, setScrolledPast] = useState(false);
+  /** True when logo + slogan + icons would exceed the bar’s max width. */
+  const [taglineOverflows, setTaglineOverflows] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+  const spacerRef = useRef<HTMLDivElement>(null);
+  const taglineMeasureRef = useRef<HTMLSpanElement>(null);
+  const iconsMeasureRef = useRef<HTMLDivElement>(null);
 
   const isOpen = panel !== 'closed';
   const showCloseIcon = panel === 'nav';
@@ -48,7 +54,8 @@ function Navbar({ variant = 'light' }: NavbarProps) {
   const iconColor = variant === 'light' ? 'text-white/55' : 'text-black/45';
   const mutedLabel = variant === 'light' ? 'text-white/50' : 'text-black/50';
   // Compact on scroll; expand again when a menu is open so the panel isn’t cramped.
-  const showTagline = !scrolledPast || isOpen;
+  // Also hide when the slogan would push the bar past the viewport.
+  const showTagline = (!scrolledPast || isOpen) && !taglineOverflows;
 
   const openGlassStyle = isOpen
     ? {
@@ -104,6 +111,43 @@ function Navbar({ variant = 'light' }: NavbarProps) {
     return () => window.removeEventListener('scroll', onScroll);
   }, [pathname]);
 
+  // Hide slogan when logo + tagline + icons would exceed the bar’s max width
+  // (longer translations + search icon on narrow phones).
+  useEffect(() => {
+    const panel = panelRef.current;
+    const taglineEl = taglineMeasureRef.current;
+    const iconsEl = iconsMeasureRef.current;
+    const spacer = spacerRef.current;
+    if (!panel || !taglineEl || !iconsEl) return;
+
+    const measure = () => {
+      const available = panel.clientWidth;
+      const logoW = 50;
+      const gap = window.matchMedia('(min-width: 640px)').matches ? 16 : 12;
+      const taglineW = taglineEl.scrollWidth;
+      const iconsW = iconsEl.scrollWidth;
+      let padX = 28;
+      if (spacer) {
+        const cs = getComputedStyle(spacer);
+        padX =
+          (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0);
+      }
+      const needed = padX + logoW + gap + taglineW + gap + iconsW;
+      setTaglineOverflows(needed > available + 0.5);
+    };
+
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(panel);
+    ro.observe(taglineEl);
+    ro.observe(iconsEl);
+    window.addEventListener('resize', measure);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, [locale, isTheaterOpen]);
+
   useEffect(() => {
     const handleHide = () => {
       setIsTheaterOpen(true);
@@ -151,17 +195,29 @@ function Navbar({ variant = 'light' }: NavbarProps) {
         ref={panelRef}
         className="relative h-[44px] pointer-events-auto w-full max-w-[calc(100vw-2rem)] sm:w-max"
       >
+        {/* Width probe: always includes tagline so we can detect overflow. */}
         <div
-          className="flex h-[44px] w-full pl-3 pr-4 sm:pl-5 sm:pr-[30px] items-center gap-3 sm:gap-5 opacity-0 pointer-events-none select-none sm:w-max"
+          ref={spacerRef}
+          className="flex h-[44px] w-full pl-3 pr-4 sm:pl-5 sm:pr-5 items-center gap-3 sm:gap-4 opacity-0 pointer-events-none select-none sm:w-max"
           aria-hidden
         >
           <div className="w-[50px] shrink-0" />
-          {showTagline ? (
-            <span className={`${taglineClass} shrink-0`}>
-              {t('tagline')}
-            </span>
-          ) : null}
-          <div className="w-[10.5rem] shrink-0" />
+          <span
+            ref={taglineMeasureRef}
+            className={`${taglineClass} shrink-0`}
+          >
+            {t('tagline')}
+          </span>
+          <div ref={iconsMeasureRef} className="flex items-center gap-3.5 sm:gap-4 shrink-0 ml-auto">
+            <div className="w-[18px] h-[18px]" />
+            <div className="w-[18px] h-[18px]" />
+            <div className="flex items-center gap-1.5">
+              <div className="w-[18px] h-[18px]" />
+              <span className="font-mono text-[11px] font-medium uppercase tracking-[0.05em] leading-none">
+                {locale}
+              </span>
+            </div>
+          </div>
         </div>
 
         <div

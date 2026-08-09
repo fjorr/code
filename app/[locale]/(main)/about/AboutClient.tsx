@@ -16,6 +16,26 @@ export type AboutCopy = {
   exploreFjorr: string;
 };
 
+const INTERNET_ESSAY = '/dossier/the-internet-doesnt-have-to-be-this-way';
+const INTERNET_LINK_NEEDLE = 'No ads. No algorithm. No noise.';
+
+function ManifestoWithInternetLink({ text }: { text: string }) {
+  const i = text.indexOf(INTERNET_LINK_NEEDLE);
+  if (i === -1) return <>{text}</>;
+  return (
+    <>
+      {text.slice(0, i)}
+      <Link
+        href={INTERNET_ESSAY}
+        className="underline decoration-white/25 underline-offset-4 transition-colors hover:text-white hover:decoration-white/50"
+      >
+        {INTERNET_LINK_NEEDLE}
+      </Link>
+      {text.slice(i + INTERNET_LINK_NEEDLE.length)}
+    </>
+  );
+}
+
 const HELMET_FRAMES = [1, 2, 3, 4, 5] as const;
 const SCOUT_SRC = '/fjorr_scout.mp4';
 
@@ -390,7 +410,7 @@ export default function AboutClient({ copy }: { copy: AboutCopy }) {
         <div className="mx-auto mt-2 w-full max-w-[28rem] space-y-4 text-left font-sans text-[clamp(1.05rem,2.1vw,1.2rem)] font-medium leading-[1.5] tracking-normal text-[#f5f5f7]/88 md:mt-4 md:space-y-5">
           {manifestoParagraphs.map((paragraph) => (
             <p key={paragraph.slice(0, 24)} className="scout-body-p m-0">
-              {paragraph}
+              <ManifestoWithInternetLink text={paragraph} />
             </p>
           ))}
         </div>

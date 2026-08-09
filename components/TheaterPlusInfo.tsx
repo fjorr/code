@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
-import ManualCardModal from '@/components/help/ManualCardModal';
+import { Link } from '@/i18n/navigation';
 
 /** Short doctrine sheet — living films / Plus Machine. */
 export default function TheaterPlusInfo({
@@ -19,7 +19,6 @@ export default function TheaterPlusInfo({
 }) {
   const t = useTranslations('Plus');
   const panelRef = useRef<HTMLDivElement>(null);
-  const [manualOpen, setManualOpen] = useState(false);
 
   useEffect(() => {
     if (!open) return;
@@ -70,13 +69,13 @@ export default function TheaterPlusInfo({
           <p>{t('infoP2')}</p>
           <p>{t('infoP3')}</p>
         </div>
-        <button
-          type="button"
-          onClick={() => setManualOpen(true)}
-          className={`self-start font-sans text-[13px] font-semibold underline underline-offset-2 bg-transparent border-0 p-0 cursor-pointer ${muted} hover:opacity-100`}
+        <Link
+          href="/dossier/plus-machine"
+          onClick={onClose}
+          className={`self-start font-sans text-[13px] font-semibold underline underline-offset-2 ${muted} hover:opacity-100`}
         >
-          Manual · Plus Machine
-        </button>
+          {t('infoEssay')}
+        </Link>
         <button
           type="button"
           onClick={onClose}
@@ -85,11 +84,6 @@ export default function TheaterPlusInfo({
           {t('infoClose')}
         </button>
       </div>
-      <ManualCardModal
-        open={manualOpen}
-        onClose={() => setManualOpen(false)}
-        initialSlug="plus"
-      />
     </div>
   );
 }

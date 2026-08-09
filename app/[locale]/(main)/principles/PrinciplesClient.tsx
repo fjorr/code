@@ -182,26 +182,40 @@ export default function PrinciplesClient() {
                   </span>
                 </button>
               ) : principle ? (
-                <button
+                <div
                   key={principle.numeral}
-                  type="button"
-                  onClick={goNext}
-                  className="principles-slide-in w-full text-center bg-transparent border-0 p-0 cursor-pointer"
-                  aria-label={t('next')}
+                  className="principles-slide-in w-full text-center"
                 >
-                  <span
-                    className="block font-futura select-none text-[clamp(3.5rem,12vw,4.75rem)] tracking-tighter !leading-[0.85] text-page"
-                    aria-hidden
+                  <button
+                    type="button"
+                    onClick={goNext}
+                    className="w-full text-center bg-transparent border-0 p-0 cursor-pointer"
+                    aria-label={t('next')}
                   >
-                    {principle.numeral}.
-                  </span>
-                  <h2 className="mt-3 sm:mt-4 m-0 font-interTight font-bold tracking-tight text-[clamp(1.5rem,4.5vw,1.85rem)] leading-[1.12] text-page text-balance">
-                    {t(principle.title)}
-                  </h2>
-                  <p className="mt-3 sm:mt-3.5 m-0 font-sans font-medium text-[16px] leading-[1.55] text-page-muted">
-                    {t(principle.body)}
-                  </p>
-                </button>
+                    <span
+                      className="block font-futura select-none text-[clamp(3.5rem,12vw,4.75rem)] tracking-tighter !leading-[0.85] text-page"
+                      aria-hidden
+                    >
+                      {principle.numeral}.
+                    </span>
+                    <h2 className="mt-3 sm:mt-4 m-0 font-interTight font-bold tracking-tight text-[clamp(1.5rem,4.5vw,1.85rem)] leading-[1.12] text-page text-balance">
+                      {t(principle.title)}
+                    </h2>
+                    <p className="mt-3 sm:mt-3.5 m-0 font-sans font-medium text-[16px] leading-[1.55] text-page-muted">
+                      {t(principle.body)}
+                    </p>
+                  </button>
+                  {principle.title === 'p2Title' ? (
+                    <p className="mt-5 m-0">
+                      <Link
+                        href="/dossier/why-short"
+                        className="font-sans text-[13px] sm:text-[14px] font-semibold text-page-muted hover:text-page transition-colors underline underline-offset-2"
+                      >
+                        {t('p2Essay')}
+                      </Link>
+                    </p>
+                  ) : null}
+                </div>
               ) : isCta ? (
                 <div
                   key="cta"
