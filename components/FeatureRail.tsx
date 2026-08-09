@@ -7,6 +7,54 @@ import PrefetchLink from '@/components/PrefetchLink';
 import { resolveTitleArtColor, sanitizeTitleArtSvg } from '@/lib/sanitize-svg';
 import { markFeatureIntroSeen } from '@/lib/intro-rail';
 
+const WHY_SHORT_ESSAY = '/dossier/why-short';
+const INTERNET_ESSAY = '/dossier/the-internet-doesnt-have-to-be-this-way';
+const INTRO_LINK_MARKS: { needle: string; href: string }[] = [
+  { needle: 'short films', href: WHY_SHORT_ESSAY },
+  { needle: 'No ads. No algorithm. No noise.', href: INTERNET_ESSAY },
+];
+
+const introLinkClass =
+  'underline decoration-white/30 underline-offset-4 transition-colors hover:text-[#f5f5f7] hover:decoration-white/55';
+
+function IntroBodyWithLinks({ text }: { text: string }) {
+  const nodes: React.ReactNode[] = [];
+  let rest = text;
+  let key = 0;
+  while (rest.length > 0) {
+    let best: { index: number; needle: string; href: string } | null = null;
+    for (const mark of INTRO_LINK_MARKS) {
+      const index = rest.indexOf(mark.needle);
+      if (index === -1) continue;
+      if (!best || index < best.index) {
+        best = { index, needle: mark.needle, href: mark.href };
+      }
+    }
+    if (!best) {
+      nodes.push(<span key={key++}>{rest}</span>);
+      break;
+    }
+    if (best.index > 0) {
+      nodes.push(<span key={key++}>{rest.slice(0, best.index)}</span>);
+    }
+    nodes.push(
+      <PrefetchLink
+        key={key++}
+        href={best.href}
+        className={introLinkClass}
+        onClick={(e) => {
+          e.stopPropagation();
+          markFeatureIntroSeen();
+        }}
+      >
+        {best.needle}
+      </PrefetchLink>
+    );
+    rest = rest.slice(best.index + best.needle.length);
+  }
+  return <>{nodes}</>;
+}
+
 interface FilmAsset {
   id: string;
   name?: string;
@@ -311,8 +359,8 @@ export default function FeatureRail({
                   </span>
                   <span className="block mt-[0.12em]">{tHome('introLineMyth')}</span>
                 </h2>
-                <p className="m-0 mt-6 md:mt-8 max-w-[34rem] font-sans font-medium text-[18px] md:text-[20px] leading-[1.45] tracking-normal text-[#f5f5f7]/72">
-                  {tHome('introBody')}
+                <p className="m-0 mt-6 md:mt-8 max-w-[34rem] font-sans font-medium text-[18px] md:text-[20px] leading-[1.45] tracking-normal text-[#f5f5f7]/72 pointer-events-auto">
+                  <IntroBodyWithLinks text={tHome('introBody')} />
                 </p>
                 <div className="mt-8 md:mt-10 flex flex-wrap items-center justify-center gap-4 pointer-events-auto">
                   <button
