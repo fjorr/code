@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { ArrowLeft } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -87,6 +88,67 @@ function renderBody(blocks: DossierBlock[], slug: string, hasLead: boolean) {
             </li>
           ))}
         </ul>
+      );
+    }
+    if (block.type === 'timeline') {
+      return (
+        <ol
+          key={`${slug}-tl-${i}`}
+          className="m-0 mb-6 sm:mb-8 pl-0 list-none relative"
+        >
+          {block.items.map((item, j) => {
+            const isLast = j === block.items.length - 1;
+            return (
+              <li
+                key={`${slug}-tl-${i}-${j}`}
+                className={`relative pl-7 sm:pl-8 ${isLast ? '' : 'pb-7 sm:pb-8'}`}
+              >
+                {/* Rail */}
+                {!isLast ? (
+                  <span
+                    aria-hidden
+                    className="absolute left-[5px] sm:left-[6px] top-[1.1em] bottom-0 w-px bg-[color-mix(in_srgb,var(--page-fg)_16%,transparent)]"
+                  />
+                ) : null}
+                {/* Node */}
+                <span
+                  aria-hidden
+                  className="absolute left-0 top-[0.55em] h-[11px] w-[11px] rounded-full border-[1.5px] border-[color-mix(in_srgb,var(--page-fg)_35%,transparent)] bg-[var(--page-bg)]"
+                />
+                <p className="m-0 mb-1.5 font-interTight font-bold tracking-tight text-page text-[17px] sm:text-[18px] leading-[1.25]">
+                  {item.title}
+                </p>
+                <p className="m-0 font-sans text-[16px] sm:text-[17px] font-medium leading-[1.7] tracking-[-0.01em] text-page-muted">
+                  {renderInline(item.text)}
+                </p>
+              </li>
+            );
+          })}
+        </ol>
+      );
+    }
+    if (block.type === 'figure') {
+      return (
+        <figure
+          key={`${slug}-fig-${i}`}
+          className="m-0 mx-auto my-10 sm:my-14 w-[75%]"
+        >
+          <div className="overflow-hidden rounded-2xl bg-[var(--page-elevated)] shadow-[0_12px_40px_-10px_rgba(0,0,0,0.28),0_4px_14px_-4px_rgba(0,0,0,0.14)] dark:shadow-[0_14px_40px_-10px_rgba(0,0,0,0.6),0_4px_14px_-4px_rgba(0,0,0,0.4)]">
+            <Image
+              src={block.src}
+              alt={block.alt}
+              width={block.width}
+              height={block.height}
+              className="block h-auto w-full"
+              sizes="(max-width: 640px) 75vw, 504px"
+            />
+          </div>
+          {block.caption ? (
+            <figcaption className="mt-3 sm:mt-3.5 px-1 font-sans text-[13px] sm:text-[14px] font-medium leading-[1.45] tracking-[-0.01em] text-page-muted text-center">
+              {renderInline(block.caption)}
+            </figcaption>
+          ) : null}
+        </figure>
       );
     }
     const isFirst = firstParagraph && !hasLead;

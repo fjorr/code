@@ -27,7 +27,7 @@ function ManifestoWithInternetLink({ text }: { text: string }) {
       {text.slice(0, i)}
       <Link
         href={INTERNET_ESSAY}
-        className="underline decoration-white/25 underline-offset-4 transition-colors hover:text-white hover:decoration-white/50"
+        className="text-[#f5f5f7]/88 underline decoration-white/25 underline-offset-4 transition-colors hover:text-white hover:decoration-white/50"
       >
         {INTERNET_LINK_NEEDLE}
       </Link>

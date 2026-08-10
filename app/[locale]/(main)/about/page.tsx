@@ -28,7 +28,7 @@ const jsonLd = {
   '@type': 'AboutPage',
   name: 'About Fjorr',
   description:
-    "But they are hard to find. Short films of the greatest stories — under twenty minutes, always — free forever. Fjorr. The myth engine.",
+    "But they are hard to find. Short films of the greatest stories — under ten minutes, always — free forever. Fjorr. The myth engine.",
   publisher: {
     '@type': 'Organization',
     name: 'Fjorr',

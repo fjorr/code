@@ -14,8 +14,9 @@ const INTRO_LINK_MARKS: { needle: string; href: string }[] = [
   { needle: 'No ads. No algorithm. No noise.', href: INTERNET_ESSAY },
 ];
 
+/** Always light on the black intro slide — never theme `text-page` / page-fg. */
 const introLinkClass =
-  'underline decoration-white/30 underline-offset-4 transition-colors hover:text-[#f5f5f7] hover:decoration-white/55';
+  'text-[#f5f5f7]/72 underline decoration-white/30 underline-offset-4 transition-colors hover:text-[#f5f5f7] hover:decoration-white/55';
 
 function IntroBodyWithLinks({ text }: { text: string }) {
   const nodes: React.ReactNode[] = [];
@@ -352,12 +353,12 @@ export default function FeatureRail({
               aria-label={tHome('introAria')}
             >
               <div className="absolute inset-0 bg-black" aria-hidden />
-              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-8 md:px-16 text-center">
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center px-8 md:px-16 text-center text-[#f5f5f7] [&_a]:text-[#f5f5f7]/72 [&_a:hover]:text-[#f5f5f7]">
                 <h2 className="m-0 font-futura font-black uppercase tracking-[-0.04em] leading-[0.92] text-[#f5f5f7] text-[clamp(2.25rem,8vw,4.5rem)] max-w-[16ch]">
-                  <span className="block opacity-[0.58] blur-[2px]">
+                  <span className="block text-[#f5f5f7]/58 blur-[2px]">
                     {tHome('introLineFade')}
                   </span>
-                  <span className="block mt-[0.12em]">{tHome('introLineMyth')}</span>
+                  <span className="block mt-[0.12em] text-[#f5f5f7]">{tHome('introLineMyth')}</span>
                 </h2>
                 <p className="m-0 mt-6 md:mt-8 max-w-[34rem] font-sans font-medium text-[18px] md:text-[20px] leading-[1.45] tracking-normal text-[#f5f5f7]/72 pointer-events-auto">
                   <IntroBodyWithLinks text={tHome('introBody')} />
@@ -370,13 +371,13 @@ export default function FeatureRail({
                       e.stopPropagation();
                       onExploreIntro?.();
                     }}
-                    className="h-10 px-6 inline-flex items-center justify-center bg-[#f5f5f7] hover:bg-white text-black font-sans font-bold text-sm tracking-normal rounded-full transition-all active:scale-[0.98] duration-150 cursor-pointer border-0"
+                    className="h-10 px-6 inline-flex items-center justify-center bg-[#f5f5f7] hover:bg-white !text-black font-sans font-bold text-sm tracking-normal rounded-full transition-all active:scale-[0.98] duration-150 cursor-pointer border-0"
                   >
                     {tHome('introCta')}
                   </button>
                   <PrefetchLink
                     href="/about"
-                    className="font-sans font-semibold text-sm text-[#f5f5f7]/70 hover:text-[#f5f5f7] transition-colors"
+                    className="font-sans font-semibold text-sm !text-[#f5f5f7]/70 hover:!text-[#f5f5f7] transition-colors"
                     onClick={(e) => {
                       e.stopPropagation();
                       markFeatureIntroSeen();

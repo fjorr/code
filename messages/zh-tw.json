@@ -502,7 +502,7 @@
   },
   "About": {
     "hero": "Matter fades.\nMyths matter.",
-    "manifesto": "A parable here, a lecture there, lost in a noisy feed, a story told in a pub. Nobody gave them a gold standard format and a dedicated home.\n\nWell, Fjorr just did.\n\nShort films of the greatest stories — under twenty minutes, always — made to raise people with wonder and hope, free forever for anyone in the world. We're chronicling the human story, one myth at a time. And doing it cleanly. No ads. No algorithm. No noise.\n\nOne standard. One home for the stories that shaped what it means to be human. Not to keep you glued to glass. To send you back into the world with something to carry.\n\nFjorr. The myth engine.",
+    "manifesto": "A parable here, a lecture there, lost in a noisy feed, a story told in a pub. Nobody gave them a gold standard format and a dedicated home.\n\nWell, Fjorr just did.\n\nShort films of the greatest stories — under ten minutes, always — made to raise people with wonder and hope, free forever for anyone in the world. We're chronicling the human story, one myth at a time. And doing it cleanly. No ads. No algorithm. No noise.\n\nOne standard. One home for the stories that shaped what it means to be human. Not to keep you glued to glass. To send you back into the world with something to carry.\n\nFjorr. The myth engine.",
     "logoLabel": "標誌",
     "logoTitle": "紙板頭盔。",
     "logoBody": "箱子在火箭之前。",
@@ -616,7 +616,7 @@
   },
   "Meta": {
     "aboutTitle": "關於",
-    "aboutDescription": "But they are hard to find. Short films of the greatest stories — under twenty minutes, always — free forever. Fjorr. The myth engine.",
+    "aboutDescription": "But they are hard to find. Short films of the greatest stories — under ten minutes, always — free forever. Fjorr. The myth engine.",
     "dossierTitle": "The Dossier",
     "dossierDescription": "Anyone can tell you what Fjorr does. This is why. Essays on the internet, short film, the Plus Machine, and tools.",
     "partnerTitle": "合作夥伴",
@@ -900,7 +900,7 @@
   "Bureaux": {
     "eyebrow": "Join the Bureaux",
     "headline": "Matter fades.\nMyth don't.",
-    "lead": "But they are hard to find — a parable here, a lecture there, lost in a noisy feed. Nobody gave them a gold standard format and a dedicated home. Fjorr did. Short films of the greatest stories, under twenty minutes, always, free forever for anyone in the world. No ads. No algorithm. No noise.",
+    "lead": "But they are hard to find — a parable here, a lecture there, lost in a noisy feed. Nobody gave them a gold standard format and a dedicated home. Fjorr did. Short films of the greatest stories, under ten minutes, always, free forever for anyone in the world. No ads. No algorithm. No noise.",
     "lead2": "The Bureaux is how this gets built — and how you take part. Join a fellowship that cares deeply about culture.",
     "priceLabel": "Subscription",
     "priceValue": "{price} / year",

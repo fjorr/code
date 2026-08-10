@@ -56,7 +56,7 @@ function DossierPoster({ article }: { article: DossierArticle }) {
           <FjorrMark className="w-[28px] sm:w-[32px] h-auto shrink-0 text-page translate-y-px" />
         </div>
 
-        <p className="m-0 mt-auto mb-auto py-3 font-futura font-extrabold uppercase tracking-tighter text-[clamp(1.15rem,2.6vw,1.45rem)] leading-[1.05] text-page text-balance">
+        <p className="m-0 mt-auto mb-auto py-3 font-interTight font-bold tracking-tight text-[clamp(1.15rem,2.6vw,1.45rem)] leading-[1.15] text-page text-balance">
           {article.title}
         </p>
 
@@ -132,9 +132,12 @@ export default async function DossierIndexPage() {
           </p>
         </div>
 
-        <ul className="m-0 p-0 list-none grid grid-cols-2 md:grid-cols-4 gap-5">
+        <ul className="m-0 p-0 list-none flex flex-wrap justify-center gap-5">
           {DOSSIER_ARTICLES.map((article) => (
-            <li key={article.slug} className="flex flex-col">
+            <li
+              key={article.slug}
+              className="flex flex-col w-[calc((100%-1.25rem)/2)] md:w-[calc((100%-3*1.25rem)/4)]"
+            >
               <Link
                 href={`/dossier/${article.slug}`}
                 className="group block rounded-[5px] transition-opacity hover:opacity-85"

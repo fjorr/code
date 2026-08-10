@@ -21,7 +21,6 @@ const SCRUB_SEEK_INTERVAL_MS = 80;
 
 const TheaterPlusPanel = dynamic(() => import('@/components/TheaterPlusPanel'), { ssr: false });
 const TheaterPlusInfo = dynamic(() => import('@/components/TheaterPlusInfo'), { ssr: false });
-const ViewerStampShare = dynamic(() => import('@/components/ViewerStampShare'), { ssr: false });
 
 interface CinemaTheaterProps {
   film: {
@@ -129,12 +128,6 @@ function CinemaTheater({
   const [plusMember, setPlusMember] = useState<boolean | null>(null);
   const [plusInfoOpen, setPlusInfoOpen] = useState(false);
   const [plusStamp, setPlusStamp] = useState(0);
-  const [stampShare, setStampShare] = useState<{
-    viewerNumber: number;
-    filmVersion: number;
-    memberNumber: number | null;
-    recordedAt: string | null;
-  } | null>(null);
   /** Guest tease — next Voyageur No. they would claim by joining. */
   const [ghostVoyageur, setGhostVoyageur] = useState<number | null>(null);
   const plusMode = !isEmbed && theaterMode === 'plus';
@@ -382,7 +375,7 @@ function CinemaTheater({
     setPlusInfoOpen(false);
   }, [isEnded]);
 
-  // First Voyageur # → member stamp ceremony, or guest ghost tease.
+  // Anonymous pulse burns an ordinal but no passport — ghost tease after Fin.
   useEffect(() => {
     if (isEmbed || !film?.id) return;
     const filmId = String(film.id);
@@ -390,29 +383,17 @@ function CinemaTheater({
       const detail = (e as CustomEvent).detail as {
         filmId?: string;
         viewerNumber?: number;
-        filmVersion?: number;
         firstStamp?: boolean;
         recorded?: boolean;
-        memberNumber?: number | null;
-        recordedAt?: string | null;
       };
       if (String(detail?.filmId || '') !== filmId) return;
       const n = Number(detail?.viewerNumber);
-      const v = Number(detail?.filmVersion);
-      const m = Number(detail?.memberNumber);
       if (!detail?.firstStamp || !Number.isFinite(n) || n < 1) return;
       if (detail.recorded) {
+        // Members claim quietly — stamp lives on the film page, no theater popup.
         setGhostVoyageur(null);
-        setStampShare({
-          viewerNumber: n,
-          filmVersion: Number.isFinite(v) && v >= 1 ? v : 1,
-          memberNumber: Number.isFinite(m) && m >= 1 ? m : null,
-          recordedAt: detail.recordedAt || new Date().toISOString(),
-        });
         return;
       }
-      // Anonymous pulse burns an ordinal but no passport — ghost it.
-      setStampShare(null);
       setGhostVoyageur(n);
     };
     window.addEventListener(FILM_RECORDED_EVENT, onRecorded);
@@ -421,10 +402,6 @@ function CinemaTheater({
 
   // Unpaid / no pulse yet: peek next Voyageur No. after Fin. for the ghost.
   useEffect(() => {
-    if (stampShare) {
-      setGhostVoyageur(null);
-      return;
-    }
     if (!isEnded || isEmbed || !film?.id) return;
     if (plusMember === true) return;
     if (plusMember === null) return;
@@ -456,14 +433,7 @@ function CinemaTheater({
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [
-    isEnded,
-    isEmbed,
-    film?.id,
-    stampShare,
-    plusMember,
-    ghostVoyageur,
-  ]);
+  }, [isEnded, isEmbed, film?.id, plusMember, ghostVoyageur]);
 
   const togglePlay = useCallback(() => {
     const player = isPlayingLogo ? logoPlayerRef.current : filmPlayerRef.current;
@@ -1237,7 +1207,7 @@ function CinemaTheater({
             </div>
           )}
 
-          {!isEmbed && !stampShare && ghostVoyageur != null ? (
+          {!isEmbed && ghostVoyageur != null ? (
             <div
               className={`flex flex-col items-center gap-1 ${
                 isLight ? 'text-[#0B0B0C]/28' : 'text-[#F5F5F7]/28'
@@ -1300,20 +1270,6 @@ function CinemaTheater({
         onClose={() => setPlusInfoOpen(false)}
         isLight={isLight}
       />
-
-      {stampShare && film?.slug ? (
-        <ViewerStampShare
-          open
-          onClose={() => setStampShare(null)}
-          filmName={String(film.name || 'Fjorr')}
-          filmSlug={String(film.slug)}
-          filmPoster={(film.blok_tall || film.hero_tall || null) as string | null}
-          viewerNumber={stampShare.viewerNumber}
-          filmVersion={stampShare.filmVersion}
-          memberNumber={stampShare.memberNumber}
-          recordedAt={stampShare.recordedAt}
-        />
-      ) : null}
     </div>
   );
 
