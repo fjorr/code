@@ -14,6 +14,7 @@ export default function MarketCard({
   traders,
   projectLabel = 'Angry Birds 3',
   imagePosition = 'center',
+  quiet = false,
 }: {
   image?: string;
   question: string;
@@ -24,6 +25,8 @@ export default function MarketCard({
   projectLabel?: string;
   /** Crop anchor — center keeps faces in frame; use top for tall stage/full-body shots. */
   imagePosition?: 'top' | 'center';
+  /** Hide Live, trade pills, extra-outcome copy, and trader counts. */
+  quiet?: boolean;
 }) {
   const [hover, setHover] = useState<string | null>(null);
   const top = outcomes.slice(0, 2);
@@ -43,19 +46,21 @@ export default function MarketCard({
             }`}
           />
         ) : null}
-        <div className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-black/70 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#00a6ff] opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#00a6ff]" />
-          </span>
-          Live
-        </div>
+        {quiet ? null : (
+          <div className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-black/70 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#00a6ff] opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#00a6ff]" />
+            </span>
+            Live
+          </div>
+        )}
       </div>
 
       <div className="p-5">
         <div className="flex items-center justify-between gap-2 text-[12px] text-[#6e6e73]">
           <span className="font-semibold">{projectLabel}</span>
-          <span className="tabular-nums">{volume}</span>
+          {quiet ? null : <span className="tabular-nums">{volume}</span>}
         </div>
         <h3 className="mt-2 text-[15px] font-bold leading-snug tracking-[-0.01em]">
           {question}
@@ -85,29 +90,35 @@ export default function MarketCard({
               </button>
             );
           })}
-          {outcomes.length > 2 ? (
+          {!quiet && outcomes.length > 2 ? (
             <p className="text-[12px] text-[#6e6e73]">
               +{outcomes.length - 2} more outcomes
             </p>
           ) : null}
         </div>
 
-        <div className="mt-4 flex gap-2">
-          {top.map((o) => (
-            <button
-              key={`trade-${o.label}`}
-              type="button"
-              onMouseEnter={() => setHover(o.label)}
-              title={o.label}
-              className="min-w-0 flex-1 truncate rounded-full bg-white px-3 py-2 text-[12px] font-bold text-[#1d1d1f] ring-1 ring-black/10 transition-colors hover:bg-[#00a6ff] hover:text-white hover:ring-[#00a6ff]"
-            >
-              {o.label}
-            </button>
-          ))}
-        </div>
+        {quiet ? null : (
+          <div className="mt-4 flex gap-2">
+            {top.map((o) => (
+              <button
+                key={`trade-${o.label}`}
+                type="button"
+                onMouseEnter={() => setHover(o.label)}
+                title={o.label}
+                className="min-w-0 flex-1 truncate rounded-full bg-white px-3 py-2 text-[12px] font-bold text-[#1d1d1f] ring-1 ring-black/10 transition-colors hover:bg-[#00a6ff] hover:text-white hover:ring-[#00a6ff]"
+              >
+                {o.label}
+              </button>
+            ))}
+          </div>
+        )}
 
         <div className="mt-4 flex justify-between text-[12px] text-[#86868b]">
-          <span>{traders} trading</span>
+          <span>
+            {quiet
+              ? `${outcomes.length} outcome${outcomes.length === 1 ? '' : 's'}`
+              : `${traders} trading`}
+          </span>
           <span>
             {/^(in |resolves )/i.test(closes) ? closes : `Closes ${closes}`}
           </span>

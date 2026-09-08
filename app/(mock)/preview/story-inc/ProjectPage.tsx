@@ -51,6 +51,7 @@ export default function ProjectPage({ data }: { data: ProjectPageData }) {
               poster={data.heroPoster}
               youtubeId={data.youtubeId}
               trailerUrl={data.trailerUrl}
+              hideCaption={data.hideHeroCaption}
             />
           </div>
 
@@ -117,9 +118,12 @@ export default function ProjectPage({ data }: { data: ProjectPageData }) {
           </div>
         </section>
 
+        <div className="flex flex-col">
         <section
           id="rewards"
-          className="relative scroll-mt-[52px] overflow-hidden py-16 sm:py-20"
+          className={`relative scroll-mt-[52px] overflow-hidden py-16 sm:py-20 ${
+            data.marketsFirst ? 'order-2' : 'order-1'
+          }`}
           style={{
             background:
               'linear-gradient(165deg, #0090e0 0%, #00a6ff 42%, #006bb3 100%)',
@@ -152,7 +156,13 @@ export default function ProjectPage({ data }: { data: ProjectPageData }) {
                 <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-white/85">
                   {group.heading}
                 </p>
-                <div className="mt-4 grid items-stretch gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                <div
+                  className={`mt-4 grid items-stretch gap-3 sm:grid-cols-2 ${
+                    data.rewardColumns === 3
+                      ? 'lg:grid-cols-3'
+                      : 'lg:grid-cols-4'
+                  }`}
+                >
                   {group.rewards.map((r) => (
                     <div
                       key={r.id}
@@ -163,12 +173,15 @@ export default function ProjectPage({ data }: { data: ProjectPageData }) {
                         caption={r.caption}
                         image={r.image}
                         imagePosition={r.imagePosition}
+                        imageFit={r.imageFit}
                         className="aspect-[16/10] w-full shrink-0"
                       />
                       <div className="flex flex-1 flex-col gap-2 p-4">
-                        <p className="m-0 self-start rounded-full bg-[#00a6ff]/12 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-[#0077c8]">
-                          {r.status}
-                        </p>
+                        {r.status ? (
+                          <p className="m-0 self-start rounded-full bg-[#00a6ff]/12 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-[#0077c8]">
+                            {r.status}
+                          </p>
+                        ) : null}
                         <h3 className="m-0 min-h-[2.5em] text-[15px] font-bold leading-[1.25] tracking-[-0.02em] text-[#1d1d1f]">
                           {r.title}
                         </h3>
@@ -184,6 +197,13 @@ export default function ProjectPage({ data }: { data: ProjectPageData }) {
                               </span>
                             ) : null}
                           </p>
+                        ) : r.cta ? (
+                          <button
+                            type="button"
+                            className="m-0 mt-1 self-start rounded-full bg-[#00a6ff] px-3.5 py-1.5 text-[13px] font-semibold text-white"
+                          >
+                            {r.cta}
+                          </button>
                         ) : null}
                       </div>
                     </div>
@@ -196,7 +216,9 @@ export default function ProjectPage({ data }: { data: ProjectPageData }) {
 
         <section
           id="markets"
-          className="scroll-mt-[52px] pb-10 pt-16 sm:pb-12 sm:pt-20"
+          className={`scroll-mt-[52px] pb-10 pt-16 sm:pb-12 sm:pt-20 ${
+            data.marketsFirst ? 'order-1' : 'order-2'
+          }`}
         >
           <div className="mx-auto max-w-[980px] px-5">
             <div className="text-center sm:text-left">
@@ -227,11 +249,13 @@ export default function ProjectPage({ data }: { data: ProjectPageData }) {
                   traders={m.traders}
                   projectLabel={data.title}
                   imagePosition={m.imagePosition}
+                  quiet={data.quietMarkets}
                 />
               ))}
             </div>
           </div>
         </section>
+        </div>
 
         <section
           id="ideas"

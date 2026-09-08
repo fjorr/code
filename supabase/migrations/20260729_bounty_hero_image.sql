@@ -7,6 +7,6 @@ comment on column public.bounties.hero_image_url is
 
 -- Seed / refresh Civil War visual (replace when you have a dedicated asset)
 update public.bounties
-set hero_image_url = 'https://media.fjorr.com/assets/fjorr-nominate-poster-ww2.avif'
+set hero_image_url = 'https://media.fjorr.com/app-assets/fjorr-nominate-poster-ww2.avif'
 where slug = 'civil-war'
   and (hero_image_url is null or hero_image_url = '');

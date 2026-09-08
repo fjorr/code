@@ -190,6 +190,11 @@ export const PROJECTS_PAGE_LEAD =
 /** Mock grid — layout matches app.storyincmedia.com/projects. */
 export const PROJECTS_INDEX = [
   {
+    href: '/preview/story-inc/paper-tiger',
+    title: 'Paper Tiger',
+    image: '/preview/story-inc/paper-tiger/hero-adam.png',
+  },
+  {
     href: '/preview/story-inc/angry-birds',
     title: 'Angry Birds 3',
     image: '/preview/story-inc/hero.jpg',

@@ -160,7 +160,7 @@ export default function BountyCreateForm() {
             type="url"
             value={posterImageUrl}
             onChange={(e) => setPosterImageUrl(e.target.value)}
-            placeholder="https://media.fjorr.com/assets/…"
+            placeholder="https://media.fjorr.com/app-assets/…"
             className={`${field} font-mono text-[12px]`}
           />
         </div>

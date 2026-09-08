@@ -14,7 +14,7 @@ export default {
         // Core Google Fonts routed through root variables
         sans: ["var(--font-sans)", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
-        // Inter Tight — opt-in for tighter UI / headlines: font-interTight
+        // Fjorr Pro Tight — opt-in for tighter UI / headlines: font-interTight
         interTight: ["var(--font-inter-tight)", "sans-serif"],
 
         // Headlines: Avenir Next Variable (local). Class kept as font-futura.

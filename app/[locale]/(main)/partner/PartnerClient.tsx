@@ -30,14 +30,14 @@ export default function PartnerClient() {
         <picture className="w-full h-auto select-none pointer-events-none z-0 block opacity-0 animate-fade-in drop-shadow-[0_15px_25px_rgba(0,0,0,0.45)]">
           <source
             media="(min-width: 768px)"
-            srcSet="https://media.fjorr.com/assets/fjorr-partner-crowd-desktop-v05.avif"
+            srcSet="https://media.fjorr.com/app-assets/fjorr-partner-crowd-desktop-v05.avif"
           />
           <source
             media="(max-width: 767px)"
-            srcSet="https://media.fjorr.com/assets/fjorr-partner-crowd-mobile-v05.avif"
+            srcSet="https://media.fjorr.com/app-assets/fjorr-partner-crowd-mobile-v05.avif"
           />
           <img
-            src="https://media.fjorr.com/assets/fjorr-partner-crowd-mobile-v05.avif"
+            src="https://media.fjorr.com/app-assets/fjorr-partner-crowd-mobile-v05.avif"
             className="w-full h-auto object-contain block mx-auto"
             alt={t('imageAlt')}
           />

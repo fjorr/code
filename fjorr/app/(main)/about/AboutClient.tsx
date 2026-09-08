@@ -236,31 +236,31 @@ export default function AboutClient() {
 <div ref={helmetContainerRef} className="absolute inset-0 flex flex-col items-center justify-center p-6 opacity-0">
 <div className="w-[250px] h-[250px] relative flex items-center justify-center">
   <img 
-    src="https://media.fjorr.com/assets/animation/icon/fjorr-production-logo-frame-01.avif" 
+    src="https://media.fjorr.com/app-assets/animation/icon/fjorr-production-logo-frame-01.avif" 
     className="helmet-frame helmet-frame-1 absolute inset-0 w-full h-full object-contain origin-center will-change-transform" 
     style={{ opacity: 1 }}
     alt="" 
   />
   <img 
-    src="https://media.fjorr.com/assets/animation/icon/fjorr-production-logo-frame-02.avif" 
+    src="https://media.fjorr.com/app-assets/animation/icon/fjorr-production-logo-frame-02.avif" 
     className="helmet-frame helmet-frame-2 absolute inset-0 w-full h-full object-contain origin-center will-change-transform" 
     style={{ opacity: 0 }}
     alt="" 
   />
   <img 
-    src="https://media.fjorr.com/assets/animation/icon/fjorr-production-logo-frame-03.avif" 
+    src="https://media.fjorr.com/app-assets/animation/icon/fjorr-production-logo-frame-03.avif" 
     className="helmet-frame helmet-frame-3 absolute inset-0 w-full h-full object-contain origin-center will-change-transform" 
     style={{ opacity: 0 }}
     alt="" 
   />
   <img 
-    src="https://media.fjorr.com/assets/animation/icon/fjorr-production-logo-frame-04.avif" 
+    src="https://media.fjorr.com/app-assets/animation/icon/fjorr-production-logo-frame-04.avif" 
     className="helmet-frame helmet-frame-4 absolute inset-0 w-full h-full object-contain origin-center will-change-transform" 
     style={{ opacity: 0 }}
     alt="" 
   />
   <img 
-    src="https://media.fjorr.com/assets/animation/icon/fjorr-production-logo-frame-05.avif" 
+    src="https://media.fjorr.com/app-assets/animation/icon/fjorr-production-logo-frame-05.avif" 
     className="helmet-frame helmet-frame-5 absolute inset-0 w-full h-full object-contain origin-center will-change-transform" 
     style={{ opacity: 0 }}
     alt="" 

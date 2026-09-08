@@ -11,10 +11,14 @@ export type ProjectReward = {
   image?: string;
   /** Crop anchor for the photo. Default center (faces). */
   imagePosition?: 'top' | 'center';
+  /** contain keeps a full poster; cover crops to the card. */
+  imageFit?: 'cover' | 'contain';
   /** e.g. "750 SC" or "Free entry" */
   price?: string;
   /** e.g. "Redeem" / "Drawing" */
   priceHint?: string;
+  /** Optional action under the reward copy, e.g. "Redeem". */
+  cta?: string;
 };
 
 export type ProjectRewardGroup = {
@@ -89,6 +93,14 @@ export type ProjectPageData = {
   youtubeId?: string;
   /** External trailer URL (e.g. Frame.io) — opens on play when set. */
   trailerUrl?: string;
+  /** Hide the caption baked onto the hero still. */
+  hideHeroCaption?: boolean;
+  /** Markets section before rewards. */
+  marketsFirst?: boolean;
+  /** Reward card columns at large breakpoints. Default 4. */
+  rewardColumns?: 3 | 4;
+  /** Drop Live badges, trade pills, and trader counts on market cards. */
+  quietMarkets?: boolean;
   fanCount: number;
   rewardGroups: ProjectRewardGroup[];
   markets: ProjectMarket[];

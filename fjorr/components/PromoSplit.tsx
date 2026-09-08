@@ -24,7 +24,7 @@ export default function PromoSplit() {
             {/* 💥 FIXED: Added 'hidden lg:block' so this dark backing image is completely 
                 deleted on mobile and only appears on desktop. */}
             <img 
-              src="https://media.fjorr.com/assets/fjorr-partner-promo-crowd-f1v04.avif" 
+              src="https://media.fjorr.com/app-assets/fjorr-partner-promo-crowd-f1v04.avif" 
               alt="Partnerships Background"
               className="hidden lg:block absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-luminosity pointer-events-none rounded-[8px]"
             />
@@ -71,7 +71,7 @@ export default function PromoSplit() {
           <div className="w-full lg:w-1/2 aspect-[4/3] lg:aspect-square bg-transparent drop-shadow-[0_10px_20px_rgba(0,0,0,0.4)]">
             {/* CLOUDFLARE ASSET: Right Portrait Photo */}
             <img 
-              src="https://media.fjorr.com/assets/fjorr-partner-promo-crowd-f2v04.avif" 
+              src="https://media.fjorr.com/app-assets/fjorr-partner-promo-crowd-f2v04.avif" 
               alt="Crowd Feeling Stories"
               className="w-full h-full object-cover filter grayscale rounded-[8px]"
               loading="lazy"

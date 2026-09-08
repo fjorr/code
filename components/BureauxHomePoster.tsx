@@ -4,7 +4,7 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 
 const POSTER_IMAGE =
-  'https://media.fjorr.com/assets/fjorr-home-bureaux-breakdancing.avif';
+  'https://media.fjorr.com/app-assets/fjorr-home-bureaux-breakdancing.avif';
 
 export type BureauxHomePosterVariant = 'banner' | 'compact';
 

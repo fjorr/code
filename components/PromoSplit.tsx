@@ -21,7 +21,7 @@ export default function PromoSplit() {
           {/* LEFT: image defines the frame; copy overlays inside with fluid type so it stays in-bounds */}
           <div className="w-full lg:w-1/2 relative rounded-[8px] overflow-hidden dark:drop-shadow-[0_10px_20px_rgba(0,0,0,0.4)] lg:aspect-square lg:flex lg:items-center lg:justify-center">
             <Image
-              src="https://media.fjorr.com/assets/fjorr-partner-promo-crowd-f1v04.avif"
+              src="https://media.fjorr.com/app-assets/fjorr-partner-promo-crowd-f1v04.avif"
               alt={t('bgAlt')}
               width={1600}
               height={1600}
@@ -54,7 +54,7 @@ export default function PromoSplit() {
           {/* RIGHT CONTAINER (The Crowd Portrait Frame) — object-contain so faces aren’t cropped */}
           <div className="w-full lg:w-1/2 relative rounded-[8px] overflow-hidden dark:drop-shadow-[0_10px_20px_rgba(0,0,0,0.4)] lg:aspect-square lg:flex lg:items-center lg:justify-center">
             <Image
-              src="https://media.fjorr.com/assets/fjorr-partner-promo-crowd-f2v04.avif"
+              src="https://media.fjorr.com/app-assets/fjorr-partner-promo-crowd-f2v04.avif"
               alt={t('crowdAlt')}
               width={1600}
               height={1600}

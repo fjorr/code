@@ -114,7 +114,7 @@ export default function NominateClient() {
         <div className="flex flex-col gap-2.5 w-[33%] md:w-[25%] shrink-0 opacity-0 animate-sweep-right style-delay-100">
           <div className="bg-zinc-900 relative w-full overflow-hidden">
             <img 
-              src="https://media.fjorr.com/assets/fjorr-nominate-poster-breakdancing.avif" 
+              src="https://media.fjorr.com/app-assets/fjorr-nominate-poster-breakdancing.avif" 
               className="w-full h-auto object-contain block opacity-85 hover:opacity-100 hover:scale-[1.01] transition-all duration-700" 
               alt="Breakdancing narrative frame"
             />
@@ -128,7 +128,7 @@ export default function NominateClient() {
         <div className="flex flex-col gap-2.5 w-[33%] md:w-[25%] shrink-0 opacity-0 animate-sweep-right style-delay-180">
           <div className="bg-zinc-900 relative w-full overflow-hidden">
             <img 
-              src="https://media.fjorr.com/assets/fjorr-nominate-poster-naismith.avif" 
+              src="https://media.fjorr.com/app-assets/fjorr-nominate-poster-naismith.avif" 
               className="w-full h-auto object-contain block opacity-85 hover:opacity-100 hover:scale-[1.01] transition-all duration-700" 
               alt="Naismith basketball narrative frame"
             />
@@ -142,7 +142,7 @@ export default function NominateClient() {
         <div className="flex flex-col gap-2.5 w-[33%] md:w-[25%] shrink-0 opacity-0 animate-sweep-right style-delay-250">
           <div className="bg-zinc-900 relative w-full overflow-hidden">
             <img 
-              src="https://media.fjorr.com/assets/fjorr-nominate-poster-ww2.avif" 
+              src="https://media.fjorr.com/app-assets/fjorr-nominate-poster-ww2.avif" 
               className="w-full h-auto object-contain block opacity-85 hover:opacity-100 hover:scale-[1.01] transition-all duration-700" 
               alt="WWII historical narrative frame"
             />
@@ -156,7 +156,7 @@ export default function NominateClient() {
         <div className="flex-col gap-2.5 w-[25%] shrink-0 opacity-0 animate-sweep-right style-delay-320 hidden md:flex">
           <div className="bg-zinc-900 relative w-full overflow-hidden">
             <img 
-              src="https://media.fjorr.com/assets/fjorr-nominate-poster-yeti.avif" 
+              src="https://media.fjorr.com/app-assets/fjorr-nominate-poster-yeti.avif" 
               className="w-full h-auto object-contain block opacity-85 hover:opacity-100 hover:scale-[1.01] transition-all duration-700" 
               alt="Yeti legend narrative frame"
             />
