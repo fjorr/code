@@ -60,7 +60,7 @@ export default function MarketCard({
       <div className="p-5">
         <div className="flex items-center justify-between gap-2 text-[12px] text-[#6e6e73]">
           <span className="font-semibold">{projectLabel}</span>
-          <span className="tabular-nums">{volume}</span>
+          {quiet ? null : <span className="tabular-nums">{volume}</span>}
         </div>
         <h3 className="mt-2 text-[15px] font-bold leading-snug tracking-[-0.01em]">
           {question}

@@ -253,8 +253,7 @@ export const PAPER_TIGER: ProjectPageData = {
     },
   ],
   hasTickets: true,
-  ticketsBody:
-    'Pre-purchase tickets for theaters November 13. We can’t sell New York Film Festival tickets or hold first access to that inventory.',
+  ticketsBody: 'Pre-purchase your tickets now!',
   studio: 'Neon × James Gray',
   filmmakerBody:
     'Written and directed by James Gray. Cinematography by Joaquín Baca-Asay, shot in 35mm. Distributed by Neon, the studio behind Parasite and Anora.',
