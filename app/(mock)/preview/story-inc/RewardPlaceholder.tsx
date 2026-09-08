@@ -4,6 +4,7 @@ export default function RewardPlaceholder({
   caption,
   image,
   imagePosition = 'center',
+  imageFit = 'cover',
   className = '',
 }: {
   color: string;
@@ -11,19 +12,20 @@ export default function RewardPlaceholder({
   image?: string;
   /** Crop anchor — center keeps faces in frame; use top for tall stage/full-body shots. */
   imagePosition?: 'top' | 'center';
+  imageFit?: 'cover' | 'contain';
   className?: string;
 }) {
   if (image) {
     return (
       <div
-        className={`relative overflow-hidden bg-black ${className}`}
+        className={`relative overflow-hidden ${imageFit === 'contain' ? 'bg-[#f4efe4]' : 'bg-black'} ${className}`}
         role="img"
         aria-label={caption}
       >
         <img
           src={image}
           alt=""
-          className={`absolute inset-0 h-full w-full object-cover ${
+          className={`absolute inset-0 h-full w-full ${imageFit === 'contain' ? 'object-contain' : 'object-cover'} ${
             imagePosition === 'top' ? 'object-top' : 'object-center'
           }`}
         />

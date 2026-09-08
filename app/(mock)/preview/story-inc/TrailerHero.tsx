@@ -11,6 +11,7 @@ export default function TrailerHero({
   teaserLabel = 'Official teaser',
   youtubeId,
   trailerUrl,
+  hideCaption = false,
 }: {
   className?: string;
   rounded?: string;
@@ -21,6 +22,7 @@ export default function TrailerHero({
   youtubeId?: string;
   /** External trailer (e.g. Frame.io) — opens in a new tab on play. */
   trailerUrl?: string;
+  hideCaption?: boolean;
 }) {
   const [playing, setPlaying] = useState(false);
   const playable = Boolean(youtubeId || trailerUrl);
@@ -80,14 +82,16 @@ export default function TrailerHero({
           </svg>
         </span>
       </span>
-      <span className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-5 pb-4 pt-12">
-        <span className="block text-[12px] font-semibold uppercase tracking-[0.12em] text-white/70">
-          {teaserLabel}
+      {hideCaption ? null : (
+        <span className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-5 pb-4 pt-12">
+          <span className="block text-[12px] font-semibold uppercase tracking-[0.12em] text-white/70">
+            {teaserLabel}
+          </span>
+          <span className="mt-0.5 block text-[15px] font-bold text-white sm:text-[16px]">
+            {title}
+          </span>
         </span>
-        <span className="mt-0.5 block text-[15px] font-bold text-white sm:text-[16px]">
-          {title}
-        </span>
-      </span>
+      )}
     </button>
   );
 }

@@ -9,13 +9,13 @@ const img = {
   scarlett: `${A}/reward-scarlett.png`,
   miles: `${A}/reward-miles.png`,
   merch: `${A}/reward-merch.png`,
-  james: `${M}/JamesG.png`,
+  james: `${A}/james-gray.png`,
   marketNyff: `${M}/NYFF.png`,
   marketRex: `${M}/AdamDriver_1.png`,
   marketBrothers: `${M}/Brothers_1.png`,
   marketMiles: `${M}/MilesTeller_1.png`,
-  marketWashington: `${M}/Brothers_2.png`,
-  marketTrailer: `${M}/Neon_1.png`,
+  marketViews: `${M}/Brothers_2.png`,
+  marketOscar: `${M}/Family_1.png`,
   marketBox: `${M}/PaperTiger.png`,
   marketNight: `${M}/Scarlett.png`,
 } as const;
@@ -27,24 +27,27 @@ const img = {
 export const PAPER_TIGER: ProjectPageData = {
   slug: 'paper-tiger',
   title: 'Paper Tiger',
-  kick: 'In theaters November 21',
+  kick: 'In theaters November 13',
   castLine: ['Adam Driver', 'Scarlett Johansson', 'Miles Teller'],
   credits:
     'Written and directed by James Gray · Cinematography by Joaquín Baca-Asay · A Neon release',
   story: [
     'Two brothers pursue the American Dream but get entangled in a dangerous Russian crime scheme that threatens their family, turning their bond as brothers into enemies.',
-    'Opening night of the 2025 New York Film Festival. Adam Driver, Scarlett Johansson, and Miles Teller star. Written and directed by James Gray, shot in 35mm. A Neon release. In theaters November 21, 2025.',
+    'Opening night of the 2026 New York Film Festival. Adam Driver, Scarlett Johansson, and Miles Teller star. Written and directed by James Gray, shot in 35mm. A Neon release. In theaters November 13, 2026.',
   ],
   followLine:
-    'Follow this page for NYFF access, early notifications, and reward drops from the filmmakers.',
+    'Follow this page for early notifications and reward drops from the filmmakers.',
   jumpTiles: [
-    { label: 'Rewards', sub: '{rewards} live drops', href: '#rewards' },
     { label: 'Markets', sub: '{markets} live now', href: '#markets' },
+    { label: 'Rewards', sub: '{rewards} live drops', href: '#rewards' },
     { label: 'Trailers', sub: 'Watch & share', href: '#trailers' },
     { label: 'Follow page', sub: 'VIP + notifications', href: '#notify' },
   ],
   heroPoster: img.hero,
-  teaserLabel: 'Hero image',
+  hideHeroCaption: true,
+  marketsFirst: true,
+  quietMarkets: true,
+  rewardColumns: 3,
   fanCount: 12640,
   rewardGroups: [
     {
@@ -53,9 +56,10 @@ export const PAPER_TIGER: ProjectPageData = {
         {
           id: 'nyff',
           caption: '',
-          status: 'Open now',
+          status: '',
+          cta: 'Redeem',
           title: '2 tickets to the New York Film Festival',
-          body: 'Opening-night seats for the 2025 New York Film Festival premiere.',
+          body: 'Opening-night seats for the 2026 New York Film Festival premiere.',
           color: '#00a86b',
           image: img.nyff,
           imagePosition: 'center',
@@ -63,7 +67,8 @@ export const PAPER_TIGER: ProjectPageData = {
         {
           id: 'shout-miles',
           caption: '',
-          status: 'Open now',
+          status: '',
+          cta: 'Redeem',
           title: 'Virtual shout-out from Miles Teller',
           body: 'A personal video shout-out from Miles Teller.',
           color: '#1d1d1f',
@@ -73,7 +78,8 @@ export const PAPER_TIGER: ProjectPageData = {
         {
           id: 'shout-scarlett',
           caption: '',
-          status: 'Open now',
+          status: '',
+          cta: 'Redeem',
           title: 'Virtual shout-out from Scarlett Johansson',
           body: 'A personal video shout-out from Scarlett Johansson.',
           color: '#3d4a6b',
@@ -83,7 +89,8 @@ export const PAPER_TIGER: ProjectPageData = {
         {
           id: 'shout-adam',
           caption: '',
-          status: 'Open now',
+          status: '',
+          cta: 'Redeem',
           title: 'Virtual shout-out from Adam Driver',
           body: 'A personal video shout-out from Adam Driver.',
           color: '#2a2118',
@@ -93,17 +100,20 @@ export const PAPER_TIGER: ProjectPageData = {
         {
           id: 'poster',
           caption: '',
-          status: 'Open now',
+          status: '',
+          cta: 'Redeem',
           title: 'Movie poster signed by the cast',
           body: 'A Paper Tiger one-sheet signed by the cast.',
           color: '#c4b48a',
           image: img.poster,
           imagePosition: 'center',
+          imageFit: 'contain',
         },
         {
           id: 'merch',
           caption: '',
-          status: 'Open now',
+          status: '',
+          cta: 'Redeem',
           title: 'Paper Tiger × Neon merch',
           body: 'Limited t-shirt from the Neon drop.',
           color: '#f5f5f7',
@@ -128,7 +138,7 @@ export const PAPER_TIGER: ProjectPageData = {
     {
       image: img.marketRex,
       imagePosition: 'center',
-      question: 'When does Rex officially drop dead?',
+      question: 'When does the official Paper Tiger trailer drop?',
       outcomes: [
         { label: 'Before Sept 24', pct: 4 },
         { label: 'Sept 25–Oct 5', pct: 12 },
@@ -153,28 +163,16 @@ export const PAPER_TIGER: ProjectPageData = {
       image: img.marketMiles,
       question: 'How many Paper Tiger posts will Miles Teller make in November?',
       outcomes: [
-        { label: '1–5', pct: 40 },
-        { label: '6+', pct: 13 },
-        { label: 'None', pct: 8 },
+        { label: '1', pct: 62 },
+        { label: '2', pct: 38 },
       ],
       volume: '$9.1k vol',
       traders: '870',
       closes: '11.01.25',
     },
     {
-      image: img.marketWashington,
-      question: 'Does Washington hire Noor & Paper Tigers?',
-      outcomes: [
-        { label: 'Yes', pct: 47 },
-        { label: 'No', pct: 47 },
-      ],
-      volume: '$31.5k vol',
-      traders: '2.2k',
-      closes: '11.13.25',
-    },
-    {
-      image: img.marketTrailer,
-      question: 'How many views of Official Trailer week one?',
+      image: img.marketViews,
+      question: 'How many views of the official trailer in week one?',
       outcomes: [
         { label: '1M–5M', pct: 42 },
         { label: 'Under 1M', pct: 38 },
@@ -183,6 +181,17 @@ export const PAPER_TIGER: ProjectPageData = {
       volume: '$27.4k vol',
       traders: '1.9k',
       closes: '11.01.25',
+    },
+    {
+      image: img.marketOscar,
+      question: "Oscar Nomination for Neon's Paper Tiger?",
+      outcomes: [
+        { label: 'Yes', pct: 53 },
+        { label: 'No', pct: 47 },
+      ],
+      volume: '$12.6k vol',
+      traders: '940',
+      closes: '10.15.26',
     },
     {
       image: img.marketBox,
@@ -198,7 +207,7 @@ export const PAPER_TIGER: ProjectPageData = {
     },
     {
       image: img.marketNight,
-      question: 'Who makes the earliest night appearance for Paper Tiger?',
+      question: 'Who makes the first late night appearance for Paper Tiger?',
       outcomes: [
         { label: 'Adam Driver', pct: 47 },
         { label: 'Scarlett Johansson', pct: 34 },
@@ -232,7 +241,7 @@ export const PAPER_TIGER: ProjectPageData = {
       time: '6h ago',
       initials: 'FW',
       avatarColor: '#2a9d8f',
-      body: 'If Scarlett walks the NYFF carpet and Adam doesn’t, that attend market is already mispriced.',
+      body: 'Honestly just excited to see Scarlett and Adam back on screen together again.',
     },
   ],
   trailers: [
@@ -245,7 +254,7 @@ export const PAPER_TIGER: ProjectPageData = {
   ],
   hasTickets: true,
   ticketsBody:
-    'Opening night of the 2025 New York Film Festival, then theaters November 21. Followers get first access when inventory opens.',
+    'Pre-purchase tickets for theaters November 13. We can’t sell New York Film Festival tickets or hold first access to that inventory.',
   studio: 'Neon × James Gray',
   filmmakerBody:
     'Written and directed by James Gray. Cinematography by Joaquín Baca-Asay, shot in 35mm. Distributed by Neon, the studio behind Parasite and Anora.',
@@ -268,7 +277,7 @@ export const PAPER_TIGER: ProjectPageData = {
       from: 'Neon',
       role: 'Studio',
       time: '3d ago',
-      body: 'Paper Tiger is opening night of the 2025 New York Film Festival. Ticket windows and the signed-poster drop go to this page first.',
+      body: 'Paper Tiger is opening night of the 2026 New York Film Festival. The signed-poster drop goes to this page first.',
     },
     {
       from: 'Story Inc Desk',
