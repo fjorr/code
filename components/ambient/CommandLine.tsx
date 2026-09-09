@@ -274,11 +274,23 @@ export default function CommandLine({
         .eq('locale', locale);
       if (cancelled) return;
       if (error || !data?.length) return;
-      const loaded = data
+      const rows = data as Array<{
+        internal_id?: string;
+        slug?: string;
+        name?: string | null;
+        teaser?: string | null;
+        creator?: string | null;
+        theme?: string | null;
+        label?: string | null;
+        runtime?: number | null;
+        release_date?: string | null;
+        item_type?: string;
+      }>;
+      const loaded = rows
         .filter((row) => row.item_type === 'film')
         .map((row) => toFilm(row))
         .filter((film): film is CommandFilm => Boolean(film));
-      const loadedArtifacts = data
+      const loadedArtifacts = rows
         .filter((row) => row.item_type === 'artifact')
         .map((row) => toFilm(row))
         .filter((film): film is CommandFilm => Boolean(film));
@@ -291,7 +303,18 @@ export default function CommandLine({
           .eq('locale', 'en');
         if (!cancelled && fallback.data?.length) {
           setArtifacts(
-            fallback.data
+            (fallback.data as Array<{
+              internal_id?: string;
+              slug?: string;
+              name?: string | null;
+              teaser?: string | null;
+              creator?: string | null;
+              theme?: string | null;
+              label?: string | null;
+              runtime?: number | null;
+              release_date?: string | null;
+              item_type?: string;
+            }>)
               .map((row) => toFilm(row))
               .filter((item): item is CommandFilm => Boolean(item))
           );
