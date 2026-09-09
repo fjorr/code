@@ -1,8 +1,6 @@
 import React, { Suspense } from 'react';
 import { notFound } from 'next/navigation';
-import FilmWatchProvider from '@/components/FilmWatchProvider';
-import ArtifactRail from '@/components/ArtifactRail';
-import FilmRail from '@/components/FilmRail';
+import FilmStage from '@/components/ambient/FilmStage';
 import ServerSafeSkeleton from '@/components/ServerSafeSkeleton';
 import type { Metadata } from 'next';
 import { absoluteUrl } from '@/lib/site';
@@ -13,7 +11,7 @@ import {
   getFilmSlugs,
   getFilmTranscripts,
 } from '@/lib/content/film';
-import { getLocale, getTranslations } from 'next-intl/server';
+import { getLocale } from 'next-intl/server';
 import { parseLocale } from '@/i18n/config';
 
 /** Must be a literal — Next.js cannot analyze imported revalidate values. */
@@ -100,28 +98,35 @@ async function DeferredPageContent({ urlSlug }: { urlSlug: string }) {
   const pageData = await getFilmPageData(urlSlug, locale);
   if (!pageData) notFound();
 
-  const { filmData, relatedArtifacts, recommendedFilms, subtitleTracks, tagRows, creatorRows } =
-    pageData;
+  const { filmData, relatedArtifacts, subtitleTracks, creatorRows } = pageData;
 
-  const [ogImageUrl, transcripts, t] = await Promise.all([
+  const [ogImageUrl, transcripts] = await Promise.all([
     resolveSocialOgImage(filmData.blok_ogrf),
     subtitleTracks.length > 0
       ? getFilmTranscripts(filmData.id)
       : Promise.resolve([]),
-    getTranslations('Film'),
   ]);
 
-  const displayLocation =
-    Array.isArray(filmData.location) && filmData.location.length > 0
-      ? filmData.location[0]
-      : filmData.location || '';
-
-  const tags = tagRows
-    .map((row: any) => row.tag?.name)
-    .filter((name: unknown): name is string => Boolean(name));
   const isComingSoon = filmData.release_date
     ? new Date(filmData.release_date).getTime() > Date.now()
     : false;
+
+  const credits = (creatorRows || [])
+    .map((row: any) => ({
+      name: row?.creator?.name ? String(row.creator.name) : '',
+      role: row?.role ? String(row.role) : '',
+    }))
+    .filter((row: { name: string }) => row.name);
+
+  const artifacts = (relatedArtifacts || [])
+    .map((row: any) => row?.artifact)
+    .filter(Boolean)
+    .map((artifact: any) => ({
+      slug: String(artifact.slug || ''),
+      name: artifact.name || 'Artifact',
+      image: artifact.blok_tall || artifact.hero_tall || null,
+    }))
+    .filter((artifact: { slug: string }) => artifact.slug);
 
   return (
     <>
@@ -140,36 +145,30 @@ async function DeferredPageContent({ urlSlug }: { urlSlug: string }) {
         }}
       />
 
-      <FilmWatchProvider
-        filmData={filmData}
-        subtitlesData={subtitleTracks}
-        tags={tags}
-        creatorRows={creatorRows}
-        displayLocation={displayLocation}
-        isComingSoon={isComingSoon}
-        transcripts={transcripts}
-        aboveSpecs={
-          relatedArtifacts.length > 0 ? (
-            <div className="w-full min-w-0 mt-8 md:mt-12">
-              <ArtifactRail
-                title={t('relatedArtifacts')}
-                artifacts={relatedArtifacts}
-                quietTitle
-              />
-            </div>
-          ) : null
-        }
-        belowSpecs={
-          recommendedFilms.length > 0 ? (
-            <div className="w-full min-w-0 mt-8 md:mt-12">
-              <FilmRail
-                title={t('moreFilms')}
-                films={recommendedFilms}
-                size="compact"
-              />
-            </div>
-          ) : null
-        }
+      <FilmStage
+        id={String(filmData.id)}
+        name={filmData.name || 'Untitled'}
+        slug={String(filmData.slug)}
+        teaser={filmData.teaser || null}
+        runtime={filmData.runtime ?? null}
+        releaseDate={filmData.release_date || null}
+        comingSoon={isComingSoon}
+        muxPlaybackId={filmData.mux_playback_id || null}
+        heroWide={filmData.hero_wide || null}
+        heroClsx={filmData.hero_clsx || null}
+        heroTall={filmData.hero_tall || null}
+        sponsorId={filmData.sponsor_id || null}
+        exhibition={{
+          name: filmData.name || 'Untitled',
+          teaser: filmData.teaser || null,
+          description: filmData.description || null,
+          note: filmData.note || null,
+          directorNote: filmData.director_note || null,
+          credits,
+          artifacts,
+          transcripts,
+          tracks: subtitleTracks,
+        }}
       />
     </>
   );

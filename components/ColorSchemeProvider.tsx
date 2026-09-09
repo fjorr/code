@@ -16,6 +16,8 @@ import {
   DARK_PAGE_FG,
   isAboutPath,
   isColorSchemeLockedPath,
+  isHousePath,
+  HOUSE_PAGE_BG,
   LIGHT_PAGE_BG,
   LIGHT_PAGE_FG,
   readColorSchemeCookie,
@@ -38,11 +40,12 @@ const ColorSchemeContext = createContext<ColorSchemeContextValue | null>(null);
 function applyDomScheme(
   scheme: ColorScheme,
   locked: boolean,
-  pathname: string
+  pathname: string,
+  house: boolean
 ) {
   const root = document.documentElement;
-  // Locked routes (about, partner, …) always paint dark — even if preference is light.
-  const effective: ColorScheme = locked ? 'dark' : scheme;
+  // House is always paper. Other locked routes stay dark.
+  const effective: ColorScheme = house ? 'light' : locked ? 'dark' : scheme;
   root.classList.toggle('dark', effective === 'dark');
   root.classList.toggle('light', effective === 'light');
   root.dataset.colorScheme = effective;
@@ -50,9 +53,11 @@ function applyDomScheme(
 
   const bg = isAboutPath(pathname)
     ? ABOUT_PAGE_BG
-    : effective === 'light'
-      ? LIGHT_PAGE_BG
-      : DARK_PAGE_BG;
+    : house
+      ? HOUSE_PAGE_BG
+      : effective === 'light'
+        ? LIGHT_PAGE_BG
+        : DARK_PAGE_BG;
   const fg = effective === 'light' ? LIGHT_PAGE_FG : DARK_PAGE_FG;
   // Always set (don’t leave prior light inline vars stuck on locked pages).
   root.style.setProperty('--page-bg', bg);
@@ -69,8 +74,9 @@ export function ColorSchemeProvider({
 }) {
   const pathname = usePathname() || '/';
   const [preference, setPreference] = useState<ColorScheme>(initialScheme);
-  const locked = isColorSchemeLockedPath(pathname);
-  const applied: ColorScheme = locked ? 'dark' : preference;
+  const house = isHousePath(pathname);
+  const locked = isColorSchemeLockedPath(pathname) || house;
+  const applied: ColorScheme = house ? 'light' : locked ? 'dark' : preference;
 
   useEffect(() => {
     setPreference(readColorSchemeCookie());
@@ -78,8 +84,8 @@ export function ColorSchemeProvider({
 
   // Layout effect so about’s true-black surface lands before paint.
   useLayoutEffect(() => {
-    applyDomScheme(preference, locked, pathname);
-  }, [preference, locked, pathname]);
+    applyDomScheme(preference, locked, pathname, house);
+  }, [preference, locked, pathname, house]);
 
   const setScheme = useCallback((next: ColorScheme) => {
     setPreference(next);

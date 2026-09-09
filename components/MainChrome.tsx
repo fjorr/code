@@ -14,11 +14,13 @@ import { isAboutPath, isColorSchemeLockedPath } from '@/lib/color-scheme';
 export default function MainChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() || '';
   const isWatchPage = pathname.startsWith('/watch');
+  const isHome = pathname === '/';
+  const isFilmPoster = pathname.startsWith('/film/');
   const isSignInPage =
     pathname === '/signin' || pathname.startsWith('/signin/');
   const aboutPage = isAboutPath(pathname);
-  const hideChrome = isWatchPage;
-  const hideFooter = hideChrome || isSignInPage;
+  const hideChrome = isWatchPage || isHome || isFilmPoster;
+  const hideFooter = hideChrome || isSignInPage || isHome || isFilmPoster;
   const isArtifactPage = pathname.startsWith('/artifact/');
   const isLocked = isColorSchemeLockedPath(pathname);
   const { isLight } = useColorScheme();

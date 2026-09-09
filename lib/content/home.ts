@@ -37,6 +37,7 @@ export const getFeaturedFilms = unstable_cache(
         runtime,
         rating ( name ),
         theme ( id, name, slug ),
+        sponsor_id,
         creator:sponsor_id ( name )
       )
     `)
@@ -53,23 +54,145 @@ export const getFeaturedFilms = unstable_cache(
         const f = row.film;
         if (!f) return null;
 
-        const sponsorObj = f.creator || f.sponsor;
-
         return {
           ...f,
-          sponsor:
-            typeof sponsorObj === 'object' && sponsorObj !== null
-              ? sponsorObj.name
-              : sponsorObj,
+          sponsor: resolveSponsorName(f),
         };
       })
       .filter(Boolean);
 
     return localizeFilmsWithThemes(supabase, films, locale);
   },
-  ['home-featured-i18n-v2'],
+  ['home-featured-i18n-v3'],
   { revalidate: HOME_FILM_REVALIDATE_SECONDS, tags: ['film', 'home'] }
 );
+
+const AMBIENT_FILM_SELECT = `
+  id,
+  name,
+  slug,
+  mux_playback_id,
+  teaser,
+  story_date,
+  hero_wide,
+  hero_clsx,
+  hero_tall,
+  title_art_code,
+  title_art_hex,
+  title_art_scale,
+  runtime,
+  release_date,
+  sponsor_id,
+  rating ( name ),
+  theme ( id, name, slug ),
+  creator:sponsor_id ( name )
+`;
+
+const MERCEDES_SPONSOR_ID = '0afb5b63-1e90-4a37-824d-33cc41afde3d';
+
+function resolveSponsorName(row: any) {
+  const sponsorObj = row?.creator || row?.sponsor;
+  const fromJoin =
+    typeof sponsorObj === 'object' && sponsorObj !== null
+      ? sponsorObj.name
+      : typeof sponsorObj === 'string'
+        ? sponsorObj
+        : null;
+  if (fromJoin) return fromJoin;
+  if (row?.sponsor_id === MERCEDES_SPONSOR_ID) return 'Mercedes-Benz';
+  return null;
+}
+
+function mapAmbientFilmRow(row: any) {
+  if (!row) return null;
+  return {
+    ...row,
+    sponsor: resolveSponsorName(row),
+  };
+}
+
+const CAROUSEL_SIZE = 10;
+
+async function fetchAmbientFilmRows(
+  supabase: ReturnType<typeof createPublicClient>,
+  mode: 'coming' | 'released'
+) {
+  const now = new Date().toISOString();
+  // Same date filter the old home uses. Rich select first, then the proven short select.
+  const dated = supabase.from('film').select('id, release_date').limit(CAROUSEL_SIZE);
+  const idsQuery =
+    mode === 'coming'
+      ? dated.gt('release_date', now).order('release_date', { ascending: true })
+      : dated.lte('release_date', now).order('release_date', { ascending: false });
+
+  const listed = await idsQuery;
+  if (listed.error) {
+    console.error(`Ambient ${mode} films failed:`, listed.error.message);
+    return [];
+  }
+
+  const ids = (listed.data || []).map((row) => row.id).filter(Boolean);
+  if (!ids.length) return [];
+
+  const full = await supabase.from('film').select(AMBIENT_FILM_SELECT).in('id', ids);
+  if (full.error || !full.data?.length) {
+    if (full.error) console.error(`Ambient ${mode} detail failed:`, full.error.message);
+    return (listed.data || []).map(mapAmbientFilmRow).filter(Boolean);
+  }
+
+  const order = new Map(ids.map((id, i) => [String(id), i]));
+  return full.data
+    .map(mapAmbientFilmRow)
+    .filter(Boolean)
+    .sort((a, b) => (order.get(String(a.id)) ?? 0) - (order.get(String(b.id)) ?? 0))
+    .map((film) =>
+      mode === 'coming' ? { ...film, comingSoon: true } : film
+    );
+}
+
+/** Ten films: featured first, then every coming-soon title, then released to fill. */
+export async function getAmbientCarouselFilms(locale: AppLocale = defaultLocale) {
+  const supabase = createPublicClient();
+  const now = new Date().toISOString();
+
+  const [featured, catalog] = await Promise.all([
+    getFeaturedFilms(locale),
+    supabase
+      .from('film')
+      .select(AMBIENT_FILM_SELECT)
+      .order('release_date', { ascending: true })
+      .limit(40),
+  ]);
+
+  if (catalog.error) {
+    console.error('Ambient catalog failed:', catalog.error.message);
+  }
+
+  const rows = (catalog.data || []).map(mapAmbientFilmRow).filter(Boolean);
+  const localized = await localizeFilmsWithThemes(supabase, rows, locale);
+  const isFuture = (film: any) =>
+    Boolean(film?.release_date) && new Date(film.release_date).getTime() > Date.parse(now);
+
+  const coming = localized.filter(isFuture).map((film) => ({ ...film, comingSoon: true }));
+  const released = localized.filter((film) => !isFuture(film));
+
+  const seen = new Set<string>();
+  const take = (list: any[], into: any[]) => {
+    for (const film of list) {
+      if (into.length >= CAROUSEL_SIZE) break;
+      const id = film?.id ? String(film.id) : '';
+      if (!id || seen.has(id)) continue;
+      seen.add(id);
+      into.push(film);
+    }
+  };
+
+  const films: any[] = [];
+  take(featured, films);
+  take(coming, films);
+  take(released, films);
+  return films.slice(0, CAROUSEL_SIZE);
+}
 
 export const getCineHomeArtifacts = unstable_cache(
   async (locale: AppLocale = defaultLocale) => {

@@ -12,8 +12,6 @@
   --light-02: #F5F5F7A6;
   --light-03: #F5F5F766;
   --light-04: #F5F5F70D;
-  --font-sans: "Fjorr Pro";
-  --font-inter-tight: "Fjorr Pro Tight";
 
   /* Semantic page surface — flipped by html.light / html.dark */
   --page-bg: #1F1F1F;
@@ -90,67 +88,11 @@ html.light .menu-surface {
   background-size: 7px 7px;
 }
 
-@font-face {
-  font-family: "Fjorr Pro";
-  src: url("/fonts/fjorr-pro/FjorrPro-Medium.woff2?v=3") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Fjorr Pro";
-  src: url("/fonts/fjorr-pro/FjorrPro-SemiBold.woff2?v=3") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Fjorr Pro";
-  src: url("/fonts/fjorr-pro/FjorrPro-Bold.woff2?v=3") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Fjorr Pro";
-  src: url("/fonts/fjorr-pro/FjorrPro-ExtraBold.woff2?v=3") format("woff2");
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Fjorr Pro Tight";
-  src: url("/fonts/fjorr-pro/FjorrProTight-SemiBold.woff2?v=3") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Fjorr Pro Tight";
-  src: url("/fonts/fjorr-pro/FjorrProTight-Bold.woff2?v=3") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Fjorr Pro Tight";
-  src: url("/fonts/fjorr-pro/FjorrProTight-ExtraBold.woff2?v=3") format("woff2");
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-
 html,
 body {
   background-color: var(--page-bg);
   color: var(--page-fg);
-  font-family: "Fjorr Pro", system-ui, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
   margin: 0;
   padding: 0;
 }

@@ -1,69 +1,15 @@
-import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
-import { cookies } from 'next/headers';
-import HomePromoGrid from '@/components/HomePromoGrid';
-import FeatureRailLoader from '@/components/FeatureRailLoader';
-import FeatureRailGate from '@/components/FeatureRailGate';
-import CineHomeLoader from '@/components/CineHomeLoader';
-import MinimalHomeLoader from '@/components/MinimalHomeLoader';
-import TimelineHomeLoader from '@/components/TimelineHomeLoader';
-import HomeWithSearch from '@/components/HomeWithSearch';
-import HomeBrowseModes from '@/components/HomeBrowseModes';
-import HomeMixesLoader from '@/components/HomeMixesLoader';
-import HomeMixHero from '@/components/HomeMixHero';
-import ServerSafeSkeleton from '@/components/ServerSafeSkeleton';
-import { DISPLAY_MODE_COOKIE, parseDisplayMode } from '@/lib/display-mode';
+import { getLocale } from 'next-intl/server';
+import AmbientHome, { type AmbientFilm } from '@/components/ambient/AmbientHome';
+import { getAmbientCarouselFilms } from '@/lib/content/home';
+import type { AppLocale } from '@/i18n/config';
 import { SITE_ORIGIN, absoluteUrl } from '@/lib/site';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
 };
-
-/** Matches FeatureRail shell + aspect so the skeleton never reads larger than the live rail. */
-function FeatureRailFallback() {
-  return (
-    <section className="w-full flex justify-center bg-[var(--page-bg)]" aria-hidden>
-      <div className="w-full max-w-[1440px] relative rounded-none min-[1440px]:rounded-xl min-[1440px]:overflow-hidden aspect-[1/1.618] md:aspect-[4/3] lg:aspect-[16/9]">
-        <ServerSafeSkeleton
-          variant="feature"
-          className="rounded-none min-[1440px]:rounded-xl"
-        />
-        {/* Reserve carousel chrome so dots/pause don’t pop in when the rail streams. */}
-        <div className="absolute inset-x-0 bottom-8 z-30 flex items-center justify-center pointer-events-none px-8 md:px-12">
-          <div className="flex items-center justify-center gap-2 mx-auto">
-            {Array.from({ length: 4 }, (_, i) => (
-              <span
-                key={i}
-                className={`w-1.5 h-1.5 rounded-full ${
-                  i === 0 ? 'bg-white/70' : 'bg-white/25'
-                }`}
-              />
-            ))}
-          </div>
-          <div className="absolute right-6 md:right-12">
-            <span className="block w-10 h-10 rounded-full bg-white/10 border border-white/10" />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/** Matches CineHomeGrid gutters + SearchResultsGrid poster geometry. */
-function CineGridFallback() {
-  return (
-    <div className="w-full px-8 md:px-16 mt-8 md:mt-12" aria-hidden>
-      <div className="w-full max-w-[1440px] mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-6 gap-y-12">
-        {Array.from({ length: 8 }, (_, i) => (
-          <div
-            key={i}
-            className="w-full aspect-[2/3] rounded-[8px] bg-page-chip"
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
 
 const siteJsonLd = {
   '@context': 'https://schema.org',
@@ -73,7 +19,7 @@ const siteJsonLd = {
       '@id': `${SITE_ORIGIN}/#organization`,
       name: 'Fjorr',
       url: SITE_ORIGIN,
-      description: 'Short films of the world’s greatest stories.',
+      description: "Short films of the world's greatest stories.",
       logo: absoluteUrl('/opengraph-image.png'),
     },
     {
@@ -81,83 +27,55 @@ const siteJsonLd = {
       '@id': `${SITE_ORIGIN}/#website`,
       name: 'Fjorr',
       url: SITE_ORIGIN,
-      description: 'Short films of the world’s greatest stories.',
+      description: "Short films of the world's greatest stories.",
       publisher: { '@id': `${SITE_ORIGIN}/#organization` },
-      potentialAction: {
-        '@type': 'SearchAction',
-        target: {
-          '@type': 'EntryPoint',
-          urlTemplate: `${SITE_ORIGIN}/?q={search_term_string}`,
-        },
-        'query-input': 'required name=search_term_string',
-      },
     },
   ],
 };
 
+function asText(value: unknown): string | null {
+  if (!value) return null;
+  if (typeof value === 'string') return value;
+  if (typeof value === 'object' && value && 'name' in value) {
+    const name = (value as { name?: unknown }).name;
+    return typeof name === 'string' ? name : null;
+  }
+  return null;
+}
+
 export default async function Home() {
-  const cookieStore = await cookies();
-  const mode = parseDisplayMode(
-    cookieStore.get(DISPLAY_MODE_COOKIE)?.value
-  );
-
-  // Cookie-gate: only stream the active browse mode. Mode switches write the
-  // cookie and router.refresh() so the next RSC payload swaps trees.
-  const cinematic =
-    mode === 'cinematic' ? (
-      <>
-        <FeatureRailGate>
-          <div className="w-full mt-4 md:mt-6">
-            <Suspense fallback={<FeatureRailFallback />}>
-              <FeatureRailLoader />
-            </Suspense>
-          </div>
-        </FeatureRailGate>
-
-        <Suspense fallback={<CineGridFallback />}>
-          <CineHomeLoader />
-        </Suspense>
-      </>
-    ) : null;
-
-  const minimal =
-    mode === 'minimal' ? (
-      <Suspense fallback={null}>
-        <MinimalHomeLoader />
-      </Suspense>
-    ) : null;
-
-  const timeline =
-    mode === 'timeline' ? (
-      <Suspense fallback={null}>
-        <TimelineHomeLoader />
-      </Suspense>
-    ) : null;
-
-  const jsonLd = (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
-    />
-  );
+  const locale = (await getLocale()) as AppLocale;
+  const carousel = await getAmbientCarouselFilms(locale);
+  const films: AmbientFilm[] = carousel.map((film) => ({
+    id: String(film.id),
+    name: film.name,
+    slug: String(film.slug),
+    mux_playback_id: film.mux_playback_id,
+    hero_wide: film.hero_wide,
+    hero_clsx: film.hero_clsx,
+    hero_tall: film.hero_tall,
+    teaser: film.teaser,
+    story_date: asText(film.story_date),
+    runtime: film.runtime,
+    release_date: film.release_date,
+    comingSoon:
+      Boolean(film.comingSoon) ||
+      (film.release_date ? new Date(film.release_date).getTime() > Date.now() : false),
+    sponsor: asText(film.sponsor) || (typeof film.sponsor === 'string' ? film.sponsor : null),
+    title_art_code: film.title_art_code,
+    title_art_hex: film.title_art_hex,
+    title_art_scale: film.title_art_scale,
+    rating: asText(film.rating),
+    theme: asText(film.theme),
+  }));
 
   return (
     <>
-      {jsonLd}
-      <HomeWithSearch>
-        <Suspense fallback={null}>
-          <HomeMixesLoader />
-        </Suspense>
-        <HomeMixHero />
-        <HomeBrowseModes
-          cinematic={cinematic}
-          minimal={minimal}
-          timeline={timeline}
-        />
-        <Suspense fallback={null}>
-          <HomePromoGrid />
-        </Suspense>
-      </HomeWithSearch>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+      />
+      <AmbientHome films={films} />
     </>
   );
 }

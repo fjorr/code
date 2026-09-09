@@ -44,3 +44,12 @@ export function isAboutPath(pathname?: string | null): boolean {
   const path = pathname || '/';
   return path === '/about' || path.startsWith('/about/');
 }
+
+/** Ambient house is always paper. Darkness is reserved for the theater. */
+export const HOUSE_PAGE_BG = '#FFFFFF';
+
+export function isHousePath(pathname?: string | null): boolean {
+  const path = pathname || '/';
+  if (path === '/') return true;
+  return path === '/film' || path.startsWith('/film/');
+}

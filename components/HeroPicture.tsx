@@ -13,6 +13,12 @@ type HeroPictureProps = {
   priority?: boolean;
   className?: string;
   imgClassName?: string;
+  /**
+   * `width` switches at 768 / 1024 (film pages).
+   * `aspect` switches by the viewport shape so a resized window picks
+   * 16:9, the middle crop, or the vertical poster.
+   */
+  artDirection?: 'width' | 'aspect';
   onError?: React.ReactEventHandler<HTMLImageElement>;
 };
 
@@ -37,29 +43,34 @@ export default function HeroPicture({
   priority = false,
   className = '',
   imgClassName = 'object-cover object-center',
+  artDirection = 'width',
   onError,
 }: HeroPictureProps) {
   const fallback = tall || clsx || wide;
   if (!fallback) return null;
 
   const wideSrcSet = wide ? buildSrcSet(wide, WIDE_WIDTHS) : null;
-  const midSrc = clsx || wide;
+  const midSrc = artDirection === 'aspect' ? clsx || wide || tall : clsx || wide;
   const clsxSrcSet = midSrc ? buildSrcSet(midSrc, CLSX_WIDTHS) : null;
+  const wideMedia =
+    artDirection === 'aspect' ? '(min-aspect-ratio: 3/2)' : '(min-width: 1024px)';
+  const midMedia =
+    artDirection === 'aspect' ? '(min-aspect-ratio: 3/4)' : '(min-width: 768px)';
 
   return (
     <picture className={className}>
       {wideSrcSet ? (
         <source
-          media="(min-width: 1024px)"
+          media={wideMedia}
           srcSet={wideSrcSet}
-          sizes="(max-width: 1440px) 100vw, 1440px"
+          sizes="100vw"
         />
       ) : null}
       {clsxSrcSet ? (
         <source
-          media="(min-width: 768px)"
+          media={midMedia}
           srcSet={clsxSrcSet}
-          sizes="(max-width: 1440px) 100vw, 1440px"
+          sizes="100vw"
         />
       ) : null}
       <Image
