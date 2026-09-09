@@ -444,9 +444,16 @@ export default function AmbientHome({ films }: { films: AmbientFilm[] }) {
       {showTheater && selectedFilm ? (
         <CinemaTheater
           film={{
-            ...selectedFilm,
+            id: selectedFilm.id,
+            name: selectedFilm.name ?? '',
+            slug: selectedFilm.slug,
+            mux_playback_id: selectedFilm.mux_playback_id ?? null,
             last_line: selectedFilm.last_line ?? null,
+            story_date: selectedFilm.story_date ?? null,
             location: selectedFilm.location ?? null,
+            teaser: null,
+            runtime: selectedFilm.runtime ?? null,
+            language_subtitle: selectedFilm.language_subtitle,
           }}
           startAt={startAt}
           onTimeUpdate={handleTimeUpdate}
