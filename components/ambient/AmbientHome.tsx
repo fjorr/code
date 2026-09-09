@@ -12,7 +12,7 @@ import LanguagePanel from '@/components/ambient/LanguagePanel';
 import { FjorrWordmark } from '@/components/brand/FjorrMarks';
 import { Icon } from '@/components/ui/Icons';
 import TheaterOpenShell from '@/components/TheaterOpenShell';
-import { openTheaterFromFilm } from '@/lib/theater-open';
+import { openTheaterFromFilm, type TheaterFilmPayload } from '@/lib/theater-open';
 import {
   finishWatchProgress,
   trackWatchProgress,
@@ -95,7 +95,7 @@ export default function AmbientHome({ films }: { films: AmbientFilm[] }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [showTheater, setShowTheater] = useState(false);
-  const [selectedFilm, setSelectedFilm] = useState<AmbientFilm | null>(null);
+  const [selectedFilm, setSelectedFilm] = useState<TheaterFilmPayload | null>(null);
   const [startAt, setStartAt] = useState<number | undefined>(undefined);
   const leavingRef = useRef<number | null>(null);
   const frame = useHeroFrame();
@@ -443,7 +443,11 @@ export default function AmbientHome({ films }: { films: AmbientFilm[] }) {
 
       {showTheater && selectedFilm ? (
         <CinemaTheater
-          film={selectedFilm}
+          film={{
+            ...selectedFilm,
+            last_line: selectedFilm.last_line ?? null,
+            location: selectedFilm.location ?? null,
+          }}
           startAt={startAt}
           onTimeUpdate={handleTimeUpdate}
           onEnded={() => {
